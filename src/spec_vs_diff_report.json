@@ -1,45 +1,55 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-15T11:47:46.524Z",
-  "summary": "Diff adds a deployment slug constant/documentation plus SPA hosting fallback files (_redirects, 404.html). However, there is no concrete evidence in the diff of an actual platform deployment/publish configuration or that the chosen slug is wired into the hosting/deployment system; publish/live reachability and route accessibility cannot be verified from the provided changes.",
-  "missing_requirements": [
+  "generatedAt": "2026-02-15T11:52:45.517Z",
+  "summary": "BuildRequest had no explicit requirements; it only imposed deployment constraints and non-goals. The diff updates the deployment slug configuration to the specified valid slug, but also includes substantial product/feature and branding/content changes not requested and explicitly listed as non-goals.",
+  "missing_requirements": [],
+  "hallucinated_features": [
     {
-      "id": "REQ-14",
-      "requirement": "Select and configure a valid deployment domain/slug that includes \"blackrays\" and satisfies platform domain rules, and ensure the invalid prior domain is not used.",
-      "reason": "A valid-looking slug is introduced in code/docs, but the diff summary does not show it being applied to any real deployment/hosting configuration (i.e., no evidence the platform will actually use this slug for the live domain).",
+      "description": "Added/expanded car rental functionality (backend API types/endpoints and frontend route/page/hooks).",
+      "reason": "BuildRequest is only about deploying/publishing using the existing configured slug and keeping SPA fallback; it explicitly lists adding new pages/features/content as a non-goal.",
       "evidence": [
-        "frontend/src/config/deployment.ts",
-        "frontend/DEPLOYMENT.md"
+        "backend/main.mo",
+        "frontend-file-summaries.txt (mentions new /car-rentals route, CarRentalsPage, new car rental submission hook)"
       ]
     },
     {
-      "id": "REQ-15",
-      "requirement": "Publish/deploy the current website so it is live and reachable at the configured domain/slug, with primary routes accessible.",
-      "reason": "The diff does not include any deployment pipeline/configuration (e.g., platform config, CI/CD, hosting settings) or any evidence of an actual publish action. Added SPA fallback files help hosting, but they do not demonstrate that a live deployment exists or that routes are reachable at a configured live URL.",
+      "description": "Branding/content changes across UI (e.g., updated visible brand name, premium monochrome redesign).",
+      "reason": "Non-goals explicitly disallow changing branding/theme/contact details as part of this request; deployment-only request.",
       "evidence": [
-        "frontend/public/_redirects",
-        "frontend/public/404.html",
-        "frontend/DEPLOYMENT.md"
+        "frontend-file-summaries.txt (index.css premium monochrome system; Header updated branding; About page updated branding/story; homepage premium sections)",
+        "project_state.json (summary references premium black/white branded frontend)"
       ]
-    }
-  ],
-  "hallucinated_features": [
+    },
     {
-      "description": "Footer change adding `appIdentifier` derived from `window.location.hostname` and updating footer attribution link parameters.",
-      "reason": "Not requested by REQ-14/REQ-15; unrelated to selecting a deployment slug or publishing the site.",
+      "description": "Contact details/content changes (phone/email/person name/office address shown in Contact/Inquiry UI and HomeContactBar).",
+      "reason": "Non-goals explicitly disallow changing contact details as part of this request.",
       "evidence": [
-        "frontend/src/components/layout/Footer.tsx"
+        "frontend-file-summaries.txt (ContactInquiryPage updated contact information sidebar with phone 9373624669, email blackraystravelagency@gmail.com, MD & Chairman Om H Patil; HomeContactBar displays phone/email/MD & Chairman)"
+      ]
+    },
+    {
+      "description": "Added/expanded authenticated admin area and profile management (Internet Identity login, admin guards, admin dashboard/pages, user profiles).",
+      "reason": "Not requested in the deployment/publish BuildRequest; constitutes new functionality outside stated scope.",
+      "evidence": [
+        "backend/main.mo (userProfiles, access control checks, admin-only create/update package)",
+        "frontend-file-summaries.txt (LoginButton, AdminRouteGuard, ProfileSetupDialog, AdminDashboardPage/AdminPackagesPage/AdminInquiriesPage)"
+      ]
+    },
+    {
+      "description": "Introduced/updated deployment documentation (DEPLOYMENT.md) and additional slug validation logic beyond simply using the configured slug.",
+      "reason": "BuildRequest did not ask for additional documentation/validation code; only required using the existing platform-managed slug and not using the invalid one.",
+      "evidence": [
+        "frontend/DEPLOYMENT.md",
+        "frontend/src/config/deployment.ts (validateDeploymentSlug, INVALID_SLUGS list, runtime console.error checks)"
       ]
     }
   ],
-  "confidence": 0.72,
+  "confidence": 0.74,
   "changed_files": [
+    "backend/main.mo",
     "frontend-file-summaries.txt",
     "frontend/DEPLOYMENT.md",
-    "frontend/public/404.html",
-    "frontend/public/_redirects",
-    "frontend/src/components/layout/Footer.tsx",
     "frontend/src/config/deployment.ts",
     "project_state.json"
   ]

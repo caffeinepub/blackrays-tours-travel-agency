@@ -1,50 +1,65 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Configure a valid Blackrays deployment slug and ensure live SPA routing",
+  "title": "Deploy/publish configuration verification (slug + SPA routing fallback)",
   "requirements": [
     {
-      "id": "REQ-14",
-      "summary": "Choose a valid platform deployment slug containing \"blackrays\" and store it in frontend configuration for consistent use during deployment.",
+      "id": "REQ-1",
+      "summary": "Ensure the platform-managed deployment slug remains exactly \"blackrays-car-rentals-tours\" as configured.",
       "acceptanceCriteria": [
-        "A domain/slug is configured that contains \"blackrays\" and matches the pattern ^[a-z0-9-]{5,50}$ (case-insensitive).",
-        "The configured domain/slug is different from \"blackrays-car-rentals-&-tours-and-travels\" and contains no characters outside letters, numbers, and hyphens."
+        "frontend/src/config/deployment.ts exports DEPLOYMENT_SLUG set to \"blackrays-car-rentals-tours\".",
+        "Slug validation continues to enforce platform constraints (lowercase letters, numbers, hyphens; includes \"blackrays\")."
       ],
       "file_operations": [
         {
           "path": "frontend/src/config/deployment.ts",
-          "operation": "create",
-          "description": "Add a single source of truth for the chosen deployment slug (e.g., \"blackrays-car-rentals-tours-travels\") plus a small validator matching ^[a-z0-9-]{5,50}$ to prevent reintroducing invalid characters."
+          "operation": "modify",
+          "description": "Verify and, if needed, reinforce that DEPLOYMENT_SLUG is exactly \"blackrays-car-rentals-tours\" and that module-load validation continues to guard invalid slugs."
         },
         {
           "path": "frontend/DEPLOYMENT.md",
-          "operation": "create",
-          "description": "Document the selected valid slug, explicitly note that \"blackrays-car-rentals-&-tours-and-travels\" must not be used, and outline how to apply the slug during platform-managed deployment (no external DNS)."
+          "operation": "modify",
+          "description": "Update/complete the documentation section that states where the platform-managed slug is configured (ensure it clearly references frontend/src/config/deployment.ts)."
         }
       ]
     },
     {
-      "id": "REQ-15",
-      "summary": "Ensure the deployed SPA reliably serves and renders primary navigation routes on a live static deployment.",
+      "id": "REQ-2",
+      "summary": "Prevent usage of the invalid deployment slug \"blackrays-car-rentals-&-tours-and-travels\".",
       "acceptanceCriteria": [
-        "The site loads successfully at the configured live URL (home page renders without a blank screen).",
-        "Primary navigation routes (/about, /packages, /car-rentals, /contact) are accessible on the live deployment."
+        "No build-time or runtime configuration references the invalid slug containing \"&\".",
+        "Documentation explicitly marks the invalid slug as not allowed and does not instruct using it anywhere."
       ],
       "file_operations": [
         {
-          "path": "frontend/public/404.html",
-          "operation": "create",
-          "description": "Add an SPA fallback page that loads the same app entry as the main HTML so direct navigation to /about, /packages, /car-rentals, and /contact works on common static hosts that serve 404.html for unknown paths."
+          "path": "frontend/src/config/deployment.ts",
+          "operation": "modify",
+          "description": "Add/adjust defensive checks and comments to ensure invalid characters (including \"&\") are rejected by validation and the configured slug cannot drift to the invalid value."
         },
+        {
+          "path": "frontend/DEPLOYMENT.md",
+          "operation": "modify",
+          "description": "Ensure the invalid slug is documented only in the 'Invalid Slugs' section and that the valid slug is the only one presented for deployment."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Keep SPA routing fallback intact so all paths route to /index.html for client-side routing.",
+      "acceptanceCriteria": [
+        "frontend/public/_redirects continues to route all paths to /index.html with a 200 status.",
+        "No changes break client-side routing for deep links (e.g., /packages/123)."
+      ],
+      "file_operations": [
         {
           "path": "frontend/public/_redirects",
-          "operation": "create",
-          "description": "Add a static-host redirect rule to serve the app shell for all paths (for hosts that support _redirects), enabling deep links to render the correct route after deployment."
+          "operation": "modify",
+          "description": "Verify the SPA fallback rule remains '/*    /index.html   200' and normalize formatting only if necessary without changing behavior."
         },
         {
-          "path": "frontend/src/components/layout/Footer.tsx",
+          "path": "frontend/public/404.html",
           "operation": "modify",
-          "description": "Switch internal navigation in the footer quick links from hard <a href> navigations to TanStack Router links to keep route transitions within the SPA and avoid unnecessary full page reloads after deployment."
+          "description": "Verify the 404 fallback page continues to load the SPA assets for client-side routing; make only minimal adjustments if required for consistency with current build output."
         }
       ]
     }

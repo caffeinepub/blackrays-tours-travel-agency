@@ -6,8 +6,6 @@ import Runtime "mo:core/Runtime";
 import MixinAuthorization "authorization/MixinAuthorization";
 import AccessControl "authorization/access-control";
 
-
-
 actor {
   // Initialize the access control system
   let accessControlState = AccessControl.initState();

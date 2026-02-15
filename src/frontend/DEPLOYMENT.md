@@ -24,3 +24,16 @@ The following slugs are **NOT valid** and must not be used:
 
 This application uses platform-managed deployment. The slug is configured in:
 
+**`frontend/src/config/deployment.ts`**
+
+This file contains:
+- The `DEPLOYMENT_SLUG` constant with the valid slug
+- Validation logic that runs at module load time
+- Defensive checks to prevent usage of invalid slugs
+
+## SPA Routing Support
+
+The application uses TanStack Router for client-side routing. To support deep links and direct navigation to any route on static hosting platforms, the following files are configured:
+
+### `frontend/public/_redirects`
+Contains a single rule that serves the app shell (`/index.html`) for all paths with a 200 status code:

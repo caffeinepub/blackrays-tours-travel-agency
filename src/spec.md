@@ -1,10 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Choose a valid deployment domain/slug containing “blackrays” and publish the website so it is live.
+**Goal:** Publish/deploy the existing website using the correct platform deployment configuration.
 
 **Planned changes:**
-- Select and configure a valid platform domain/slug that includes “blackrays” and uses only letters, numbers, and hyphens (5–50 characters), avoiding the previously invalid domain.
-- Deploy/publish the existing site to the configured live URL and verify main routes load (/about, /packages, /car-rentals, /contact).
+- Ensure the platform-managed deployment slug remains exactly `blackrays-car-rentals-tours` as configured in `frontend/src/config/deployment.ts`.
+- Verify the invalid slug `blackrays-car-rentals-&-tours-and-travels` is not used anywhere in deployment configuration.
+- Keep SPA routing fallback intact by maintaining `frontend/public/_redirects` routing all paths to `/index.html`.
 
-**User-visible outcome:** The website is live and reachable at a valid “blackrays”-containing URL, with the home page and primary navigation routes accessible.
+**User-visible outcome:** The website is deployed/published and accessible online with working SPA navigation across direct URL visits and refreshes.

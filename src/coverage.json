@@ -1,18 +1,18 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-15T11:47:46.527Z",
+  "generatedAt": "2026-02-15T11:52:45.521Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 2,
+    "total": 3,
     "implemented": 2,
     "items": [
       {
-        "id": "REQ-14",
-        "summary": "Select and configure a valid deployment domain/slug that includes the substring \"blackrays\" and satisfies the platform domain rules (5–50 characters, only letters, numbers, and hyphens). The previously attempted domain \"blackrays-car-rentals-&-tours-and-travels\" must not be used because it contains invalid characters.",
+        "id": "REQ-1",
+        "summary": "Ensure the platform-managed deployment slug remains exactly \"blackrays-car-rentals-tours\" as configured.",
         "status": "implemented",
         "plannedFiles": [
           "frontend/src/config/deployment.ts",
@@ -24,31 +24,37 @@
         ]
       },
       {
-        "id": "REQ-15",
-        "summary": "Publish/deploy the current website so it is live and reachable at the configured domain/slug.",
+        "id": "REQ-2",
+        "summary": "Prevent usage of the invalid deployment slug \"blackrays-car-rentals-&-tours-and-travels\".",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/public/404.html",
-          "frontend/public/_redirects",
-          "frontend/src/components/layout/Footer.tsx"
+          "frontend/src/config/deployment.ts",
+          "frontend/DEPLOYMENT.md"
         ],
         "matchedFiles": [
-          "frontend/public/404.html",
-          "frontend/public/_redirects",
-          "frontend/src/components/layout/Footer.tsx"
+          "frontend/src/config/deployment.ts",
+          "frontend/DEPLOYMENT.md"
         ]
+      },
+      {
+        "id": "REQ-3",
+        "summary": "Keep SPA routing fallback intact so all paths route to /index.html for client-side routing.",
+        "status": "missing",
+        "plannedFiles": [
+          "frontend/public/_redirects",
+          "frontend/public/404.html"
+        ],
+        "matchedFiles": []
       }
     ]
   },
   "changedFiles": [
+    "backend/main.mo",
     "build-request.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
     "frontend/DEPLOYMENT.md",
-    "frontend/public/404.html",
-    "frontend/public/_redirects",
-    "frontend/src/components/layout/Footer.tsx",
     "frontend/src/config/deployment.ts",
     "project_state.json",
     "scratch/component-selection.json",
