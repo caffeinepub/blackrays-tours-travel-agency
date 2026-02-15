@@ -1,0 +1,46 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-select-and-configure-a-valid-deployment-domain-slug-that-includes-the-substring-blackrays-and-satisfies-the-platform-domain-rules-5-50-characters-only-letters-numbers-and-hyphens-the-previously-attempted-domain-blackrays-car-rentals-tours-and-travels-must-not-be-used-because-it-contains-invalid-characters",
+      "featureTitle": "Select and configure a valid deployment domain/slug that includes the substring \"blackrays\" and satisfies the platform domain rules (5–50 characters, only letters, numbers, and hyphens). The previously attempted domain \"blackrays-car-rentals-&-tours-and-travels\" must not be used because it contains invalid characters.",
+      "files": [
+        "frontend/DEPLOYMENT.md",
+        "frontend/src/config/deployment.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-14"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-publish-deploy-the-current-website-so-it-is-live-and-reachable-at-the-configured-domain-slug",
+      "featureTitle": "Publish/deploy the current website so it is live and reachable at the configured domain/slug.",
+      "files": [
+        "frontend/public/404.html",
+        "frontend/public/_redirects",
+        "frontend/src/components/layout/Footer.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-15"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

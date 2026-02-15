@@ -1,0 +1,46 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-15T11:47:46.524Z",
+  "summary": "Diff adds a deployment slug constant/documentation plus SPA hosting fallback files (_redirects, 404.html). However, there is no concrete evidence in the diff of an actual platform deployment/publish configuration or that the chosen slug is wired into the hosting/deployment system; publish/live reachability and route accessibility cannot be verified from the provided changes.",
+  "missing_requirements": [
+    {
+      "id": "REQ-14",
+      "requirement": "Select and configure a valid deployment domain/slug that includes \"blackrays\" and satisfies platform domain rules, and ensure the invalid prior domain is not used.",
+      "reason": "A valid-looking slug is introduced in code/docs, but the diff summary does not show it being applied to any real deployment/hosting configuration (i.e., no evidence the platform will actually use this slug for the live domain).",
+      "evidence": [
+        "frontend/src/config/deployment.ts",
+        "frontend/DEPLOYMENT.md"
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "requirement": "Publish/deploy the current website so it is live and reachable at the configured domain/slug, with primary routes accessible.",
+      "reason": "The diff does not include any deployment pipeline/configuration (e.g., platform config, CI/CD, hosting settings) or any evidence of an actual publish action. Added SPA fallback files help hosting, but they do not demonstrate that a live deployment exists or that routes are reachable at a configured live URL.",
+      "evidence": [
+        "frontend/public/_redirects",
+        "frontend/public/404.html",
+        "frontend/DEPLOYMENT.md"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Footer change adding `appIdentifier` derived from `window.location.hostname` and updating footer attribution link parameters.",
+      "reason": "Not requested by REQ-14/REQ-15; unrelated to selecting a deployment slug or publishing the site.",
+      "evidence": [
+        "frontend/src/components/layout/Footer.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.72,
+  "changed_files": [
+    "frontend-file-summaries.txt",
+    "frontend/DEPLOYMENT.md",
+    "frontend/public/404.html",
+    "frontend/public/_redirects",
+    "frontend/src/components/layout/Footer.tsx",
+    "frontend/src/config/deployment.ts",
+    "project_state.json"
+  ]
+}

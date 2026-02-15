@@ -1,0 +1,195 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 9,
+  "summary": "Create an app/website for Blackrays Car Rentals & Tours and Travels with a premium black/white (Uber-style) branded frontend, including premium car rental booking (customized plans) plus tour/ticket booking services and inquiry/booking capture for the agency/admin.",
+  "architectural_notes": [
+    "Plan for handling ~10,000 visits/day (performance/scalability considerations for frontend and canister APIs)."
+  ],
+  "known_issues": [
+    "Email and phone/SMS alerts requested, but platform/account currently does not support enabling outbound email/SMS notifications (blocked feature).",
+    "Domain name must be 5–50 characters and contain only letters, numbers, and hyphens; current domain string is invalid."
+  ],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-create-a-cohesive-branded-frontend-for-blackrays-tours-travel-agency-with-a-consistent-visual-theme-colors-typography-spacing-component-style-applied-across-all-pages-avoid-blue-purple-as-the-primary-palette",
+      "title": "Create a cohesive, branded frontend for “Blackrays Tours & Travel Agency” with a consistent visual theme (colors, typography, spacing, component style) applied across all pages; avoid blue/purple as the primary palette.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-public-site-pages-and-navigation-for-the-agency-home-about-tour-packages-package-details-contact-inquiry",
+      "title": "Implement public site pages and navigation for the agency: Home, About, Tour Packages, Package Details, Contact/Inquiry.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-authenticated-admin-area-internet-identity-to-manage-content-create-edit-delete-tour-packages-and-view-update-inquiries-e-g-mark-as-new-in-progress-resolved",
+      "title": "Add an authenticated admin area (Internet Identity) to manage content: create/edit/delete tour packages and view/update inquiries (e.g., mark as New/In Progress/Resolved).",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-robust-client-side-data-fetching-and-ux-states-using-react-query-for-packages-and-inquiries-loading-empty-error-states-and-basic-input-validation-for-forms",
+      "title": "Implement robust client-side data fetching and UX states using React Query for packages and inquiries (loading, empty, error states) and basic input validation for forms.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-required-generated-brand-images-as-static-frontend-assets-and-use-them-in-the-ui-do-not-serve-images-through-the-backend",
+      "title": "Add required generated brand images as static frontend assets and use them in the UI (do not serve images through the backend).",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-only-the-selected-element-at-xpath-html-1-body-1-div-1-div-1-main-1-div-1-section-1-div-1-the-features-section-inner-container-div-in-homepage-to-render-with-a-premium-black-charcoal-look-apply-a-dark-background-treatment-increase-contrast-to-white-grey-text-and-ensure-the-section-reads-as-premium-via-subtle-borders-refined-spacing-and-restrained-accent-usage-do-not-change-any-other-elements-outside-this-selected-container-if-descendant-typography-colors-need-adjustments-apply-them-via-parent-scoped-tailwind-utility-selectors-on-this-container-e-g-h2-p-rather-than-editing-other-nodes",
+      "title": "Update only the selected element at XPath /html[1]/body[1]/div[1]/div[1]/main[1]/div[1]/section[1]/div[1] (the Features section inner container div in HomePage) to render with a premium black/charcoal look: apply a dark background treatment, increase contrast to white/grey text, and ensure the section reads as “premium” via subtle borders, refined spacing, and restrained accent usage. Do not change any other elements outside this selected container; if descendant typography/colors need adjustments, apply them via parent-scoped Tailwind utility selectors on this container (e.g., [&_h2]:..., [&_p]:...) rather than editing other nodes.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-all-visible-brand-name-references-across-the-site-from-blackrays-tours-travel-agency-to-blackrays-car-rentals-tours-and-travels-including-the-header-logo-alt-text-and-any-hero-marketing-copy-that-mentions-the-old-brand",
+      "title": "Update all visible brand/name references across the site from “Blackrays Tours & Travel Agency” to “Blackrays Car Rentals & Tours and Travels”, including the header logo alt text and any hero/marketing copy that mentions the old brand.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-placeholder-contact-information-across-the-site-with-the-provided-business-contact-details-and-leadership-line-md-chairman-om-h-patil-phone-9373624669-email-blackraystravelagency-gmail-com",
+      "title": "Replace placeholder contact information across the site with the provided business contact details and leadership line: MD & Chairman: Om H Patil; Phone: 9373624669; Email: blackraystravelagency@gmail.com.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-prominent-contact-information-block-at-the-very-start-of-the-homepage-top-of-the-initial-interface-or-immediately-after-the-hero-starts-showing-phone-9373624669-email-blackraystravelagency-gmail-com-and-md-chairman-om-h-patil",
+      "title": "Add a prominent contact information block at the very start of the homepage (top of the initial interface or immediately after the hero starts), showing: Phone 9373624669, Email blackraystravelagency@gmail.com, and “MD & Chairman: Om H Patil”.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-adjust-the-global-visual-theme-to-a-premium-uber-like-black-white-grey-palette-reduce-remove-warm-amber-orange-styling-ensuring-consistent-typography-contrast-and-component-styling-across-all-public-and-admin-pages",
+      "title": "Adjust the global visual theme to a premium, Uber-like black/white/grey palette (reduce/remove warm amber/orange styling), ensuring consistent typography, contrast, and component styling across all public and admin pages.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-new-public-car-rentals-booking-experience-that-captures-customer-details-for-customized-car-rental-plans-including-vehicle-type-options-sedan-2500-day-suv-5000-day-driver-required-yes-no-and-short-long-distance-intent-store-submissions-as-inquiries-viewable-in-the-existing-admin-inquiries-list",
+      "title": "Add a new public Car Rentals booking experience that captures customer details for customized car rental plans, including: vehicle type options (Sedan ₹2500/day, SUV ₹5000/day), driver required (yes/no), and short/long distance intent; store submissions as inquiries viewable in the existing admin inquiries list.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-extend-the-backend-inquiry-model-and-apis-to-support-capturing-a-customer-phone-number-and-an-inquiry-category-type-e-g-tour-inquiry-vs-car-rental-booking-and-update-the-admin-inquiry-listing-and-status-update-flow-to-display-the-added-fields",
+      "title": "Extend the backend inquiry model and APIs to support capturing a customer phone number and an inquiry category/type (e.g., tour inquiry vs car rental booking), and update the admin inquiry listing and status update flow to display the added fields.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-select-and-configure-a-valid-deployment-domain-slug-that-includes-the-substring-blackrays-and-satisfies-the-platform-domain-rules-5-50-characters-only-letters-numbers-and-hyphens-the-previously-attempted-domain-blackrays-car-rentals-tours-and-travels-must-not-be-used-because-it-contains-invalid-characters",
+      "title": "Select and configure a valid deployment domain/slug that includes the substring \"blackrays\" and satisfies the platform domain rules (5–50 characters, only letters, numbers, and hyphens). The previously attempted domain \"blackrays-car-rentals-&-tours-and-travels\" must not be used because it contains invalid characters.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-publish-deploy-the-current-website-so-it-is-live-and-reachable-at-the-configured-domain-slug",
+      "title": "Publish/deploy the current website so it is live and reachable at the configured domain/slug.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Build an app for Blackrays Tours & Travel Agency (overall app creation request).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Add backend data models and APIs to support the public catalog and inquiry flow: store tour packages and store customer inquiries in the single Motoko actor.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Add Car Rental services section with short/long distance cab booking flow that captures customer details and notifies the agency/admin with booking info.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Update site content to include Managing Director (Om Hemant Patil), business address, and contact details (phone/email) for queries.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Adjust the visual theme to a premium dark look using primarily black/white/grey styling across the website.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Add customer notification alerts so that when a user submits info (or logs in), the agency receives details immediately via email and phone/SMS.",
+      "reqIds": [],
+      "status": "blocked"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Add Ticket Booking services/pages alongside tours and car rentals (as an additional offering).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Add car rental pricing display and options: Sedan ₹2500/day, SUV ₹5000/day, driver available; support customized plans and short/long distance booking.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-11",
+      "summary": "Update branding/name to “Blackrays Car Rentals & Tours and Travels” and ensure contact info is displayed at the very start (top) of the homepage.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Choose a valid domain name that includes “blackrays” (letters/numbers/hyphens only, 5–50 chars) and make the website live (deploy/publish).",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Blackrays Car Rentals & Tours and Travels",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

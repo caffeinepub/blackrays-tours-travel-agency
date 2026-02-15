@@ -1,0 +1,55 @@
+{
+  "kind": "build_request",
+  "title": "Choose a valid Blackrays domain and publish the website",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-14",
+      "text": "Select and configure a valid deployment domain/slug that includes the substring \"blackrays\" and satisfies the platform domain rules (5–50 characters, only letters, numbers, and hyphens). The previously attempted domain \"blackrays-car-rentals-&-tours-and-travels\" must not be used because it contains invalid characters.",
+      "target": "unknown",
+      "source": {
+        "messageIds": [
+          "msg-4",
+          "msg-5"
+        ],
+        "quotes": [
+          "Domain blackrays-car-rentals-&-tours-and-travels must be between 5 and 50 characters and contain only letters, numbers, and hyphens.",
+          "So make a domain according to you, but use blackrays compalsary and make the website live"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A domain/slug is configured that contains \"blackrays\" and matches the pattern ^[a-z0-9-]{5,50}$ (case-insensitive).",
+        "The configured domain/slug is different from \"blackrays-car-rentals-&-tours-and-travels\" and contains no characters outside letters, numbers, and hyphens."
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "text": "Publish/deploy the current website so it is live and reachable at the configured domain/slug.",
+      "target": "unknown",
+      "source": {
+        "messageIds": [
+          "msg-5"
+        ],
+        "quotes": [
+          "So make a domain according to you, but use blackrays compalsary and make the website live"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The site loads successfully at the configured live URL (home page renders without a blank screen).",
+        "Primary navigation routes (/about, /packages, /car-rentals, /contact) are accessible on the live deployment."
+      ]
+    }
+  ],
+  "constraints": [
+    "The chosen domain/slug must include \"blackrays\".",
+    "The domain/slug must be 5–50 characters and contain only letters, numbers, and hyphens."
+  ],
+  "nonGoals": [
+    "Purchasing or configuring an external custom DNS domain (e.g., a .com) outside the platform-managed deployment.",
+    "Adding email/SMS notifications as part of going live."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

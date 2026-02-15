@@ -1,0 +1,52 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Configure a valid Blackrays deployment slug and ensure live SPA routing",
+  "requirements": [
+    {
+      "id": "REQ-14",
+      "summary": "Choose a valid platform deployment slug containing \"blackrays\" and store it in frontend configuration for consistent use during deployment.",
+      "acceptanceCriteria": [
+        "A domain/slug is configured that contains \"blackrays\" and matches the pattern ^[a-z0-9-]{5,50}$ (case-insensitive).",
+        "The configured domain/slug is different from \"blackrays-car-rentals-&-tours-and-travels\" and contains no characters outside letters, numbers, and hyphens."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/config/deployment.ts",
+          "operation": "create",
+          "description": "Add a single source of truth for the chosen deployment slug (e.g., \"blackrays-car-rentals-tours-travels\") plus a small validator matching ^[a-z0-9-]{5,50}$ to prevent reintroducing invalid characters."
+        },
+        {
+          "path": "frontend/DEPLOYMENT.md",
+          "operation": "create",
+          "description": "Document the selected valid slug, explicitly note that \"blackrays-car-rentals-&-tours-and-travels\" must not be used, and outline how to apply the slug during platform-managed deployment (no external DNS)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "summary": "Ensure the deployed SPA reliably serves and renders primary navigation routes on a live static deployment.",
+      "acceptanceCriteria": [
+        "The site loads successfully at the configured live URL (home page renders without a blank screen).",
+        "Primary navigation routes (/about, /packages, /car-rentals, /contact) are accessible on the live deployment."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/404.html",
+          "operation": "create",
+          "description": "Add an SPA fallback page that loads the same app entry as the main HTML so direct navigation to /about, /packages, /car-rentals, and /contact works on common static hosts that serve 404.html for unknown paths."
+        },
+        {
+          "path": "frontend/public/_redirects",
+          "operation": "create",
+          "description": "Add a static-host redirect rule to serve the app shell for all paths (for hosts that support _redirects), enabling deep links to render the correct route after deployment."
+        },
+        {
+          "path": "frontend/src/components/layout/Footer.tsx",
+          "operation": "modify",
+          "description": "Switch internal navigation in the footer quick links from hard <a href> navigations to TanStack Router links to keep route transitions within the SPA and avoid unnecessary full page reloads after deployment."
+        }
+      ]
+    }
+  ]
+}

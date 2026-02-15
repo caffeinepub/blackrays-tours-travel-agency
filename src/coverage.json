@@ -1,0 +1,58 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-15T11:47:46.527Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 2,
+    "implemented": 2,
+    "items": [
+      {
+        "id": "REQ-14",
+        "summary": "Select and configure a valid deployment domain/slug that includes the substring \"blackrays\" and satisfies the platform domain rules (5–50 characters, only letters, numbers, and hyphens). The previously attempted domain \"blackrays-car-rentals-&-tours-and-travels\" must not be used because it contains invalid characters.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/config/deployment.ts",
+          "frontend/DEPLOYMENT.md"
+        ],
+        "matchedFiles": [
+          "frontend/src/config/deployment.ts",
+          "frontend/DEPLOYMENT.md"
+        ]
+      },
+      {
+        "id": "REQ-15",
+        "summary": "Publish/deploy the current website so it is live and reachable at the configured domain/slug.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/public/404.html",
+          "frontend/public/_redirects",
+          "frontend/src/components/layout/Footer.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/public/404.html",
+          "frontend/public/_redirects",
+          "frontend/src/components/layout/Footer.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "build-request.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/DEPLOYMENT.md",
+    "frontend/public/404.html",
+    "frontend/public/_redirects",
+    "frontend/src/components/layout/Footer.tsx",
+    "frontend/src/config/deployment.ts",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}
