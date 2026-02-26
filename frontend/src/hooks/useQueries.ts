@@ -5,6 +5,7 @@ import {
   CustomerInquiry,
   Status,
   CarType,
+  CarRentalPricingMode,
   UserProfile,
 } from '../backend';
 
@@ -111,7 +112,9 @@ export function useSubmitCarRental() {
       email: string;
       vehicleType: CarType;
       driverRequired: boolean;
-      estimatedDistance?: bigint | null;
+      estimatedDistance: bigint | null;
+      pricingMode: CarRentalPricingMode;
+      estimatedDays: bigint | null;
     }) => {
       if (!actor) throw new Error('Actor not available');
       return actor.submitCarRental(
@@ -120,7 +123,9 @@ export function useSubmitCarRental() {
         params.email,
         params.vehicleType,
         params.driverRequired,
-        params.estimatedDistance ?? null,
+        params.estimatedDistance,
+        params.pricingMode,
+        params.estimatedDays,
       );
     },
     onSuccess: () => {
@@ -283,7 +288,39 @@ export function useSubmitHotelBooking() {
   });
 }
 
-// ─── Admin: Packages ─────────────────────────────────────────────────────────
+// ─── Admin: All Inquiries ─────────────────────────────────────────────────────
+
+export function useGetAllInquiries() {
+  const { actor, isFetching: actorFetching } = useActor();
+
+  return useQuery<CustomerInquiry[]>({
+    queryKey: ['allInquiries'],
+    queryFn: async () => {
+      if (!actor) return [];
+      return actor.getAllInquiries();
+    },
+    enabled: !!actor && !actorFetching,
+  });
+}
+
+// ─── Admin: Update Inquiry Status ─────────────────────────────────────────────
+
+export function useUpdateInquiryStatus() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (params: { inquiryId: bigint; newStatus: Status }) => {
+      if (!actor) throw new Error('Actor not available');
+      return actor.updateInquiryStatus(params.inquiryId, params.newStatus);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['allInquiries'] });
+    },
+  });
+}
+
+// ─── Admin: Packages ──────────────────────────────────────────────────────────
 
 export function useCreatePackage() {
   const { actor } = useActor();
@@ -311,7 +348,10 @@ export function useUpdatePackage() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (params: { id: string; newPackage: TourPackage }) => {
+    mutationFn: async (params: {
+      id: string;
+      newPackage: TourPackage;
+    }) => {
       if (!actor) throw new Error('Actor not available');
       return actor.updatePackage(params.id, params.newPackage);
     },
@@ -332,36 +372,6 @@ export function useDeletePackage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['publicPackages'] });
-    },
-  });
-}
-
-// ─── Admin: Inquiries ─────────────────────────────────────────────────────────
-
-export function useGetAllInquiries() {
-  const { actor, isFetching: actorFetching } = useActor();
-
-  return useQuery<CustomerInquiry[]>({
-    queryKey: ['allInquiries'],
-    queryFn: async () => {
-      if (!actor) return [];
-      return actor.getAllInquiries();
-    },
-    enabled: !!actor && !actorFetching,
-  });
-}
-
-export function useUpdateInquiryStatus() {
-  const { actor } = useActor();
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async (params: { inquiryId: bigint; newStatus: Status }) => {
-      if (!actor) throw new Error('Actor not available');
-      return actor.updateInquiryStatus(params.inquiryId, params.newStatus);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['allInquiries'] });
     },
   });
 }

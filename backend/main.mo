@@ -5,9 +5,9 @@ import Principal "mo:core/Principal";
 import Runtime "mo:core/Runtime";
 import MixinAuthorization "authorization/MixinAuthorization";
 import AccessControl "authorization/access-control";
-import Migration "migration";
-import MixinStorage "blob-storage/Mixin";
 
+import MixinStorage "blob-storage/Mixin";
+import Migration "migration";
 (with migration = Migration.run)
 actor {
   // Initialize the access control system
@@ -32,6 +32,11 @@ actor {
     #sedan;
   };
 
+  type CarRentalPricingMode = {
+    #perKm;
+    #perDay;
+  };
+
   type InquiryCategory = {
     #tourInquiry;
     #carRental;
@@ -52,6 +57,8 @@ actor {
     driverRequired : Bool;
     estimatedDistance : ?Nat;
     estimatedFare : ?Nat;
+    pricingMode : ?CarRentalPricingMode;
+    estimatedDays : ?Nat;
   };
 
   type CustomPackageDetails = {
@@ -172,6 +179,8 @@ actor {
     vehicleType : CarType,
     driverRequired : Bool,
     estimatedDistance : ?Nat,
+    pricingMode : CarRentalPricingMode,
+    estimatedDays : ?Nat,
   ) : async () {
     // Map CarType to VehicleType
     let mappedVehicleType : VehicleType = switch (vehicleType) {
@@ -179,10 +188,16 @@ actor {
       case (#sedan) { #sedan };
     };
 
-    let estimatedFare : ?Nat = switch (estimatedDistance, mappedVehicleType) {
-      case (null, _) { null };
-      case (?distance, #sedan) { ?(distance * 13) };
-      case (?distance, #suv) { ?(distance * 21) };
+    let estimatedFare : ?Nat = switch (pricingMode, estimatedDistance, mappedVehicleType, estimatedDays) {
+      // Per km mode
+      case (#perKm, null, _, _) { null };
+      case (#perKm, ?distance, #sedan, _) { ?(distance * 13) };
+      case (#perKm, ?distance, #suv, _) { ?(distance * 21) };
+      // Per day mode
+      case (#perDay, _, #sedan, ?days) { ?(days * 2500) };
+      case (#perDay, _, #suv, ?days) { ?(days * 5000) };
+      // Fallback
+      case (_) { null };
     };
 
     let rentalDetails : CarRentalDetails = {
@@ -190,6 +205,8 @@ actor {
       driverRequired;
       estimatedDistance;
       estimatedFare;
+      pricingMode = ?pricingMode;
+      estimatedDays;
     };
 
     let inquiry : CustomerInquiry = {

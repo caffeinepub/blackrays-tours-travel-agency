@@ -31,6 +31,8 @@ export interface TourPackage {
 export interface CarRentalDetails {
     estimatedDistance?: bigint;
     vehicleType: VehicleType;
+    pricingMode?: CarRentalPricingMode;
+    estimatedDays?: bigint;
     estimatedFare?: bigint;
     driverRequired: boolean;
 }
@@ -72,6 +74,10 @@ export interface HotelBookingDetails {
 export interface UserProfile {
     name: string;
 }
+export enum CarRentalPricingMode {
+    perDay = "perDay",
+    perKm = "perKm"
+}
 export enum CarType {
     suv = "suv",
     sedan = "sedan"
@@ -105,7 +111,7 @@ export interface backendInterface {
     getUserProfile(user: Principal): Promise<UserProfile | null>;
     isCallerAdmin(): Promise<boolean>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
-    submitCarRental(name: string, phoneNumber: string, email: string, vehicleType: CarType, driverRequired: boolean, estimatedDistance: bigint | null): Promise<void>;
+    submitCarRental(name: string, phoneNumber: string, email: string, vehicleType: CarType, driverRequired: boolean, estimatedDistance: bigint | null, pricingMode: CarRentalPricingMode, estimatedDays: bigint | null): Promise<void>;
     submitCustomPackage(name: string, phoneNumber: string, email: string, destinationType: string, destination: string, numberOfTravelers: bigint, durationDays: bigint, preferredDates: string | null): Promise<void>;
     submitFlightBooking(name: string, phoneNumber: string, email: string, originCity: string, destinationCity: string, departureDate: string, returnDate: string | null, tripType: string, passengerCount: bigint, cabinClass: string): Promise<void>;
     submitHotelBooking(name: string, phoneNumber: string, email: string, destination: string, checkInDate: string, checkOutDate: string, numberOfGuests: bigint, numberOfRooms: bigint, roomTypePreference: string, hotelName: string | null, starRating: bigint | null, location: string | null, pricePerNight: bigint | null): Promise<void>;

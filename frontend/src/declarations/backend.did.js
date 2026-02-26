@@ -33,9 +33,15 @@ export const VehicleType = IDL.Variant({
   'suv' : IDL.Null,
   'sedan' : IDL.Null,
 });
+export const CarRentalPricingMode = IDL.Variant({
+  'perDay' : IDL.Null,
+  'perKm' : IDL.Null,
+});
 export const CarRentalDetails = IDL.Record({
   'estimatedDistance' : IDL.Opt(IDL.Nat),
   'vehicleType' : VehicleType,
+  'pricingMode' : IDL.Opt(CarRentalPricingMode),
+  'estimatedDays' : IDL.Opt(IDL.Nat),
   'estimatedFare' : IDL.Opt(IDL.Nat),
   'driverRequired' : IDL.Bool,
 });
@@ -153,7 +159,16 @@ export const idlService = IDL.Service({
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
   'submitCarRental' : IDL.Func(
-      [IDL.Text, IDL.Text, IDL.Text, CarType, IDL.Bool, IDL.Opt(IDL.Nat)],
+      [
+        IDL.Text,
+        IDL.Text,
+        IDL.Text,
+        CarType,
+        IDL.Bool,
+        IDL.Opt(IDL.Nat),
+        CarRentalPricingMode,
+        IDL.Opt(IDL.Nat),
+      ],
       [],
       [],
     ),
@@ -254,9 +269,15 @@ export const idlFactory = ({ IDL }) => {
     'inProgress' : IDL.Null,
   });
   const VehicleType = IDL.Variant({ 'suv' : IDL.Null, 'sedan' : IDL.Null });
+  const CarRentalPricingMode = IDL.Variant({
+    'perDay' : IDL.Null,
+    'perKm' : IDL.Null,
+  });
   const CarRentalDetails = IDL.Record({
     'estimatedDistance' : IDL.Opt(IDL.Nat),
     'vehicleType' : VehicleType,
+    'pricingMode' : IDL.Opt(CarRentalPricingMode),
+    'estimatedDays' : IDL.Opt(IDL.Nat),
     'estimatedFare' : IDL.Opt(IDL.Nat),
     'driverRequired' : IDL.Bool,
   });
@@ -374,7 +395,16 @@ export const idlFactory = ({ IDL }) => {
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
     'submitCarRental' : IDL.Func(
-        [IDL.Text, IDL.Text, IDL.Text, CarType, IDL.Bool, IDL.Opt(IDL.Nat)],
+        [
+          IDL.Text,
+          IDL.Text,
+          IDL.Text,
+          CarType,
+          IDL.Bool,
+          IDL.Opt(IDL.Nat),
+          CarRentalPricingMode,
+          IDL.Opt(IDL.Nat),
+        ],
         [],
         [],
       ),

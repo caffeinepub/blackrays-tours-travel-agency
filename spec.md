@@ -1,15 +1,15 @@
 # Specification
 
 ## Summary
-**Goal:** Update car rental per-km pricing and add a full Hotel & Hospitality Booking feature including page, navigation, hero widget tab, service card, backend data model, and real-time hotel search API integration.
+**Goal:** Upgrade the Car Rentals page with dual pricing modes (per-km and per-day), with/without driver options, a "Most Popular" badge on Sedan, a T&C acknowledgment checkbox, and a refreshed premium UI.
 
 **Planned changes:**
-- Update Car Rentals page and fare estimator to use Sedan ₹13/km and SUV ₹21/km; update all references including homepage pricing section
-- Extend backend inquiry data model with a `hotel_booking` category and optional fields: hotelDestination, checkInDate, checkOutDate, numberOfGuests, numberOfRooms, roomTypePreference
-- Add a new `/hotels` Hotel & Hospitality Bookings page with a search form (destination, check-in/out dates, guests, rooms, room type preference), real-time hotel search API results (property name, star rating, location, price per night, booking CTA), loading/empty/error states, and inquiry fallback storing `hotel_booking` category to backend
-- Add a "Hotels" tab to the homepage hero search widget with destination, check-in, and check-out inputs that navigate to `/hotels` with pre-filled parameters
-- Add a Hotel & Hospitality service card to the homepage services section with description and CTA linking to `/hotels`
-- Link the `/hotels` page from the main navigation header
-- Display hotel_booking inquiry fields in the admin inquiries page
+- Add dual pricing to vehicle cards: Sedan (₹13/km / ₹2,500/day) and SUV (₹21/km / ₹5,000/day), with an interactive per-km vs per-day toggle on each card
+- Add "With Driver" / "Without Driver" selection to both vehicle cards
+- Mark the Sedan card with a "Most Popular" badge
+- Update the fare estimator in the booking form to calculate dynamically based on selected pricing mode (distance for per-km, days for per-day) and selected vehicle
+- Store selected pricing mode, distance/days input, and estimated fare in the car rental inquiry submitted to the backend
+- Add a mandatory T&C acknowledgment checkbox to the booking form with the notice: "Without driver — if anything happens to the vehicle, the consumer is fully liable for all repair and associated costs," linked to the Terms & Conditions page; disable form submission if unchecked
+- Refresh the Car Rentals page UI to a premium black/white/grey aesthetic: clean borders, background contrasts (no box shadows), clear typography hierarchy, fully responsive layout
 
-**User-visible outcome:** Users can search and book hotels via a new Hotels page with live results and a quick-search widget on the homepage; car rental pricing now correctly shows ₹13/km for Sedan and ₹21/km for SUV throughout the site.
+**User-visible outcome:** Users on the Car Rentals page can select a vehicle, choose per-km or per-day pricing, choose with or without a driver, get a live fare estimate, and must acknowledge the T&C before submitting a booking inquiry.

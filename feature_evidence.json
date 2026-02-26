@@ -2,11 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-update-the-car-rentals-page-and-all-references-to-display-the-correct-per-km-pricing-sedan-at-13-km-and-suv-at-21-km-update-the-fare-estimator-calculation-logic-to-use-these-rates-ensure-the-estimated-fare-displayed-to-the-user-and-stored-in-the-car-rental-inquiry-submitted-to-the-backend-reflects-these-correct-rates",
-      "featureTitle": "Update the Car Rentals page and all references to display the correct per-km pricing: Sedan at ₹13/km and SUV at ₹21/km. Update the fare estimator calculation logic to use these rates. Ensure the estimated fare displayed to the user and stored in the car rental inquiry submitted to the backend reflects these correct rates.",
+      "featureId": "feature-update-the-car-rentals-page-vehicle-cards-to-display-two-pricing-modes-for-each-vehicle-per-km-and-per-day-sedan-13-km-and-2-500-day-mark-with-a-most-popular-badge-suv-21-km-and-5-000-day-each-vehicle-card-must-clearly-present-both-pricing-options-so-the-user-can-see-and-select-the-mode-they-prefer",
+      "featureTitle": "Update the Car Rentals page vehicle cards to display two pricing modes for each vehicle: per-km and per-day. Sedan: ₹13/km and ₹2,500/day (mark with a 'Most Popular' badge). SUV: ₹21/km and ₹5,000/day. Each vehicle card must clearly present both pricing options so the user can see and select the mode they prefer.",
       "files": [
-        "frontend/src/pages/CarRentalsPage.tsx",
-        "frontend/src/pages/HomePage.tsx"
+        "frontend/src/pages/CarRentalsPage.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -19,15 +18,16 @@
         "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-33"
+        "REQ-38"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-add-a-new-public-hotel-hospitality-bookings-page-accessible-from-the-main-navigation-and-from-the-homepage-the-page-should-describe-blackrays-hotel-booking-assistance-service-covering-properties-across-india-and-internationally-include-a-hotel-search-inquiry-form-capturing-destination-city-location-check-in-date-check-out-date-number-of-guests-number-of-rooms-and-room-type-preference-standard-deluxe-suite-integrate-a-real-time-hotel-search-api-e-g-rapidapi-hotels-or-a-compatible-aggregator-to-display-live-hotel-results-with-property-name-star-rating-location-price-per-night-and-a-booking-contact-cta-handle-loading-empty-and-error-states-gracefully-on-form-submission-for-inquiry-fallback-store-the-request-as-an-inquiry-in-the-backend-with-category-hotel-booking",
-      "featureTitle": "Add a new public Hotel & Hospitality Bookings page accessible from the main navigation and from the homepage. The page should describe Blackrays' hotel booking assistance service covering properties across India and internationally. Include a hotel search/inquiry form capturing: destination city/location, check-in date, check-out date, number of guests, number of rooms, and room type preference (Standard / Deluxe / Suite). Integrate a real-time hotel search API (e.g., RapidAPI Hotels or a compatible aggregator) to display live hotel results with property name, star rating, location, price per night, and a booking/contact CTA. Handle loading, empty, and error states gracefully. On form submission (for inquiry fallback), store the request as an inquiry in the backend with category 'hotel_booking'.",
+      "featureId": "feature-update-the-car-rentals-booking-form-fare-estimator-to-support-both-pricing-modes-when-per-km-mode-is-selected-capture-estimated-distance-in-km-and-calculate-fare-using-sedan-13-km-or-suv-21-km-when-per-day-mode-is-selected-capture-number-of-days-and-calculate-fare-using-sedan-2-500-day-or-suv-5-000-day-display-the-estimated-fare-dynamically-as-the-user-inputs-values-store-the-selected-pricing-mode-distance-days-and-estimated-fare-in-the-car-rental-inquiry-submitted-to-the-backend",
+      "featureTitle": "Update the Car Rentals booking form fare estimator to support both pricing modes. When 'per-km' mode is selected, capture estimated distance in km and calculate fare using Sedan ₹13/km or SUV ₹21/km. When 'per-day' mode is selected, capture number of days and calculate fare using Sedan ₹2,500/day or SUV ₹5,000/day. Display the estimated fare dynamically as the user inputs values. Store the selected pricing mode, distance/days, and estimated fare in the car rental inquiry submitted to the backend.",
       "files": [
-        "frontend/src/pages/admin/AdminInquiriesPage.tsx"
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/pages/CarRentalsPage.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -40,15 +40,15 @@
         "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-34"
+        "REQ-39"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-update-the-homepage-service-cards-section-to-include-a-hotel-hospitality-bookings-card-with-a-brief-description-e-g-find-and-book-premium-hotels-across-india-and-internationally-and-a-cta-button-linking-to-the-hotels-page-ensure-the-layout-remains-visually-consistent-with-the-existing-premium-black-white-grey-aesthetic",
-      "featureTitle": "Update the homepage service cards/section to include a Hotel & Hospitality Bookings card with a brief description (e.g., 'Find and book premium hotels across India and internationally') and a CTA button linking to the '/hotels' page. Ensure the layout remains visually consistent with the existing premium black/white/grey aesthetic.",
+      "featureId": "feature-ensure-the-car-rentals-booking-form-includes-the-existing-t-c-checkbox-acknowledgment-that-the-user-must-check-before-submitting-the-checkbox-must-link-to-the-terms-conditions-page-and-prominently-display-the-notice-without-driver-if-anything-happens-to-the-vehicle-the-consumer-is-fully-liable-for-all-repair-and-associated-costs-the-form-must-not-be-submittable-unless-the-checkbox-is-checked",
+      "featureTitle": "Ensure the Car Rentals booking form includes the existing T&C checkbox acknowledgment that the user must check before submitting. The checkbox must link to the Terms & Conditions page and prominently display the notice: 'Without driver — if anything happens to the vehicle, the consumer is fully liable for all repair and associated costs.' The form must not be submittable unless the checkbox is checked.",
       "files": [
-        "frontend/src/pages/HomePage.tsx"
+        "frontend/src/pages/CarRentalsPage.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -61,16 +61,15 @@
         "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-36"
+        "REQ-40"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-add-a-hotels-tab-to-the-homepage-hero-search-widget-herosearchwidget-alongside-the-existing-flights-trains-car-rentals-and-tour-packages-tabs-the-hotels-tab-should-show-quick-search-inputs-for-destination-city-check-in-date-and-check-out-date-submitting-the-form-should-navigate-to-the-hotels-page-with-pre-filled-search-parameters-where-applicable",
-      "featureTitle": "Add a 'Hotels' tab to the homepage hero search widget (HeroSearchWidget) alongside the existing Flights, Trains, Car Rentals, and Tour Packages tabs. The Hotels tab should show quick-search inputs for destination city, check-in date, and check-out date. Submitting the form should navigate to the '/hotels' page with pre-filled search parameters where applicable.",
+      "featureId": "feature-refresh-the-car-rentals-page-ui-to-be-more-premium-and-user-friendly-improve-card-layout-typography-hierarchy-use-clean-borders-and-subtle-background-contrasts-no-box-shadows-ensure-vehicle-selection-pricing-mode-toggle-driver-option-and-booking-form-are-laid-out-clearly-and-responsively-on-both-mobile-and-desktop-consistent-with-the-overall-black-white-grey-premium-makemytrip-uber-aesthetic",
+      "featureTitle": "Refresh the Car Rentals page UI to be more premium and user-friendly: improve card layout typography hierarchy, use clean borders and subtle background contrasts (no box shadows), ensure vehicle selection, pricing mode toggle, driver option, and booking form are laid out clearly and responsively on both mobile and desktop, consistent with the overall black/white/grey premium MakeMyTrip/Uber aesthetic.",
       "files": [
-        "frontend/src/components/home/HeroSearchWidget.tsx",
-        "frontend/src/pages/HotelBookingsPage.tsx"
+        "frontend/src/pages/CarRentalsPage.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -83,7 +82,7 @@
         "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-37"
+        "REQ-41"
       ],
       "confidence": "high"
     }

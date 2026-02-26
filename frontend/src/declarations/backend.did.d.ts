@@ -13,9 +13,13 @@ import type { Principal } from '@icp-sdk/core/principal';
 export interface CarRentalDetails {
   'estimatedDistance' : [] | [bigint],
   'vehicleType' : VehicleType,
+  'pricingMode' : [] | [CarRentalPricingMode],
+  'estimatedDays' : [] | [bigint],
   'estimatedFare' : [] | [bigint],
   'driverRequired' : boolean,
 }
+export type CarRentalPricingMode = { 'perDay' : null } |
+  { 'perKm' : null };
 export type CarType = { 'suv' : null } |
   { 'sedan' : null };
 export interface CustomPackageDetails {
@@ -131,7 +135,16 @@ export interface _SERVICE {
   'isCallerAdmin' : ActorMethod<[], boolean>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
   'submitCarRental' : ActorMethod<
-    [string, string, string, CarType, boolean, [] | [bigint]],
+    [
+      string,
+      string,
+      string,
+      CarType,
+      boolean,
+      [] | [bigint],
+      CarRentalPricingMode,
+      [] | [bigint],
+    ],
     undefined
   >,
   'submitCustomPackage' : ActorMethod<

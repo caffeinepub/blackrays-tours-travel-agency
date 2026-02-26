@@ -2,64 +2,14 @@ import Map "mo:core/Map";
 import Nat "mo:core/Nat";
 
 module {
-  type OldStatus = {
-    #new;
-    #inProgress;
-    #resolved;
-  };
-
-  type OldTourPackage = {
-    id : Text;
-    title : Text;
-    description : Text;
-    price : Nat;
-    duration : Nat;
-  };
-
-  type OldVehicleType = {
-    #suv;
-    #sedan;
-  };
-
-  type OldInquiryCategory = {
-    #tourInquiry;
-    #carRental;
-    #customPackage;
-    #railwayBooking;
-    #flightBooking;
-  };
-
   type OldCarRentalDetails = {
-    vehicleType : OldVehicleType;
+    vehicleType : {
+      #suv;
+      #sedan;
+    };
     driverRequired : Bool;
     estimatedDistance : ?Nat;
     estimatedFare : ?Nat;
-  };
-
-  type OldCustomPackageDetails = {
-    destinationType : Text;
-    destination : Text;
-    numberOfTravelers : Nat;
-    durationDays : Nat;
-    preferredDates : ?Text;
-  };
-
-  type OldRailwayBookingDetails = {
-    originStation : Text;
-    destinationStation : Text;
-    travelDate : Text;
-    passengerCount : Nat;
-    railClass : Text;
-  };
-
-  type OldFlightBookingDetails = {
-    originCity : Text;
-    destinationCity : Text;
-    departureDate : Text;
-    returnDate : ?Text;
-    tripType : Text;
-    passengerCount : Nat;
-    cabinClass : Text;
   };
 
   type OldCustomerInquiry = {
@@ -68,85 +18,74 @@ module {
     phoneNumber : Text;
     email : Text;
     message : Text;
-    status : OldStatus;
-    category : OldInquiryCategory;
+    status : {
+      #new;
+      #inProgress;
+      #resolved;
+    };
+    category : {
+      #tourInquiry;
+      #carRental;
+      #customPackage;
+      #railwayBooking;
+      #flightBooking;
+      #hotelBooking;
+    };
     rentalDetails : ?OldCarRentalDetails;
-    customPackageDetails : ?OldCustomPackageDetails;
-    railwayBookingDetails : ?OldRailwayBookingDetails;
-    flightBookingDetails : ?OldFlightBookingDetails;
+    customPackageDetails : ?{
+      destinationType : Text;
+      destination : Text;
+      numberOfTravelers : Nat;
+      durationDays : Nat;
+      preferredDates : ?Text;
+    };
+    railwayBookingDetails : ?{
+      originStation : Text;
+      destinationStation : Text;
+      travelDate : Text;
+      passengerCount : Nat;
+      railClass : Text;
+    };
+    flightBookingDetails : ?{
+      originCity : Text;
+      destinationCity : Text;
+      departureDate : Text;
+      returnDate : ?Text;
+      tripType : Text;
+      passengerCount : Nat;
+      cabinClass : Text;
+    };
+    hotelBookingDetails : ?{
+      destination : Text;
+      checkInDate : Text;
+      checkOutDate : Text;
+      numberOfGuests : Nat;
+      numberOfRooms : Nat;
+      roomTypePreference : Text;
+      hotelName : ?Text;
+      starRating : ?Nat;
+      location : ?Text;
+      pricePerNight : ?Nat;
+    };
   };
 
   type OldActor = {
-    packages : Map.Map<Text, OldTourPackage>;
     inquiries : Map.Map<Nat, OldCustomerInquiry>;
-    nextInquiryId : Nat;
-  };
-
-  // New types for hotel booking details and inquiries
-  type NewVehicleType = {
-    #suv;
-    #sedan;
-  };
-
-  type NewInquiryCategory = {
-    #tourInquiry;
-    #carRental;
-    #customPackage;
-    #railwayBooking;
-    #flightBooking;
-    #hotelBooking;
-  };
-
-  type NewStatus = {
-    #new;
-    #inProgress;
-    #resolved;
   };
 
   type NewCarRentalDetails = {
-    vehicleType : NewVehicleType;
+    vehicleType : {
+      #suv;
+      #sedan;
+    };
     driverRequired : Bool;
     estimatedDistance : ?Nat;
     estimatedFare : ?Nat;
-  };
-
-  type NewCustomPackageDetails = {
-    destinationType : Text;
-    destination : Text;
-    numberOfTravelers : Nat;
-    durationDays : Nat;
-    preferredDates : ?Text;
-  };
-
-  type NewRailwayBookingDetails = {
-    originStation : Text;
-    destinationStation : Text;
-    travelDate : Text;
-    passengerCount : Nat;
-    railClass : Text;
-  };
-
-  type NewFlightBookingDetails = {
-    originCity : Text;
-    destinationCity : Text;
-    departureDate : Text;
-    returnDate : ?Text;
-    tripType : Text;
-    passengerCount : Nat;
-    cabinClass : Text;
-  };
-
-  type HotelBookingDetails = {
-    destination : Text;
-    checkInDate : Text;
-    checkOutDate : Text;
-    numberOfGuests : Nat;
-    numberOfRooms : Nat;
-    roomTypePreference : Text;
-    hotelName : ?Text;
-    starRating : ?Nat;
-    location : ?Text;
-    pricePerNight : ?Nat;
+    pricingMode : ?{
+      #perKm;
+      #perDay;
+    };
+    estimatedDays : ?Nat;
   };
 
   type NewCustomerInquiry = {
@@ -155,48 +94,79 @@ module {
     phoneNumber : Text;
     email : Text;
     message : Text;
-    status : NewStatus;
-    category : NewInquiryCategory;
+    status : {
+      #new;
+      #inProgress;
+      #resolved;
+    };
+    category : {
+      #tourInquiry;
+      #carRental;
+      #customPackage;
+      #railwayBooking;
+      #flightBooking;
+      #hotelBooking;
+    };
     rentalDetails : ?NewCarRentalDetails;
-    customPackageDetails : ?NewCustomPackageDetails;
-    railwayBookingDetails : ?NewRailwayBookingDetails;
-    flightBookingDetails : ?NewFlightBookingDetails;
-    hotelBookingDetails : ?HotelBookingDetails; // New field for hotel booking details
+    customPackageDetails : ?{
+      destinationType : Text;
+      destination : Text;
+      numberOfTravelers : Nat;
+      durationDays : Nat;
+      preferredDates : ?Text;
+    };
+    railwayBookingDetails : ?{
+      originStation : Text;
+      destinationStation : Text;
+      travelDate : Text;
+      passengerCount : Nat;
+      railClass : Text;
+    };
+    flightBookingDetails : ?{
+      originCity : Text;
+      destinationCity : Text;
+      departureDate : Text;
+      returnDate : ?Text;
+      tripType : Text;
+      passengerCount : Nat;
+      cabinClass : Text;
+    };
+    hotelBookingDetails : ?{
+      destination : Text;
+      checkInDate : Text;
+      checkOutDate : Text;
+      numberOfGuests : Nat;
+      numberOfRooms : Nat;
+      roomTypePreference : Text;
+      hotelName : ?Text;
+      starRating : ?Nat;
+      location : ?Text;
+      pricePerNight : ?Nat;
+    };
   };
 
-  type NewActor = {
-    packages : Map.Map<Text, OldTourPackage>;
-    inquiries : Map.Map<Nat, NewCustomerInquiry>;
-    nextInquiryId : Nat;
-  };
+  // Type for new actor (Map values are now new inquiry type)
+  type NewActor = { inquiries : Map.Map<Nat, NewCustomerInquiry> };
 
+  // The migration
   public func run(old : OldActor) : NewActor {
     let newInquiries = old.inquiries.map<Nat, OldCustomerInquiry, NewCustomerInquiry>(
       func(_id, oldInquiry) {
         {
-          id = oldInquiry.id;
-          name = oldInquiry.name;
-          phoneNumber = oldInquiry.phoneNumber;
-          email = oldInquiry.email;
-          message = oldInquiry.message;
-          status = oldInquiry.status;
-          category = oldInquiry.category;
-          rentalDetails =
-            oldInquiry.rentalDetails;
-          customPackageDetails =
-            oldInquiry.customPackageDetails;
-          railwayBookingDetails =
-            oldInquiry.railwayBookingDetails;
-          flightBookingDetails =
-            oldInquiry.flightBookingDetails;
-          hotelBookingDetails = null; // No existing hotel booking details
+          oldInquiry with
+          rentalDetails = switch (oldInquiry.rentalDetails) {
+            case (?oldDetails) {
+              ?{
+                oldDetails with
+                pricingMode = null;
+                estimatedDays = null;
+              };
+            };
+            case (null) { null };
+          };
         };
       }
     );
-    {
-      packages = old.packages;
-      inquiries = newInquiries;
-      nextInquiryId = old.nextInquiryId;
-    };
+    { inquiries = newInquiries };
   };
 };

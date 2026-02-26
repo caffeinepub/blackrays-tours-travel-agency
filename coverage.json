@@ -1,94 +1,76 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-26T19:38:20.764Z",
+  "generatedAt": "2026-02-26T20:00:03.167Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 5,
+    "total": 4,
     "implemented": 4,
     "items": [
       {
-        "id": "REQ-33",
-        "summary": "Update the Car Rentals page and all references to display the correct per-km pricing: Sedan at ₹13/km and SUV at ₹21/km. Update the fare estimator calculation logic to use these rates. Ensure the estimated fare displayed to the user and stored in the car rental inquiry submitted to the backend reflects these correct rates.",
+        "id": "REQ-38",
+        "summary": "Update the Car Rentals page vehicle cards to display two pricing modes for each vehicle: per-km and per-day. Sedan: ₹13/km and ₹2,500/day (mark with a 'Most Popular' badge). SUV: ₹21/km and ₹5,000/day. Each vehicle card must clearly present both pricing options so the user can see and select the mode they prefer.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/CarRentalsPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/CarRentalsPage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-39",
+        "summary": "Update the Car Rentals booking form fare estimator to support both pricing modes. When 'per-km' mode is selected, capture estimated distance in km and calculate fare using Sedan ₹13/km or SUV ₹21/km. When 'per-day' mode is selected, capture number of days and calculate fare using Sedan ₹2,500/day or SUV ₹5,000/day. Display the estimated fare dynamically as the user inputs values. Store the selected pricing mode, distance/days, and estimated fare in the car rental inquiry submitted to the backend.",
         "status": "implemented",
         "plannedFiles": [
           "frontend/src/pages/CarRentalsPage.tsx",
-          "frontend/src/pages/HomePage.tsx"
+          "frontend/src/hooks/useQueries.ts"
         ],
         "matchedFiles": [
           "frontend/src/pages/CarRentalsPage.tsx",
-          "frontend/src/pages/HomePage.tsx"
+          "frontend/src/hooks/useQueries.ts"
         ]
       },
       {
-        "id": "REQ-34",
-        "summary": "Add a new public Hotel & Hospitality Bookings page accessible from the main navigation and from the homepage. The page should describe Blackrays' hotel booking assistance service covering properties across India and internationally. Include a hotel search/inquiry form capturing: destination city/location, check-in date, check-out date, number of guests, number of rooms, and room type preference (Standard / Deluxe / Suite). Integrate a real-time hotel search API (e.g., RapidAPI Hotels or a compatible aggregator) to display live hotel results with property name, star rating, location, price per night, and a booking/contact CTA. Handle loading, empty, and error states gracefully. On form submission (for inquiry fallback), store the request as an inquiry in the backend with category 'hotel_booking'.",
+        "id": "REQ-40",
+        "summary": "Ensure the Car Rentals booking form includes the existing T&C checkbox acknowledgment that the user must check before submitting. The checkbox must link to the Terms & Conditions page and prominently display the notice: 'Without driver — if anything happens to the vehicle, the consumer is fully liable for all repair and associated costs.' The form must not be submittable unless the checkbox is checked.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/pages/admin/AdminInquiriesPage.tsx"
+          "frontend/src/pages/CarRentalsPage.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/pages/admin/AdminInquiriesPage.tsx"
+          "frontend/src/pages/CarRentalsPage.tsx"
         ]
       },
       {
-        "id": "REQ-35",
-        "summary": "Extend the backend inquiry data model to support a 'hotel_booking' category. Add optional fields: hotelDestination (Text), checkInDate (Text), checkOutDate (Text), numberOfGuests (Nat), numberOfRooms (Nat), and roomTypePreference (Text). Ensure existing inquiry categories and fields remain unaffected. Update the admin inquiries listing to display these fields when the category is 'hotel_booking'.",
-        "status": "unknown",
-        "plannedFiles": [],
-        "matchedFiles": []
-      },
-      {
-        "id": "REQ-36",
-        "summary": "Update the homepage service cards/section to include a Hotel & Hospitality Bookings card with a brief description (e.g., 'Find and book premium hotels across India and internationally') and a CTA button linking to the '/hotels' page. Ensure the layout remains visually consistent with the existing premium black/white/grey aesthetic.",
+        "id": "REQ-41",
+        "summary": "Refresh the Car Rentals page UI to be more premium and user-friendly: improve card layout typography hierarchy, use clean borders and subtle background contrasts (no box shadows), ensure vehicle selection, pricing mode toggle, driver option, and booking form are laid out clearly and responsively on both mobile and desktop, consistent with the overall black/white/grey premium MakeMyTrip/Uber aesthetic.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/pages/HomePage.tsx"
+          "frontend/src/pages/CarRentalsPage.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/pages/HomePage.tsx"
-        ]
-      },
-      {
-        "id": "REQ-37",
-        "summary": "Add a 'Hotels' tab to the homepage hero search widget (HeroSearchWidget) alongside the existing Flights, Trains, Car Rentals, and Tour Packages tabs. The Hotels tab should show quick-search inputs for destination city, check-in date, and check-out date. Submitting the form should navigate to the '/hotels' page with pre-filled search parameters where applicable.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/home/HeroSearchWidget.tsx",
-          "frontend/src/pages/HotelBookingsPage.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/home/HeroSearchWidget.tsx",
-          "frontend/src/pages/HotelBookingsPage.tsx"
+          "frontend/src/pages/CarRentalsPage.tsx"
         ]
       }
     ]
   },
   "changedFiles": [
-    "backend/http-outcalls/outcall.mo",
     "backend/main.mo",
     "backend/migration.mo",
     "build-request.json",
-    "caffeine.lock.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/public/assets/generated/hotel-hero-premium.dim_1200x600.png",
-    "frontend/src/App.tsx",
     "frontend/src/backend.d.ts",
     "frontend/src/backend.ts",
-    "frontend/src/components/home/HeroSearchWidget.tsx",
-    "frontend/src/components/layout/Header.tsx",
     "frontend/src/declarations/backend.did.d.ts",
     "frontend/src/declarations/backend.did.js",
     "frontend/src/hooks/useQueries.ts",
     "frontend/src/pages/CarRentalsPage.tsx",
-    "frontend/src/pages/HomePage.tsx",
-    "frontend/src/pages/HotelBookingsPage.tsx",
-    "frontend/src/pages/admin/AdminInquiriesPage.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",
