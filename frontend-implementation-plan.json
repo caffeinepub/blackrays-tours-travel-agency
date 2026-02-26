@@ -1,82 +1,184 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Car Rentals: Dual Pricing (Per-km & Per-day), With/Without Driver, Most Popular Badge, T&C Integration",
+  "title": "Move SUV 'Most Popular' badge, add business address, premium homepage redesign, and direct booking UI for flights/trains/hotels",
   "requirements": [
     {
-      "id": "REQ-38",
-      "summary": "Display dual pricing modes (per-km and per-day) for Sedan and SUV vehicles with 'Most Popular' badge on Sedan card",
+      "id": "REQ-42",
+      "summary": "Move the 'Most Popular' badge from the Sedan vehicle card to the SUV vehicle card on the Car Rentals page",
       "acceptanceCriteria": [
-        "Sedan card displays ₹13/km and ₹2,500/day as two distinct pricing options",
-        "SUV card displays ₹21/km and ₹5,000/day as two distinct pricing options",
-        "Sedan card is visually highlighted with a 'Most Popular' badge",
-        "Both vehicle types show 'With Driver' and 'Without Driver' options",
-        "Pricing mode selection (per-km vs per-day) is clearly interactive and visually distinct"
+        "The SUV vehicle card displays a 'Most Popular' badge prominently.",
+        "The Sedan vehicle card does not display a 'Most Popular' badge.",
+        "All other vehicle card content (pricing, description, features) remains unchanged."
       ],
       "file_operations": [
         {
           "path": "frontend/src/pages/CarRentalsPage.tsx",
           "operation": "modify",
-          "description": "Update vehicle card UI to display both pricing modes (per-km and per-day) for Sedan (₹13/km, ₹2,500/day) and SUV (₹21/km, ₹5,000/day). Add a visual 'Most Popular' badge to the Sedan card. Ensure both 'With Driver' and 'Without Driver' options are clearly presented. Add interactive pricing mode toggle (radio buttons or segmented control) that allows users to select between per-km and per-day pricing. Use clean borders and subtle background contrasts for visual hierarchy without box shadows, consistent with the premium black/white/grey aesthetic."
+          "description": "Update the vehicle card rendering logic to display the 'Most Popular' badge on the SUV card instead of the Sedan card. Remove any badge display logic from the Sedan card section and add/move the badge markup to the SUV card section. Ensure the badge styling and positioning remain consistent with the existing premium design."
         }
       ]
     },
     {
-      "id": "REQ-39",
-      "summary": "Implement dynamic fare estimator supporting per-km and per-day pricing modes with live calculation",
+      "id": "REQ-43",
+      "summary": "Add the business address 'Dhule, Maharashtra 424001' to the site footer and Contact/Inquiry page",
       "acceptanceCriteria": [
-        "Per-km mode: inputting distance calculates and displays estimated fare using the correct rate (₹13/km for Sedan, ₹21/km for SUV)",
-        "Per-day mode: inputting number of days calculates and displays estimated fare using the correct rate (₹2,500/day for Sedan, ₹5,000/day for SUV)",
-        "Estimated fare updates dynamically as the user types",
-        "Selected pricing mode, input value (distance or days), and estimated fare are submitted with the inquiry to the backend",
-        "Backend stores the pricing mode, distance/days, and estimated fare in the car rental inquiry record"
+        "The footer displays 'Dhule, Maharashtra 424001' as the business address.",
+        "The Contact/Inquiry page displays 'Dhule, Maharashtra 424001' in the contact info section.",
+        "The address appears consistently formatted alongside the phone, email, and MD & Chairman details."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/pages/CarRentalsPage.tsx",
+          "path": "frontend/src/components/layout/Footer.tsx",
           "operation": "modify",
-          "description": "Add fare estimator section that switches between distance input (for per-km mode) and days input (for per-day mode) based on selected pricing mode. Implement live calculation logic: for per-km mode, multiply distance by vehicle rate (₹13/km Sedan, ₹21/km SUV); for per-day mode, multiply days by vehicle rate (₹2,500/day Sedan, ₹5,000/day SUV). Display the calculated estimated fare prominently, updating dynamically as the user types. When submitting the inquiry, pass the selected pricingMode (CarRentalPricingMode enum: perKm or perDay), estimatedDistance (bigint | null), estimatedDays (bigint | null), and computed estimatedFare (bigint) to the submitCarRental backend method. Ensure proper form state management and validation for the dynamic input field."
+          "description": "Add the business address 'Dhule, Maharashtra 424001' to the footer's contact details section alongside the existing phone and email information. Use consistent formatting and styling with the existing contact elements. Include an appropriate icon (e.g., map pin or location icon) for visual consistency."
         },
         {
-          "path": "frontend/src/hooks/useQueries.ts",
+          "path": "frontend/src/pages/ContactInquiryPage.tsx",
           "operation": "modify",
-          "description": "Update the useSubmitCarRental mutation hook to accept and pass the new parameters: pricingMode (CarRentalPricingMode), estimatedDistance (bigint | null), estimatedDays (bigint | null), and estimatedFare (bigint). Ensure the mutation calls actor.submitCarRental with all required arguments matching the backend interface signature. Add appropriate error handling and success feedback."
+          "description": "Add a contact info card displaying the business address 'Dhule, Maharashtra 424001' in the static contact information section alongside the existing phone and email cards. Ensure the card styling and layout match the existing contact cards and use an appropriate location icon."
         }
       ]
     },
     {
-      "id": "REQ-40",
-      "summary": "Integrate T&C acknowledgment checkbox with liability notice for car rental booking form",
+      "id": "REQ-44",
+      "summary": "Overhaul the homepage starting interface with a more unique, premium, and user-friendly visual design featuring refreshed hero treatment, improved typography, richer visual hierarchy, and polished micro-details",
       "acceptanceCriteria": [
-        "A T&C acknowledgment checkbox is visible on the Car Rentals booking form",
-        "The checkbox label or adjacent text states: 'Without driver — if anything happens to the vehicle, the consumer is fully liable for all repair and associated costs'",
-        "The checkbox includes or is adjacent to a link to the Terms & Conditions page",
-        "The form submit button is disabled or shows a validation error if the checkbox is not checked",
-        "The T&C page remains accessible from the footer"
+        "The homepage hero section has a visually distinct, premium look that differs meaningfully from the previous version.",
+        "The HeroSearchWidget includes tabs for Flights, Trains, Hotels, Car Rentals, and Tour Packages.",
+        "No box shadows are present on any element in the initial viewport.",
+        "Service cards for all offerings (Flights, Trains, Car Rentals, Hotels, Custom Packages, Tour Packages, Railway Bookings) are displayed with clear descriptions and CTA buttons.",
+        "The layout is fully responsive on mobile and desktop.",
+        "The design remains consistent with the black/white/grey/beige premium palette."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/pages/CarRentalsPage.tsx",
+          "path": "frontend/src/pages/HomePage.tsx",
           "operation": "modify",
-          "description": "Add a T&C acknowledgment checkbox to the car rental booking form. Display the required liability notice text: 'Without driver — if anything happens to the vehicle, the consumer is fully liable for all repair and associated costs.' Include a clickable link to the Terms & Conditions page (/terms) within or adjacent to the checkbox label. Add form validation to prevent submission unless the checkbox is checked. Disable the submit button or show a validation error message when the checkbox is unchecked. Use consistent styling with the premium design system (borders, no box shadows)."
+          "description": "Completely redesign the hero section with a more premium, unique visual treatment featuring improved typography hierarchy, refined layout flow, and polished micro-details. Update the service cards section to display all seven offerings (Flights, Trains, Car Rentals, Hotels, Custom Packages, Tour Packages, Railway Bookings) with clear descriptions and prominent CTA buttons linking to their respective pages. Remove all box-shadow CSS from elements in the initial viewport. Ensure the HeroSearchWidget is prominently integrated. Maintain consistency with the existing black/white/grey/beige premium palette and ensure full mobile/desktop responsiveness."
+        },
+        {
+          "path": "frontend/src/components/home/HeroSearchWidget.tsx",
+          "operation": "modify",
+          "description": "Ensure the search widget includes all five tabs (Flights, Trains, Hotels, Car Rentals, Tour Packages) with updated premium styling that removes box shadows and improves visual hierarchy. Refine typography, spacing, and tab interactions for a more polished, user-friendly experience. Verify each tab navigates correctly to its corresponding booking page with appropriate search parameters."
+        },
+        {
+          "path": "frontend/src/components/home/HomeContactBar.tsx",
+          "operation": "modify",
+          "description": "Refresh the contact bar styling to align with the new premium homepage design. Remove any box shadows, improve typography hierarchy, and refine spacing for a more polished appearance while maintaining the existing contact information display (MD & Chairman, phone, email)."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Update global CSS custom properties and utility classes to support the premium homepage redesign. Refine typography scale, spacing utilities, and premium design tokens while ensuring consistency with the black/white/grey/beige palette. Add or update utility classes for shadow-free premium UI elements as needed for the hero section and service cards."
         }
       ]
     },
     {
-      "id": "REQ-41",
-      "summary": "Refresh Car Rentals page UI for premium user experience with clean borders, improved typography, and responsive layout",
+      "id": "REQ-45",
+      "summary": "Rebuild the Flight Ticket Bookings page with a prominent live search UI featuring flight result cards with airline, times, duration, stops, cabin class, and fare, using mock API with Amadeus credential placeholders",
       "acceptanceCriteria": [
-        "Car Rentals page has no box shadows; depth is conveyed via borders and background contrasts",
-        "Vehicle cards have a clear, polished layout with readable typography hierarchy",
-        "Pricing mode toggle (per-km / per-day), driver option (with/without), and fare estimator inputs are visually grouped and easy to follow",
-        "Page is fully responsive on mobile and desktop",
-        "Visual style is consistent with the overall black/white/grey premium palette used across the site"
+        "The Flight Bookings page displays a search form with origin, destination, date, passengers, and cabin class fields.",
+        "After searching, flight result cards are displayed showing airline, departure/arrival times, duration, stops, and price.",
+        "A 'Book Now' or equivalent CTA is present on each result card.",
+        "Loading, empty, and error states are handled with appropriate UI feedback.",
+        "API credential placeholders are clearly marked in the service file with comments indicating where real Amadeus credentials go.",
+        "The page is responsive on mobile and desktop."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/pages/CarRentalsPage.tsx",
+          "path": "frontend/src/pages/FlightBookingsPage.tsx",
           "operation": "modify",
-          "description": "Refresh the entire Car Rentals page UI to align with the premium black/white/grey aesthetic matching MakeMyTrip/Uber style. Remove all box shadows; use clean borders (1px or 2px solid) and subtle background contrasts (light grey vs white, dark grey borders) to convey depth and card separation. Improve typography hierarchy: use larger, bold headings for vehicle types and pricing, clear labels for all inputs, and readable body text for descriptions and notices. Group related controls visually: vehicle selection cards, pricing mode toggle, driver option toggle, and fare estimator inputs should be clearly organized in logical sections with appropriate spacing. Ensure full responsiveness: vehicle cards stack vertically on mobile, form fields adjust width appropriately, and all interactive elements remain accessible on touch devices. Apply consistent spacing, padding, and color tokens from the global Tailwind config and index.css. Verify the page layout integrates seamlessly with the existing SiteLayout (Header + Footer)."
+          "description": "Rebuild the page to feature a prominent live search UI that auto-triggers search from URL params and displays results in a clean card list below the search form. Ensure the FlightSearchForm, FlightResultsList, and inquiry fallback form are all properly integrated. Add clear section headings and improve the overall layout hierarchy for a premium, user-friendly experience. Maintain responsive design for mobile and desktop. Keep the existing inquiry form fallback available below the results section."
+        },
+        {
+          "path": "frontend/src/components/flights/FlightSearchForm.tsx",
+          "operation": "modify",
+          "description": "Enhance the search form UI with improved visual hierarchy, premium styling consistent with the homepage redesign, and polished micro-details. Ensure all required fields (origin, destination, date, passengers, cabin class) are present with proper validation. Remove box shadows and refine spacing/typography for a more premium appearance."
+        },
+        {
+          "path": "frontend/src/components/flights/FlightResultsList.tsx",
+          "operation": "modify",
+          "description": "Refine the results list component to display flight result cards with improved premium styling, better loading/error/empty states, and enhanced visual feedback. Ensure clear messaging for each state and maintain responsive grid/list layout."
+        },
+        {
+          "path": "frontend/src/components/flights/FlightResultCard.tsx",
+          "operation": "modify",
+          "description": "Enhance the flight result card design with premium styling, improved typography hierarchy, and polished micro-details. Ensure all required information (airline, departure/arrival times, duration, stops, cabin class, fare) is clearly displayed. Add a prominent 'Book Now' CTA button that links to the inquiry form or opens it in context. Remove box shadows and apply consistent styling with the overall premium design."
+        },
+        {
+          "path": "frontend/src/services/flightApi.ts",
+          "operation": "modify",
+          "description": "Add clearly marked comment placeholders at the top of the file indicating where real Amadeus API credentials and endpoint URLs should be inserted. Include comments explaining the expected credential format (API key, API secret, base URL) and integration steps. Ensure the mock data generation logic remains functional until real API integration. Add a comment block explaining that the current mock implementation should be replaced with actual Amadeus API calls once credentials are available."
+        }
+      ]
+    },
+    {
+      "id": "REQ-46",
+      "summary": "Rebuild the Railway Ticket Bookings page with a prominent live search UI featuring train result cards with train name/number, times, duration, available classes with fares, using mock API with RapidAPI/IRCTC credential placeholders",
+      "acceptanceCriteria": [
+        "The Railway Bookings page displays a search form with origin station, destination station, date, class, and passenger count fields.",
+        "After searching, train result cards are displayed showing train name/number, departure/arrival times, duration, available classes, and fares.",
+        "A 'Book Now' or equivalent CTA is present on each result card.",
+        "Loading, empty, and error states are handled with appropriate UI feedback.",
+        "API credential placeholders are clearly marked in the service file with comments indicating where real RapidAPI/IRCTC credentials go.",
+        "The page is responsive on mobile and desktop."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/RailwayBookingsPage.tsx",
+          "operation": "modify",
+          "description": "Rebuild the page to feature a prominent live search UI that displays train search results in a clean card list below the search form. Integrate the RailwaySearchForm and RailwayResultsList components with improved layout hierarchy and premium styling. Ensure the inquiry form fallback remains available below the results section. Maintain responsive design and improve overall visual hierarchy for a user-friendly experience."
+        },
+        {
+          "path": "frontend/src/components/railway/RailwaySearchForm.tsx",
+          "operation": "modify",
+          "description": "Enhance the railway search form UI with premium styling consistent with the redesigned flight search form. Ensure all required fields (origin station, destination station, date, rail class, passenger count) are present with proper validation. Improve typography hierarchy, remove box shadows, and refine spacing for a polished appearance."
+        },
+        {
+          "path": "frontend/src/components/railway/RailwayResultsList.tsx",
+          "operation": "modify",
+          "description": "Refine the train results list component with improved premium styling, better loading/error/empty state messaging, and enhanced visual feedback. Ensure responsive grid/list layout and clear state indicators for each scenario."
+        },
+        {
+          "path": "frontend/src/components/railway/RailwayResultCard.tsx",
+          "operation": "modify",
+          "description": "Enhance the train result card design with premium styling, improved typography hierarchy, and polished micro-details. Ensure all required information (train name/number, departure/arrival times, duration, available classes with fares) is clearly displayed. Add a prominent 'Book Now' CTA button that links to the inquiry form or opens it in context. Remove box shadows and apply consistent styling with the overall premium design."
+        },
+        {
+          "path": "frontend/src/services/railwayApi.ts",
+          "operation": "modify",
+          "description": "Add clearly marked comment placeholders at the top of the file indicating where real RapidAPI or IRCTC API credentials and endpoint URLs should be inserted. Include comments explaining the expected credential format (API key, host, base URL) and integration steps. Ensure the mock data generation logic remains functional until real API integration. Add a comment block explaining that the current mock implementation should be replaced with actual RapidAPI/IRCTC API calls once credentials are available."
+        }
+      ]
+    },
+    {
+      "id": "REQ-47",
+      "summary": "Rebuild the Hotel & Hospitality Bookings page with a prominent live search UI featuring hotel result cards with property name, star rating, location, price per night, and booking CTA, using mock data with RapidAPI Hotels credential placeholders",
+      "acceptanceCriteria": [
+        "The Hotel Bookings page displays a search form with destination, check-in date, check-out date, number of guests, number of rooms, and room type preference fields.",
+        "After searching, hotel result cards are displayed showing property name, star rating, location, price per night, and a booking CTA.",
+        "A 'Book Now' or equivalent CTA is present on each result card.",
+        "An inquiry fallback form remains available and submits to the backend with category 'hotel_booking'.",
+        "Loading, empty, and error states are handled with appropriate UI feedback.",
+        "API credential placeholders are clearly marked with comments indicating where real RapidAPI Hotel credentials go.",
+        "The page is responsive on mobile and desktop."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/HotelBookingsPage.tsx",
+          "operation": "modify",
+          "description": "Rebuild the page to feature a prominent live search UI that generates and displays mock hotel results in a clean card list below the search form. Create a new search form component (inline or extracted) with fields for destination, check-in/check-out dates, number of guests, number of rooms, and room type preference. Display hotel result cards showing property name, star rating, location, and price per night with a 'Book Now' CTA. Ensure the inquiry fallback form remains available below the results section and submits with category 'hotel_booking'. Add loading, empty, and error states. Maintain responsive design and premium styling consistent with the flight and railway pages."
+        },
+        {
+          "path": "frontend/src/services/hotelApi.ts",
+          "operation": "create",
+          "description": "Create a new service file for hotel search functionality. Define TypeScript interfaces for hotel search parameters (destination, check-in/check-out dates, guests, rooms, room type) and hotel result types (property name, star rating, location, price per night, amenities). Implement a mock data generator function that returns sample hotel results based on search parameters. Add clearly marked comment placeholders at the top of the file indicating where real RapidAPI Hotels credentials and endpoint URLs should be inserted, including expected credential format (API key, host, base URL) and integration steps. Include a comment block explaining that the mock implementation should be replaced with actual RapidAPI Hotels API calls once credentials are available."
+        },
+        {
+          "path": "frontend/src/hooks/useHotelSearch.ts",
+          "operation": "create",
+          "description": "Create a custom React hook similar to useFlightSearch and useRailwaySearch that manages hotel search state and triggers a React Query fetch via the new hotel API service. Export search parameters state, results, loading/error states, and search/reset functions. Integrate with the mock hotel API service created in hotelApi.ts."
         }
       ]
     }

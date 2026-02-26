@@ -1,76 +1,89 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-26T20:00:03.167Z",
+  "generatedAt": "2026-02-26T20:09:42.465Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 4,
-    "implemented": 4,
+    "total": 6,
+    "implemented": 0,
     "items": [
       {
-        "id": "REQ-38",
-        "summary": "Update the Car Rentals page vehicle cards to display two pricing modes for each vehicle: per-km and per-day. Sedan: ₹13/km and ₹2,500/day (mark with a 'Most Popular' badge). SUV: ₹21/km and ₹5,000/day. Each vehicle card must clearly present both pricing options so the user can see and select the mode they prefer.",
-        "status": "implemented",
+        "id": "REQ-42",
+        "summary": "On the Car Rentals page, move the 'Most Popular' badge from the Sedan vehicle card to the SUV vehicle card. The Sedan card should no longer display any 'Most Popular' badge.",
+        "status": "missing",
         "plannedFiles": [
           "frontend/src/pages/CarRentalsPage.tsx"
         ],
-        "matchedFiles": [
-          "frontend/src/pages/CarRentalsPage.tsx"
-        ]
+        "matchedFiles": []
       },
       {
-        "id": "REQ-39",
-        "summary": "Update the Car Rentals booking form fare estimator to support both pricing modes. When 'per-km' mode is selected, capture estimated distance in km and calculate fare using Sedan ₹13/km or SUV ₹21/km. When 'per-day' mode is selected, capture number of days and calculate fare using Sedan ₹2,500/day or SUV ₹5,000/day. Display the estimated fare dynamically as the user inputs values. Store the selected pricing mode, distance/days, and estimated fare in the car rental inquiry submitted to the backend.",
-        "status": "implemented",
+        "id": "REQ-43",
+        "summary": "Add the business address 'Dhule, Maharashtra 424001' to the site footer alongside existing contact details, and to the Contact/Inquiry page's contact information section.",
+        "status": "missing",
         "plannedFiles": [
-          "frontend/src/pages/CarRentalsPage.tsx",
-          "frontend/src/hooks/useQueries.ts"
+          "frontend/src/components/layout/Footer.tsx",
+          "frontend/src/pages/ContactInquiryPage.tsx"
         ],
-        "matchedFiles": [
-          "frontend/src/pages/CarRentalsPage.tsx",
-          "frontend/src/hooks/useQueries.ts"
-        ]
+        "matchedFiles": []
       },
       {
-        "id": "REQ-40",
-        "summary": "Ensure the Car Rentals booking form includes the existing T&C checkbox acknowledgment that the user must check before submitting. The checkbox must link to the Terms & Conditions page and prominently display the notice: 'Without driver — if anything happens to the vehicle, the consumer is fully liable for all repair and associated costs.' The form must not be submittable unless the checkbox is checked.",
-        "status": "implemented",
+        "id": "REQ-44",
+        "summary": "Overhaul the homepage starting interface (hero section, search widget, service cards, and contact bar) with a more unique, premium, and user-friendly visual design. Apply richer visual hierarchy, updated hero treatment with improved typography and layout flow, polished micro-details, and ensure no box shadows are present. The redesign must remain consistent with the existing black/white/grey premium palette and the expanded beige/warm neutral tones already in the design system.",
+        "status": "missing",
         "plannedFiles": [
-          "frontend/src/pages/CarRentalsPage.tsx"
+          "frontend/src/pages/HomePage.tsx",
+          "frontend/src/components/home/HeroSearchWidget.tsx",
+          "frontend/src/components/home/HomeContactBar.tsx",
+          "frontend/src/index.css"
         ],
-        "matchedFiles": [
-          "frontend/src/pages/CarRentalsPage.tsx"
-        ]
+        "matchedFiles": []
       },
       {
-        "id": "REQ-41",
-        "summary": "Refresh the Car Rentals page UI to be more premium and user-friendly: improve card layout typography hierarchy, use clean borders and subtle background contrasts (no box shadows), ensure vehicle selection, pricing mode toggle, driver option, and booking form are laid out clearly and responsively on both mobile and desktop, consistent with the overall black/white/grey premium MakeMyTrip/Uber aesthetic.",
-        "status": "implemented",
+        "id": "REQ-45",
+        "summary": "Rebuild the Flight Ticket Bookings page (FlightBookingsPage.tsx) to feature a prominent live search UI with flight result cards showing airline name, departure/arrival times, duration, number of stops, cabin class, and fare. Use the existing mock flight API service (flightApi.ts) as the data source with clearly marked placeholders for real Amadeus API credentials. Users should be able to search flights and see results in a clean card list, then initiate a booking action (CTA that links to the inquiry form or an external booking URL placeholder). Handle loading, empty, and error states gracefully.",
+        "status": "missing",
         "plannedFiles": [
-          "frontend/src/pages/CarRentalsPage.tsx"
+          "frontend/src/pages/FlightBookingsPage.tsx",
+          "frontend/src/components/flights/FlightSearchForm.tsx",
+          "frontend/src/components/flights/FlightResultsList.tsx",
+          "frontend/src/components/flights/FlightResultCard.tsx",
+          "frontend/src/services/flightApi.ts"
         ],
-        "matchedFiles": [
-          "frontend/src/pages/CarRentalsPage.tsx"
-        ]
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-46",
+        "summary": "Rebuild the Railway Ticket Bookings page (RailwayBookingsPage.tsx) to feature a prominent live search UI with train result cards showing train name/number, departure/arrival times, duration, available classes with fares, and a booking action CTA. Use the existing mock railway API service (railwayApi.ts) as the data source with clearly marked placeholders for real RapidAPI/IRCTC credentials. Handle loading, empty, and error states gracefully.",
+        "status": "missing",
+        "plannedFiles": [
+          "frontend/src/pages/RailwayBookingsPage.tsx",
+          "frontend/src/components/railway/RailwaySearchForm.tsx",
+          "frontend/src/components/railway/RailwayResultsList.tsx",
+          "frontend/src/components/railway/RailwayResultCard.tsx",
+          "frontend/src/services/railwayApi.ts"
+        ],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-47",
+        "summary": "Rebuild the Hotel & Hospitality Bookings page (HotelBookingsPage.tsx) to feature a prominent live search UI with hotel result cards showing property name, star rating, location, price per night, and a booking/contact CTA. Use the existing mock hotel data generation logic as the data source with clearly marked placeholders for real RapidAPI Hotels credentials. The inquiry fallback form (submitting to backend with category 'hotel_booking') should remain available. Handle loading, empty, and error states gracefully.",
+        "status": "missing",
+        "plannedFiles": [
+          "frontend/src/pages/HotelBookingsPage.tsx",
+          "frontend/src/services/hotelApi.ts",
+          "frontend/src/hooks/useHotelSearch.ts"
+        ],
+        "matchedFiles": []
       }
     ]
   },
   "changedFiles": [
-    "backend/main.mo",
-    "backend/migration.mo",
     "build-request.json",
     "feature_evidence.json",
-    "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/backend.d.ts",
-    "frontend/src/backend.ts",
-    "frontend/src/declarations/backend.did.d.ts",
-    "frontend/src/declarations/backend.did.js",
-    "frontend/src/hooks/useQueries.ts",
-    "frontend/src/pages/CarRentalsPage.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

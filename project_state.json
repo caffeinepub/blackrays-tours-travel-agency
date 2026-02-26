@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 25,
+  "projectStateVersion": 27,
   "summary": "Create a premium travel and car rental platform for Blackrays Car Rentals & Tours and Travels, inspired by MakeMyTrip and Uber — combining luxury car rental booking (Uber-style) with full travel booking capabilities (MakeMyTrip-style). The platform should feature a consumer-friendly, error-free premium interface with direct flight and railway ticket booking via third-party APIs, alongside existing tour packages, custom travel packages, and car rentals.",
   "architectural_notes": [
     "Plan for handling ~10,000 visits/day (performance/scalability considerations for frontend and canister APIs).",
@@ -481,6 +481,72 @@
       "id": "AR-37",
       "summary": "Update Car Rentals page to show 2 pricing options (per-km and per-day) for both Sedan and SUV, with and without driver options. Sedan (₹13/km or ₹2500/day, Most Popular badge) and SUV (₹21/km or ₹5000/day). Refresh UI to be more premium and user-friendly. Apply T&C checkbox on booking form.",
       "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-38",
+      "summary": "Move 'Most Popular' badge from Sedan to SUV on the Car Rentals page.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-39",
+      "summary": "Add business address (Dhule, Maharashtra 424001) to the footer and contact sections across the site.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-40",
+      "summary": "Overhaul the homepage starting interface with a more unique, premium, and user-friendly look — richer visual hierarchy, updated hero treatment, improved layout flow, and polished micro-details.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-41",
+      "summary": "On the Car Rentals page, move the 'Most Popular' badge from the Sedan vehicle card to the SUV vehicle card. The Sedan card should no longer display any 'Most Popular' badge.",
+      "reqIds": [
+        "REQ-42"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-42",
+      "summary": "Add the business address 'Dhule, Maharashtra 424001' to the site footer alongside existing contact details, and to the Contact/Inquiry page's contact information section.",
+      "reqIds": [
+        "REQ-43"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-43",
+      "summary": "Overhaul the homepage starting interface (hero section, search widget, service cards, and contact bar) with a more unique, premium, and user-friendly visual design. Apply richer visual hierarchy, updated hero treatment with improved typography and layout flow, polished micro-details, and ensure no box shadows are present. The redesign must remain consistent with the existing black/white/grey premium palette and the expanded beige/warm neutral tones already in the design system.",
+      "reqIds": [
+        "REQ-44"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-44",
+      "summary": "Rebuild the Flight Ticket Bookings page (FlightBookingsPage.tsx) to feature a prominent live search UI with flight result cards showing airline name, departure/arrival times, duration, number of stops, cabin class, and fare. Use the existing mock flight API service (flightApi.ts) as the data source with clearly marked placeholders for real Amadeus API credentials. Users should be able to search flights and see results in a clean card list, then initiate a booking action (CTA that links to the inquiry form or an external booking URL placeholder). Handle loading, empty, and error states gracefully.",
+      "reqIds": [
+        "REQ-45"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-45",
+      "summary": "Rebuild the Railway Ticket Bookings page (RailwayBookingsPage.tsx) to feature a prominent live search UI with train result cards showing train name/number, departure/arrival times, duration, available classes with fares, and a booking action CTA. Use the existing mock railway API service (railwayApi.ts) as the data source with clearly marked placeholders for real RapidAPI/IRCTC credentials. Handle loading, empty, and error states gracefully.",
+      "reqIds": [
+        "REQ-46"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-46",
+      "summary": "Rebuild the Hotel & Hospitality Bookings page (HotelBookingsPage.tsx) to feature a prominent live search UI with hotel result cards showing property name, star rating, location, price per night, and a booking/contact CTA. Use the existing mock hotel data generation logic as the data source with clearly marked placeholders for real RapidAPI Hotels credentials. The inquiry fallback form (submitting to backend with category 'hotel_booking') should remain available. Handle loading, empty, and error states gracefully.",
+      "reqIds": [
+        "REQ-47"
+      ],
       "status": "pending"
     }
   ],
