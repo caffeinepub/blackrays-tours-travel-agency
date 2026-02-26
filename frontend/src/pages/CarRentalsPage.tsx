@@ -1,73 +1,46 @@
 import { useState } from 'react';
-import { Car, CheckCircle, Users, Fuel, Shield, AlertTriangle } from 'lucide-react';
-import { Link } from '@tanstack/react-router';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Car, Users, Fuel, CheckCircle, Loader2, Phone } from 'lucide-react';
 import { useSubmitCarRental } from '../hooks/useQueries';
-import { VehicleType } from '../backend';
-import { toast } from 'sonner';
+import { CarType } from '../backend';
 
 const SEDAN_RATE_PER_KM = 13;
 const SUV_RATE_PER_KM = 21;
 
 const vehicles = [
   {
-    type: 'Sedan' as const,
-    value: VehicleType.sedan,
-    priceDay: '₹2,500/day',
-    priceKm: '₹13/km',
-    ratePerKm: SEDAN_RATE_PER_KM,
-    description: 'Perfect for city travel and highway trips. Comfortable and fuel-efficient.',
-    features: ['4 Passengers', 'AC', 'GPS Navigation', 'Music System', 'Fuel Efficient'],
+    type: CarType.sedan,
+    label: 'Sedan',
+    icon: '🚗',
+    description: 'Comfortable and fuel-efficient for city and highway travel.',
+    capacity: '4 Passengers',
+    pricePerKm: SEDAN_RATE_PER_KM,
+    features: ['Air Conditioned', 'Professional Driver', 'GPS Navigation', 'Music System'],
   },
   {
-    type: 'SUV' as const,
-    value: VehicleType.suv,
-    priceDay: '₹5,000/day',
-    priceKm: '₹21/km',
-    ratePerKm: SUV_RATE_PER_KM,
-    description: 'Ideal for family trips and long-distance travel. Spacious and powerful.',
-    features: ['7 Passengers', 'AC', 'GPS Navigation', 'Music System', 'Luggage Space'],
+    type: CarType.suv,
+    label: 'SUV',
+    icon: '🚙',
+    description: 'Spacious and powerful for family trips and rough terrain.',
+    capacity: '7 Passengers',
+    pricePerKm: SUV_RATE_PER_KM,
+    features: ['Air Conditioned', 'Professional Driver', 'GPS Navigation', 'Extra Luggage Space', 'Music System'],
   },
 ];
 
 export default function CarRentalsPage() {
-  const [selectedVehicle, setSelectedVehicle] = useState<VehicleType>(VehicleType.sedan);
+  const [selectedVehicle, setSelectedVehicle] = useState<CarType>(CarType.sedan);
   const [driverRequired, setDriverRequired] = useState(true);
-  const [estimatedDistance, setEstimatedDistance] = useState('');
-  const [termsAccepted, setTermsAccepted] = useState(false);
-  const [form, setForm] = useState({
-    name: '',
-    phone: '',
-    email: '',
-  });
+  const [distance, setDistance] = useState('');
+  const [form, setForm] = useState({ name: '', phone: '', email: '' });
   const [submitted, setSubmitted] = useState(false);
 
   const submitCarRental = useSubmitCarRental();
 
-  const selectedVehicleInfo = vehicles.find((v) => v.value === selectedVehicle)!;
-  const distanceNum = parseFloat(estimatedDistance);
-  const estimatedFare =
-    estimatedDistance && !isNaN(distanceNum) && distanceNum > 0
-      ? Math.round(distanceNum * selectedVehicleInfo.ratePerKm)
-      : null;
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+  const selectedVehicleData = vehicles.find((v) => v.type === selectedVehicle)!;
+  const estimatedFare = distance ? Math.round(parseInt(distance) * selectedVehicleData.pricePerKm) : null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name || !form.phone || !form.email) {
-      toast.error('Please fill in all required fields.');
-      return;
-    }
-    if (!driverRequired && !termsAccepted) {
-      toast.error('Please accept the Terms & Conditions for self-drive rental.');
-      return;
-    }
     try {
       await submitCarRental.mutateAsync({
         name: form.name,
@@ -75,307 +48,252 @@ export default function CarRentalsPage() {
         email: form.email,
         vehicleType: selectedVehicle,
         driverRequired,
-        estimatedDistance: estimatedDistance && !isNaN(distanceNum) ? BigInt(Math.round(distanceNum)) : null,
-        estimatedFare: estimatedFare !== null ? BigInt(estimatedFare) : null,
+        estimatedDistance: distance ? BigInt(parseInt(distance)) : null,
       });
       setSubmitted(true);
-      toast.success('Booking request submitted! We will contact you shortly.');
-    } catch {
-      toast.error('Failed to submit booking. Please try again.');
+    } catch (err) {
+      console.error('Submission error:', err);
     }
   };
 
   return (
-    <div>
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--light-beige)' }}>
       {/* Hero */}
-      <section className="relative py-20 overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/assets/generated/hero-premium-travel.dim_1600x800.png')" }}
+      <section
+        className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
+        style={{ backgroundColor: 'var(--deep-charcoal)' }}
+      >
+        <div className="absolute inset-0 opacity-10"
+          style={{ backgroundImage: 'radial-gradient(circle at 70% 50%, var(--gold-accent) 0%, transparent 60%)' }}
         />
-        <div className="absolute inset-0 hero-overlay" />
-        <div className="relative z-10 text-center px-4">
-          <h1 className="font-display text-4xl sm:text-5xl font-bold text-white mb-4">Car Rentals</h1>
-          <p className="text-white/80 text-lg max-w-xl mx-auto">
-            Premium vehicles with flexible pricing — per day or per kilometre.
+        <div className="relative max-w-4xl mx-auto text-center">
+          <p className="text-sm font-semibold tracking-widest uppercase mb-4" style={{ color: 'var(--gold-accent)' }}>
+            Premium Fleet
           </p>
-        </div>
-      </section>
-
-      {/* Vehicle Selection */}
-      <section className="py-16 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <h2 className="font-display text-3xl font-bold text-foreground mb-3">Choose Your Vehicle</h2>
-            <p className="text-muted-foreground">Select the vehicle that best suits your journey.</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto mb-12">
-            {vehicles.map((vehicle) => (
-              <button
-                key={vehicle.type}
-                onClick={() => setSelectedVehicle(vehicle.value)}
-                className={`text-left border-2 rounded-sm p-6 transition-all ${
-                  selectedVehicle === vehicle.value
-                    ? 'border-foreground bg-foreground text-background shadow-premium-md'
-                    : 'border-border bg-card hover:border-foreground/40 hover:shadow-premium'
-                }`}
-              >
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <h3 className={`font-display text-xl font-bold ${selectedVehicle === vehicle.value ? 'text-background' : 'text-foreground'}`}>
-                      {vehicle.type}
-                    </h3>
-                    <p className={`text-sm mt-1 ${selectedVehicle === vehicle.value ? 'text-background/70' : 'text-muted-foreground'}`}>
-                      {vehicle.description}
-                    </p>
-                  </div>
-                  <div className="flex-shrink-0 ml-3 text-right space-y-1">
-                    <span className={`font-display text-sm font-bold px-2 py-1 rounded-sm block ${
-                      selectedVehicle === vehicle.value ? 'bg-background/20 text-background' : 'bg-secondary text-foreground'
-                    }`}>
-                      {vehicle.priceDay}
-                    </span>
-                    <span className={`font-display text-sm font-bold px-2 py-1 rounded-sm block ${
-                      selectedVehicle === vehicle.value ? 'bg-background/20 text-background' : 'bg-secondary text-foreground'
-                    }`}>
-                      {vehicle.priceKm}
-                    </span>
-                  </div>
-                </div>
-                <ul className="space-y-1.5">
-                  {vehicle.features.map((f) => (
-                    <li key={f} className={`flex items-center gap-2 text-sm ${selectedVehicle === vehicle.value ? 'text-background/80' : 'text-muted-foreground'}`}>
-                      <CheckCircle className="w-3.5 h-3.5 flex-shrink-0" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </button>
-            ))}
-          </div>
-
-          {/* Booking Form */}
-          <div className="max-w-2xl mx-auto">
-            <div className="border border-border rounded-sm p-8 bg-card">
-              {submitted ? (
-                <div className="text-center py-8">
-                  <CheckCircle className="w-16 h-16 text-foreground mx-auto mb-4" />
-                  <h3 className="font-display text-2xl font-bold text-foreground mb-2">Booking Request Sent!</h3>
-                  <p className="text-muted-foreground mb-6">
-                    Thank you for your booking request. Our team will contact you at{' '}
-                    <strong>{form.phone}</strong> shortly to confirm your reservation.
-                  </p>
-                  <Button
-                    onClick={() => {
-                      setSubmitted(false);
-                      setForm({ name: '', phone: '', email: '' });
-                      setEstimatedDistance('');
-                      setTermsAccepted(false);
-                    }}
-                    variant="outline"
-                  >
-                    Make Another Booking
-                  </Button>
-                </div>
-              ) : (
-                <>
-                  <h3 className="font-display text-xl font-bold text-foreground mb-6">
-                    Book Your {selectedVehicleInfo?.type}
-                  </h3>
-                  <form onSubmit={handleSubmit} className="space-y-5">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-1.5">
-                        <Label htmlFor="name">Full Name *</Label>
-                        <Input
-                          id="name"
-                          name="name"
-                          value={form.name}
-                          onChange={handleChange}
-                          placeholder="Your full name"
-                          required
-                        />
-                      </div>
-                      <div className="space-y-1.5">
-                        <Label htmlFor="phone">Phone Number *</Label>
-                        <Input
-                          id="phone"
-                          name="phone"
-                          type="tel"
-                          value={form.phone}
-                          onChange={handleChange}
-                          placeholder="Your phone number"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="space-y-1.5">
-                      <Label htmlFor="email">Email Address *</Label>
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        value={form.email}
-                        onChange={handleChange}
-                        placeholder="your@email.com"
-                        required
-                      />
-                    </div>
-
-                    {/* Estimated Distance */}
-                    <div className="space-y-1.5">
-                      <Label htmlFor="distance">Estimated Distance (km)</Label>
-                      <Input
-                        id="distance"
-                        type="number"
-                        min="0"
-                        step="1"
-                        value={estimatedDistance}
-                        onChange={(e) => setEstimatedDistance(e.target.value)}
-                        placeholder="e.g. 150"
-                      />
-                      {estimatedFare !== null && (
-                        <div className="flex items-center gap-2 mt-2 p-3 bg-foreground text-background rounded-sm">
-                          <Car className="w-4 h-4 flex-shrink-0" />
-                          <span className="text-sm font-semibold">
-                            Estimated Fare: ₹{estimatedFare.toLocaleString('en-IN')}
-                          </span>
-                          <span className="text-xs opacity-70 ml-auto">
-                            ({distanceNum} km × ₹{selectedVehicleInfo.ratePerKm}/km)
-                          </span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Driver Required */}
-                    <div className="space-y-2">
-                      <Label>Driver Required?</Label>
-                      <div className="flex gap-3">
-                        <button
-                          type="button"
-                          onClick={() => { setDriverRequired(true); setTermsAccepted(false); }}
-                          className={`flex-1 py-2.5 px-4 rounded-sm border text-sm font-medium transition-all ${
-                            driverRequired
-                              ? 'border-foreground bg-foreground text-background'
-                              : 'border-border bg-background text-muted-foreground hover:border-foreground/40'
-                          }`}
-                        >
-                          Yes, with Driver
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setDriverRequired(false)}
-                          className={`flex-1 py-2.5 px-4 rounded-sm border text-sm font-medium transition-all ${
-                            !driverRequired
-                              ? 'border-foreground bg-foreground text-background'
-                              : 'border-border bg-background text-muted-foreground hover:border-foreground/40'
-                          }`}
-                        >
-                          No, Self Drive
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Self-drive warning */}
-                    {!driverRequired && (
-                      <div className="flex items-start gap-3 p-3 bg-secondary/40 border border-border rounded-sm">
-                        <AlertTriangle className="w-4 h-4 text-foreground mt-0.5 flex-shrink-0" />
-                        <p className="text-xs text-muted-foreground leading-relaxed">
-                          <strong className="text-foreground">Self-Drive Notice:</strong> Without a driver, the renter is fully responsible for any damage, repair costs, or losses incurred to the vehicle during the rental period. Please read our{' '}
-                          <Link to="/terms" className="underline text-foreground hover:opacity-70">
-                            Terms & Conditions
-                          </Link>{' '}
-                          before proceeding.
-                        </p>
-                      </div>
-                    )}
-
-                    {/* Summary */}
-                    <div className="bg-secondary/30 rounded-sm p-4 border border-border">
-                      <h4 className="text-sm font-semibold text-foreground mb-2">Booking Summary</h4>
-                      <div className="space-y-1.5 text-sm text-muted-foreground">
-                        <div className="flex justify-between">
-                          <span>Vehicle</span>
-                          <span className="font-medium text-foreground">{selectedVehicleInfo?.type}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Daily Rate</span>
-                          <span className="font-medium text-foreground">{selectedVehicleInfo?.priceDay}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Per KM Rate</span>
-                          <span className="font-medium text-foreground">{selectedVehicleInfo?.priceKm}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Driver</span>
-                          <span className="font-medium text-foreground">{driverRequired ? 'Included' : 'Self Drive'}</span>
-                        </div>
-                        {estimatedFare !== null && (
-                          <div className="flex justify-between border-t border-border pt-1.5 mt-1.5">
-                            <span>Estimated Fare</span>
-                            <span className="font-bold text-foreground">₹{estimatedFare.toLocaleString('en-IN')}</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* T&C Checkbox for self-drive */}
-                    {!driverRequired && (
-                      <div className="flex items-start gap-3">
-                        <Checkbox
-                          id="terms"
-                          checked={termsAccepted}
-                          onCheckedChange={(checked) => setTermsAccepted(checked === true)}
-                          className="mt-0.5"
-                        />
-                        <label htmlFor="terms" className="text-sm text-muted-foreground leading-relaxed cursor-pointer">
-                          I have read and agree to the{' '}
-                          <Link to="/terms" className="underline text-foreground hover:opacity-70" target="_blank">
-                            Terms & Conditions
-                          </Link>
-                          , including the self-drive liability clause.
-                        </label>
-                      </div>
-                    )}
-
-                    <Button
-                      type="submit"
-                      className="w-full"
-                      disabled={submitCarRental.isPending || (!driverRequired && !termsAccepted)}
-                    >
-                      {submitCarRental.isPending ? 'Submitting...' : 'Submit Booking Request'}
-                    </Button>
-                    <p className="text-xs text-muted-foreground text-center">
-                      Our team will call you to confirm dates, pickup location, and finalize the booking.
-                    </p>
-                  </form>
-                </>
-              )}
+          <h1 className="font-display text-4xl sm:text-5xl font-bold text-white mb-4">
+            Car Rentals
+          </h1>
+          <p className="text-lg" style={{ color: 'rgba(250,247,242,0.75)' }}>
+            Premium vehicles with professional drivers for every journey.
+          </p>
+          <div className="flex items-center justify-center gap-6 mt-6">
+            <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: '#E8D5A3' }}>
+              <span>🚗</span> Sedan — ₹{SEDAN_RATE_PER_KM}/km
+            </div>
+            <div className="w-px h-5 bg-white/20" />
+            <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: '#E8D5A3' }}>
+              <span>🚙</span> SUV — ₹{SUV_RATE_PER_KM}/km
             </div>
           </div>
         </div>
       </section>
 
-      {/* Why Rent With Us */}
-      <section className="py-16 bg-secondary/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-display text-2xl font-bold text-foreground text-center mb-10">
-            Why Rent With Blackrays?
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
-            {[
-              { icon: Shield, title: 'Fully Insured', desc: 'All vehicles are comprehensively insured for your safety.' },
-              { icon: Users, title: 'Expert Drivers', desc: 'Professional, licensed drivers with local route knowledge.' },
-              { icon: Fuel, title: 'Well Maintained', desc: 'Regularly serviced vehicles for a smooth, reliable journey.' },
-            ].map((item) => (
-              <div key={item.title} className="text-center bg-card border border-border rounded-sm p-6">
-                <div className="w-12 h-12 bg-foreground rounded-sm flex items-center justify-center mx-auto mb-4">
-                  <item.icon className="w-6 h-6 text-background" />
-                </div>
-                <h3 className="font-display font-semibold text-foreground mb-2">{item.title}</h3>
-                <p className="text-sm text-muted-foreground">{item.desc}</p>
+      <section className="py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto">
+          {submitted ? (
+            <div
+              className="rounded-2xl p-12 text-center"
+              style={{ backgroundColor: 'white', border: '1px solid var(--border)' }}
+            >
+              <div
+                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+                style={{ backgroundColor: 'var(--warm-sand)' }}
+              >
+                <CheckCircle className="w-8 h-8" style={{ color: 'var(--charcoal)' }} />
               </div>
-            ))}
-          </div>
+              <h2 className="font-display text-2xl font-bold mb-2" style={{ color: 'var(--charcoal)' }}>
+                Booking Request Sent!
+              </h2>
+              <p className="text-sm mb-6" style={{ color: 'var(--warm-grey)' }}>
+                We'll confirm your {selectedVehicleData.label} rental within 2 hours.
+              </p>
+              <div className="flex items-center justify-center gap-2 text-sm mb-6" style={{ color: 'var(--warm-grey)' }}>
+                <Phone className="w-4 h-4" />
+                <span>Or call us directly: <a href="tel:9373624669" className="font-semibold hover:underline" style={{ color: 'var(--charcoal)' }}>+91 93736 24669</a></span>
+              </div>
+              <button
+                onClick={() => setSubmitted(false)}
+                className="px-6 py-3 rounded-xl font-semibold text-sm transition-all"
+                style={{ backgroundColor: 'var(--deep-charcoal)', color: 'white' }}
+              >
+                Make Another Booking
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+              {/* Vehicle Selection */}
+              <div className="lg:col-span-3 space-y-6">
+                <h2 className="font-display text-2xl font-bold" style={{ color: 'var(--charcoal)' }}>
+                  Choose Your Vehicle
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {vehicles.map((vehicle) => (
+                    <button
+                      key={vehicle.type}
+                      onClick={() => setSelectedVehicle(vehicle.type)}
+                      className="text-left rounded-2xl p-5 transition-all duration-200"
+                      style={{
+                        backgroundColor: selectedVehicle === vehicle.type ? 'var(--deep-charcoal)' : 'white',
+                        color: selectedVehicle === vehicle.type ? 'var(--light-beige)' : 'var(--charcoal)',
+                        border: selectedVehicle === vehicle.type ? '2px solid var(--deep-charcoal)' : '2px solid var(--border)',
+                        boxShadow: selectedVehicle === vehicle.type ? '0 8px 24px -8px rgba(31,41,55,0.30)' : 'none',
+                      }}
+                    >
+                      <div className="text-3xl mb-3">{vehicle.icon}</div>
+                      <div className="font-display text-lg font-bold mb-1">{vehicle.label}</div>
+                      <div className="text-sm opacity-75 mb-3">{vehicle.description}</div>
+                      <div className="flex items-center gap-3 text-xs font-medium">
+                        <span className="flex items-center gap-1">
+                          <Users className="w-3.5 h-3.5" />
+                          {vehicle.capacity}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Fuel className="w-3.5 h-3.5" />
+                          ₹{vehicle.pricePerKm}/km
+                        </span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Driver Option */}
+                <div
+                  className="rounded-2xl p-5"
+                  style={{ backgroundColor: 'white', border: '1px solid var(--border)' }}
+                >
+                  <h3 className="font-semibold text-sm mb-3" style={{ color: 'var(--charcoal)' }}>
+                    Driver Option
+                  </h3>
+                  <div className="flex gap-3">
+                    {[true, false].map((val) => (
+                      <button
+                        key={String(val)}
+                        onClick={() => setDriverRequired(val)}
+                        className="flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all"
+                        style={{
+                          backgroundColor: driverRequired === val ? 'var(--deep-charcoal)' : 'var(--light-beige)',
+                          color: driverRequired === val ? 'white' : 'var(--charcoal)',
+                          border: driverRequired === val ? '2px solid var(--deep-charcoal)' : '2px solid var(--border)',
+                        }}
+                      >
+                        {val ? 'With Driver' : 'Self Drive'}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Features */}
+                <div
+                  className="rounded-2xl p-5"
+                  style={{ backgroundColor: 'var(--warm-sand)', border: '1px solid var(--border)' }}
+                >
+                  <h3 className="font-semibold text-sm mb-3" style={{ color: 'var(--charcoal)' }}>
+                    Included Features
+                  </h3>
+                  <div className="grid grid-cols-2 gap-2">
+                    {selectedVehicleData.features.map((feature) => (
+                      <div key={feature} className="flex items-center gap-2 text-sm" style={{ color: 'var(--charcoal)' }}>
+                        <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: 'var(--gold-accent)' }} />
+                        {feature}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Booking Form */}
+              <div className="lg:col-span-2">
+                <div
+                  className="rounded-2xl p-6 sticky top-24"
+                  style={{ backgroundColor: 'white', border: '1px solid var(--border)', boxShadow: '0 4px 20px -4px rgba(31,41,55,0.08)' }}
+                >
+                  <h3 className="font-display text-lg font-bold mb-1" style={{ color: 'var(--charcoal)' }}>
+                    Book {selectedVehicleData.label}
+                  </h3>
+                  <p className="text-xs mb-5" style={{ color: 'var(--warm-grey)' }}>
+                    ₹{selectedVehicleData.pricePerKm}/km · {selectedVehicleData.capacity}
+                  </p>
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    {[
+                      { label: 'Full Name', key: 'name', type: 'text', placeholder: 'Your name' },
+                      { label: 'Phone Number', key: 'phone', type: 'tel', placeholder: '+91 XXXXX XXXXX' },
+                      { label: 'Email', key: 'email', type: 'email', placeholder: 'your@email.com' },
+                    ].map((field) => (
+                      <div key={field.key}>
+                        <label className="block text-xs font-semibold uppercase tracking-wide mb-1.5" style={{ color: 'var(--warm-grey)' }}>
+                          {field.label} *
+                        </label>
+                        <input
+                          type={field.type}
+                          required
+                          value={form[field.key as keyof typeof form]}
+                          onChange={(e) => setForm({ ...form, [field.key]: e.target.value })}
+                          placeholder={field.placeholder}
+                          className="w-full px-3 py-2.5 rounded-xl text-sm outline-none transition-all"
+                          style={{ border: '1.5px solid var(--border)', backgroundColor: 'var(--light-beige)', color: 'var(--charcoal)' }}
+                          onFocus={(e) => { e.target.style.borderColor = 'var(--charcoal)'; }}
+                          onBlur={(e) => { e.target.style.borderColor = 'var(--border)'; }}
+                        />
+                      </div>
+                    ))}
+
+                    <div>
+                      <label className="block text-xs font-semibold uppercase tracking-wide mb-1.5" style={{ color: 'var(--warm-grey)' }}>
+                        Estimated Distance (km)
+                      </label>
+                      <input
+                        type="number"
+                        min="1"
+                        value={distance}
+                        onChange={(e) => setDistance(e.target.value)}
+                        placeholder="Optional"
+                        className="w-full px-3 py-2.5 rounded-xl text-sm outline-none transition-all"
+                        style={{ border: '1.5px solid var(--border)', backgroundColor: 'var(--light-beige)', color: 'var(--charcoal)' }}
+                        onFocus={(e) => { e.target.style.borderColor = 'var(--charcoal)'; }}
+                        onBlur={(e) => { e.target.style.borderColor = 'var(--border)'; }}
+                      />
+                    </div>
+
+                    {estimatedFare && (
+                      <div
+                        className="rounded-xl p-3 text-center"
+                        style={{ backgroundColor: 'var(--warm-sand)' }}
+                      >
+                        <div className="text-xs font-semibold uppercase tracking-wide mb-0.5" style={{ color: 'var(--warm-grey)' }}>
+                          Estimated Fare
+                        </div>
+                        <div className="font-display text-xl font-bold" style={{ color: 'var(--charcoal)' }}>
+                          ₹{estimatedFare.toLocaleString('en-IN')}
+                        </div>
+                        <div className="text-xs mt-0.5" style={{ color: 'var(--warm-grey)' }}>
+                          {distance} km × ₹{selectedVehicleData.pricePerKm}/km
+                        </div>
+                      </div>
+                    )}
+
+                    <button
+                      type="submit"
+                      disabled={submitCarRental.isPending}
+                      className="w-full py-3 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-all disabled:opacity-60"
+                      style={{ backgroundColor: 'var(--deep-charcoal)', color: 'white' }}
+                    >
+                      {submitCarRental.isPending ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Submitting...
+                        </>
+                      ) : (
+                        <>
+                          <Car className="w-4 h-4" />
+                          Request Booking
+                        </>
+                      )}
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
     </div>

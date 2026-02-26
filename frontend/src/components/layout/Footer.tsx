@@ -1,125 +1,135 @@
 import { Link } from '@tanstack/react-router';
-import { Phone, Mail, MapPin, Heart } from 'lucide-react';
+import { Phone, Mail, MapPin, Plane, Heart } from 'lucide-react';
 
 export default function Footer() {
   const year = new Date().getFullYear();
-  const appId = typeof window !== 'undefined' ? window.location.hostname : 'blackrays-tours-travels';
+  const appId = encodeURIComponent(typeof window !== 'undefined' ? window.location.hostname : 'blackrays-travel');
 
   return (
-    <footer className="bg-foreground text-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-          {/* Brand */}
-          <div className="md:col-span-1">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-9 h-9 rounded-sm overflow-hidden flex-shrink-0 bg-background/10">
-                <img
-                  src="/assets/generated/blackrays-logo.dim_512x512.png"
-                  alt="Blackrays Logo"
-                  className="w-full h-full object-cover"
-                />
+    <footer style={{ backgroundColor: 'var(--deep-charcoal)', color: 'var(--light-beige)' }}>
+      {/* Main footer content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+          {/* Brand column */}
+          <div className="lg:col-span-1">
+            <div className="flex items-center gap-2.5 mb-4">
+              <div
+                className="w-9 h-9 rounded-lg flex items-center justify-center"
+                style={{ backgroundColor: 'var(--gold-accent)' }}
+              >
+                <Plane className="w-5 h-5 text-white" />
               </div>
               <div>
-                <p className="font-display font-bold text-sm leading-tight">Blackrays</p>
-                <p className="text-xs opacity-70 leading-tight">Car Rentals & Tours and Travels</p>
+                <div className="font-display text-base font-bold text-white">Blackrays</div>
+                <div className="text-xs" style={{ color: 'rgba(250,247,242,0.55)' }}>Car Rentals & Tours</div>
               </div>
             </div>
-            <p className="text-sm opacity-70 leading-relaxed">
-              Premium travel experiences and reliable car rental services across India. Your journey, our commitment.
+            <p className="text-sm leading-relaxed mb-6" style={{ color: 'rgba(250,247,242,0.65)' }}>
+              Your trusted travel partner for premium car rentals, curated tour packages, flight and railway bookings across India.
             </p>
+            <div className="space-y-2.5">
+              <a
+                href="tel:9373624669"
+                className="flex items-center gap-2.5 text-sm transition-colors hover:text-white"
+                style={{ color: 'rgba(250,247,242,0.70)' }}
+              >
+                <Phone className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--gold-accent)' }} />
+                +91 93736 24669
+              </a>
+              <a
+                href="mailto:blackraystravelagency@gmail.com"
+                className="flex items-center gap-2.5 text-sm transition-colors hover:text-white"
+                style={{ color: 'rgba(250,247,242,0.70)' }}
+              >
+                <Mail className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--gold-accent)' }} />
+                blackraystravelagency@gmail.com
+              </a>
+              <div className="flex items-start gap-2.5 text-sm" style={{ color: 'rgba(250,247,242,0.70)' }}>
+                <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: 'var(--gold-accent)' }} />
+                <span>Nagpur, Maharashtra, India</span>
+              </div>
+            </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Services */}
           <div>
-            <h3 className="font-display font-semibold text-sm uppercase tracking-wider mb-4 opacity-90">
-              Quick Links
-            </h3>
-            <ul className="space-y-2">
+            <h4 className="font-display text-sm font-bold tracking-widest uppercase mb-5 text-white">Services</h4>
+            <ul className="space-y-3">
               {[
-                { label: 'Home', to: '/' },
-                { label: 'About Us', to: '/about' },
                 { label: 'Tour Packages', to: '/packages' },
                 { label: 'Car Rentals', to: '/car-rentals' },
-                { label: 'Contact Us', to: '/contact' },
-              ].map((link) => (
-                <li key={link.to}>
-                  <Link
-                    to={link.to}
-                    className="text-sm opacity-70 hover:opacity-100 transition-opacity"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Bookings */}
-          <div>
-            <h3 className="font-display font-semibold text-sm uppercase tracking-wider mb-4 opacity-90">
-              Bookings
-            </h3>
-            <ul className="space-y-2">
-              {[
+                { label: 'Flight Bookings', to: '/flights' },
+                { label: 'Railway Bookings', to: '/railway' },
                 { label: 'Custom Packages', to: '/custom-packages' },
-                { label: 'Railway Bookings', to: '/railway-bookings' },
-                { label: 'Flight Bookings', to: '/flight-bookings' },
-                { label: 'Terms & Conditions', to: '/terms' },
-              ].map((link) => (
-                <li key={link.to}>
+              ].map((item) => (
+                <li key={item.to}>
                   <Link
-                    to={link.to}
-                    className="text-sm opacity-70 hover:opacity-100 transition-opacity"
+                    to={item.to}
+                    className="text-sm transition-colors hover:text-white"
+                    style={{ color: 'rgba(250,247,242,0.65)' }}
                   >
-                    {link.label}
+                    {item.label}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Company */}
           <div>
-            <h3 className="font-display font-semibold text-sm uppercase tracking-wider mb-4 opacity-90">
-              Contact Us
-            </h3>
+            <h4 className="font-display text-sm font-bold tracking-widest uppercase mb-5 text-white">Company</h4>
             <ul className="space-y-3">
-              <li className="flex items-start gap-2.5">
-                <Phone className="w-4 h-4 mt-0.5 flex-shrink-0 opacity-70" />
-                <div>
-                  <p className="text-sm font-medium">9373624669</p>
-                  <p className="text-xs opacity-60">Call or WhatsApp</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <Mail className="w-4 h-4 mt-0.5 flex-shrink-0 opacity-70" />
-                <div>
-                  <p className="text-sm font-medium break-all">blackraystravelagency@gmail.com</p>
-                  <p className="text-xs opacity-60">Email us anytime</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0 opacity-70" />
-                <div>
-                  <p className="text-sm font-medium">MD & Chairman: Om H Patil</p>
-                  <p className="text-xs opacity-60">Blackrays Car Rentals & Tours and Travels</p>
-                </div>
-              </li>
+              {[
+                { label: 'About Us', to: '/about' },
+                { label: 'Contact Us', to: '/contact' },
+                { label: 'Terms & Conditions', to: '/terms' },
+              ].map((item) => (
+                <li key={item.to}>
+                  <Link
+                    to={item.to}
+                    className="text-sm transition-colors hover:text-white"
+                    style={{ color: 'rgba(250,247,242,0.65)' }}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
+          </div>
+
+          {/* MD & Chairman */}
+          <div>
+            <h4 className="font-display text-sm font-bold tracking-widest uppercase mb-5 text-white">Leadership</h4>
+            <div
+              className="rounded-xl p-4"
+              style={{ backgroundColor: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}
+            >
+              <div className="text-xs font-semibold tracking-wide uppercase mb-1" style={{ color: 'var(--gold-accent)' }}>
+                MD & Chairman
+              </div>
+              <div className="font-display text-base font-bold text-white mb-1">Om H Patil</div>
+              <p className="text-xs leading-relaxed" style={{ color: 'rgba(250,247,242,0.55)' }}>
+                Committed to delivering world-class travel experiences across India.
+              </p>
+            </div>
           </div>
         </div>
+      </div>
 
-        <div className="mt-10 pt-6 border-t border-background/20 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs opacity-50">
+      {/* Bottom bar */}
+      <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-xs" style={{ color: 'rgba(250,247,242,0.45)' }}>
             © {year} Blackrays Car Rentals & Tours and Travels. All rights reserved.
           </p>
-          <p className="text-xs opacity-50 flex items-center gap-1">
-            Built with <Heart className="w-3 h-3 fill-current text-red-400" /> using{' '}
+          <p className="text-xs flex items-center gap-1" style={{ color: 'rgba(250,247,242,0.45)' }}>
+            Built with <Heart className="w-3 h-3 fill-current" style={{ color: 'var(--gold-accent)' }} /> using{' '}
             <a
-              href={`https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(appId)}`}
+              href={`https://caffeine.ai/?utm_source=Caffeine-footer&utm_medium=referral&utm_content=${appId}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="underline hover:opacity-80 transition-opacity"
+              className="hover:text-white transition-colors"
+              style={{ color: 'rgba(250,247,242,0.55)' }}
             >
               caffeine.ai
             </a>

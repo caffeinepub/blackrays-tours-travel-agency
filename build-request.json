@@ -1,205 +1,126 @@
 {
   "kind": "build_request",
-  "title": "Add customized travel packages, per-km car rental pricing, T&C, railway/flight booking sections, replace hero image",
+  "title": "Update car rental per-km pricing and add Hotel & Hospitality Booking section",
   "projectName": "Blackrays Car Rentals & Tours",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-17",
-      "text": "Add a 'Custom Travel Packages' public page and section. The page must allow users to submit a personalized travel package inquiry by specifying: destination type (India / Abroad), specific location/destination (free text), number of travelers, trip duration (number of days/nights), and preferred travel dates (optional). On submission, store the request as an inquiry in the backend with category 'custom_package'. The page must be accessible from the main navigation and from the homepage.",
+      "id": "REQ-33",
+      "text": "Update the Car Rentals page and all references to display the correct per-km pricing: Sedan at ₹13/km and SUV at ₹21/km. Update the fare estimator calculation logic to use these rates. Ensure the estimated fare displayed to the user and stored in the car rental inquiry submitted to the backend reflects these correct rates.",
       "target": "both",
       "source": {
         "messageIds": [
-          "msg-user-1"
+          "msg-1"
         ],
         "quotes": [
-          "Add some Travelling packages which will be personally costumized according to the travel location india & abroad and depending on the number of traveller's and duration of their stay"
+          "For sedan it's 13 rupees km and for suv it's 21 rupees km"
         ]
       },
       "acceptanceCriteria": [
-        "A new 'Custom Packages' or 'Plan My Trip' page exists and is linked in the header navigation.",
-        "The form collects: destination type (India/Abroad toggle or dropdown), destination name, number of travelers, duration in days, traveler name, phone number, and email.",
-        "On valid submission the form data is stored as an inquiry with category 'custom_package' and a success toast is shown.",
-        "The admin inquiries page displays custom package inquiries with all submitted fields visible.",
-        "The homepage has a prominent CTA or section directing users to this custom package planner."
+        "Car Rentals page displays 'Sedan ₹13/km' and 'SUV ₹21/km' prominently.",
+        "Entering an estimated distance in km calculates and displays the fare using ₹13/km for Sedan and ₹21/km for SUV.",
+        "The calculated estimated fare stored in the backend inquiry reflects the correct per-km rates.",
+        "HomePage pricing section (if present) is updated to show ₹13/km for Sedan and ₹21/km for SUV."
       ]
     },
     {
-      "id": "REQ-18",
-      "text": "Extend the backend inquiry model to support a 'custom_package' inquiry category. Add fields for: destinationType (text: 'India' or 'Abroad'), destination (text), numberOfTravelers (Nat), durationDays (Nat), and preferredDates (optional text). Ensure the existing submitInquiry or equivalent API accepts these fields and the admin listing displays them.",
+      "id": "REQ-34",
+      "text": "Add a new public Hotel & Hospitality Bookings page accessible from the main navigation and from the homepage. The page should describe Blackrays' hotel booking assistance service covering properties across India and internationally. Include a hotel search/inquiry form capturing: destination city/location, check-in date, check-out date, number of guests, number of rooms, and room type preference (Standard / Deluxe / Suite). Integrate a real-time hotel search API (e.g., RapidAPI Hotels or a compatible aggregator) to display live hotel results with property name, star rating, location, price per night, and a booking/contact CTA. Handle loading, empty, and error states gracefully. On form submission (for inquiry fallback), store the request as an inquiry in the backend with category 'hotel_booking'.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "add hotel and hospitality booking section as well with real time booking api of all hotel partners in India and internationally"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A '/hotels' route exists and renders the Hotel & Hospitality Bookings page.",
+        "The page is linked from the main navigation header (Bookings dropdown or top-level link) and from the homepage service cards section.",
+        "The search form captures: destination, check-in date, check-out date, number of guests, number of rooms, and room type preference.",
+        "Live hotel search results are displayed in a clean card list showing property name, star rating, location, price per night, and a booking CTA.",
+        "Loading, empty, and error states are handled with appropriate UI feedback.",
+        "Submitting an inquiry (fallback) stores a backend record with category 'hotel_booking' and all relevant form fields.",
+        "The admin inquiries page displays hotel_booking inquiries with their relevant fields.",
+        "The page is visually consistent with the premium black/white/grey palette."
+      ]
+    },
+    {
+      "id": "REQ-35",
+      "text": "Extend the backend inquiry data model to support a 'hotel_booking' category. Add optional fields: hotelDestination (Text), checkInDate (Text), checkOutDate (Text), numberOfGuests (Nat), numberOfRooms (Nat), and roomTypePreference (Text). Ensure existing inquiry categories and fields remain unaffected. Update the admin inquiries listing to display these fields when the category is 'hotel_booking'.",
       "target": "backend",
       "source": {
         "messageIds": [
-          "msg-user-1"
+          "msg-1"
         ],
         "quotes": [
-          "personally costumized according to the travel location india & abroad and depending on the number of traveller's and duration of their stay"
+          "add hotel and hospitality booking section as well with real time booking api of all hotel partners in India and internationally"
         ]
       },
       "acceptanceCriteria": [
-        "The Motoko inquiry type includes optional fields for destinationType, destination, numberOfTravelers, durationDays, preferredDates.",
-        "The backend accepts and persists these fields when category is 'custom_package'.",
-        "Existing tour inquiry and car rental inquiry categories are unaffected."
+        "The Motoko inquiry type includes optional hotel_booking fields: hotelDestination, checkInDate, checkOutDate, numberOfGuests, numberOfRooms, roomTypePreference.",
+        "A new 'hotel_booking' variant exists in the inquiry category type.",
+        "submitInquiry (or equivalent API) accepts hotel_booking category with the new fields.",
+        "All existing inquiry categories (tour_inquiry, car_rental, custom_package, railway_booking, flight_booking) continue to work without regression.",
+        "Admin inquiries page shows hotel-specific fields for hotel_booking inquiries."
       ]
     },
     {
-      "id": "REQ-19",
-      "text": "Update the Car Rentals page to add a per-km pricing mode alongside (or replacing) the existing daily rate. Display clearly: Sedan at ₹13/km and SUV at ₹21/km. The booking form must capture estimated distance (in km) and calculate/display an estimated fare. Store the distance and estimated fare in the car rental inquiry submitted to the backend.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-user-1"
-        ],
-        "quotes": [
-          "add a package for car rental which is 13 rupees per km for sedan & 21 rs per km for suv according to the distance"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Car Rentals page shows Sedan ₹13/km and SUV ₹21/km pricing prominently.",
-        "A distance input field is present on the booking form.",
-        "An estimated fare is calculated and displayed in real time (distance × rate).",
-        "Submitted inquiry includes the selected vehicle type, entered distance, and calculated estimated fare.",
-        "Admin inquiries list displays distance and estimated fare for car rental bookings."
-      ]
-    },
-    {
-      "id": "REQ-20",
-      "text": "Replace the hot air balloon hero image on the website with a new premium travel/luxury car rental themed image. The replacement image must feel high-end, cinematic, and consistent with the black/white/grey premium palette. Update all references to the old image asset with the new one.",
+      "id": "REQ-36",
+      "text": "Update the homepage service cards/section to include a Hotel & Hospitality Bookings card with a brief description (e.g., 'Find and book premium hotels across India and internationally') and a CTA button linking to the '/hotels' page. Ensure the layout remains visually consistent with the existing premium black/white/grey aesthetic.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-1"
+          "msg-1"
         ],
         "quotes": [
-          "remove that hot air balloon picture from the interface of website and replace it with something premium"
+          "add hotel and hospitality booking section as well with real time booking api of all hotel partners in India and internationally"
         ]
       },
       "acceptanceCriteria": [
-        "The hot air balloon image no longer appears anywhere on the site.",
-        "A new premium hero/banner image is used in its place (luxury car on a scenic road or skyline, dark/cinematic tone).",
-        "The new image is a static asset in frontend/public/assets/generated.",
-        "The visual theme remains consistent with the black/white/grey premium palette."
+        "The homepage service section includes a Hotel & Hospitality card alongside existing service cards.",
+        "The card shows a relevant icon, brief description, and a CTA button linking to '/hotels'.",
+        "The homepage layout remains consistent and responsive on mobile and desktop."
       ]
     },
     {
-      "id": "REQ-21",
-      "text": "Add a Terms & Conditions page and a visible T&C notice on the Car Rentals booking page. The T&C must prominently state: 'Without driver — if anything happens to the vehicle, the consumer is fully liable for all repair and associated costs.' Include additional standard rental terms as appropriate. Link to the T&C page from the footer and from the car rental booking form (checkbox acknowledgment before submission).",
+      "id": "REQ-37",
+      "text": "Add a 'Hotels' tab to the homepage hero search widget (HeroSearchWidget) alongside the existing Flights, Trains, Car Rentals, and Tour Packages tabs. The Hotels tab should show quick-search inputs for destination city, check-in date, and check-out date. Submitting the form should navigate to the '/hotels' page with pre-filled search parameters where applicable.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-1"
+          "msg-1"
         ],
         "quotes": [
-          "add t&c which is without driver if anything happens to the vehicle then consumer will have to pay for the repair and all"
+          "add hotel and hospitality booking section as well with real time booking api of all hotel partners in India and internationally"
         ]
       },
       "acceptanceCriteria": [
-        "A dedicated Terms & Conditions page exists at route /terms.",
-        "The page includes the clause: 'Self-drive (without driver): The renter is fully responsible for any damage, repair costs, or losses incurred to the vehicle during the rental period.'",
-        "The Car Rentals booking form includes a checkbox: 'I have read and agree to the Terms & Conditions' that must be checked before submission.",
-        "The T&C page is linked in the site footer.",
-        "The T&C checkbox links to the /terms page."
-      ]
-    },
-    {
-      "id": "REQ-22",
-      "text": "Add a Railway Ticket Bookings section/page to the website. The page should explain the railway ticket booking assistance service offered by Blackrays, allow users to submit a ticket booking inquiry (origin, destination, travel date, number of passengers, class preference, contact details), and store it as an inquiry in the backend with category 'railway_booking'. Link the page from main navigation and homepage.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-user-1"
-        ],
-        "quotes": [
-          "add railway ticket bookings + flight ticket bookings section as well"
-        ]
-      },
-      "acceptanceCriteria": [
-        "A 'Railway Bookings' page exists at route /railway-bookings.",
-        "The page has a service description and a booking inquiry form.",
-        "Form collects: origin station, destination station, travel date, number of passengers, class (Sleeper/3AC/2AC/1AC/General), passenger name, phone, email.",
-        "On submission, inquiry is stored in the backend with category 'railway_booking'.",
-        "Admin inquiries list shows railway booking inquiries with all fields.",
-        "Page is linked in the header navigation under a 'Services' or 'Bookings' group."
-      ]
-    },
-    {
-      "id": "REQ-23",
-      "text": "Add a Flight Ticket Bookings section/page to the website. The page should describe Blackrays' flight booking assistance service, allow users to submit a flight booking inquiry (origin city/airport, destination city/airport, travel date, number of passengers, trip type one-way/round-trip, contact details), and store it as an inquiry in the backend with category 'flight_booking'. Link the page from main navigation and homepage.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-user-1"
-        ],
-        "quotes": [
-          "add railway ticket bookings + flight ticket bookings section as well"
-        ]
-      },
-      "acceptanceCriteria": [
-        "A 'Flight Bookings' page exists at route /flight-bookings.",
-        "The page has a service description and a booking inquiry form.",
-        "Form collects: origin city/airport, destination city/airport, departure date, return date (if round-trip), trip type (one-way/round-trip), number of passengers, cabin class (Economy/Business/First), passenger name, phone, email.",
-        "On submission, inquiry is stored in the backend with category 'flight_booking'.",
-        "Admin inquiries list shows flight booking inquiries with all fields.",
-        "Page is linked in the header navigation."
-      ]
-    },
-    {
-      "id": "REQ-24",
-      "text": "Extend the backend inquiry model to support 'railway_booking' and 'flight_booking' categories with their respective optional fields. For railway: originStation, destinationStation, travelDate, passengerCount, railClass. For flight: originCity, destinationCity, departureDate, returnDate, tripType, passengerCount, cabinClass. All existing categories must remain unaffected.",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-user-1"
-        ],
-        "quotes": [
-          "add railway ticket bookings + flight ticket bookings section as well"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Motoko inquiry type includes optional variant fields or a flexible text map for railway and flight booking data.",
-        "Backend accepts and persists railway_booking and flight_booking inquiries without breaking existing inquiry categories.",
-        "getInquiries returns all inquiry types including the new ones."
-      ]
-    },
-    {
-      "id": "REQ-25",
-      "text": "Update the homepage to include prominent cards or sections for all service offerings: Custom Travel Packages, Car Rentals (per-km), Railway Ticket Bookings, and Flight Ticket Bookings — each with a brief description and CTA button linking to the respective page. Ensure the overall homepage layout remains premium and consistent with the black/white/grey Uber-like aesthetic.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-user-1"
-        ],
-        "quotes": [
-          "make sure the site looks premium",
-          "add railway ticket bookings + flight ticket bookings section as well",
-          "Add some Travelling packages"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Homepage has a 'Our Services' or equivalent section listing all four services with icons/images, descriptions, and CTA links.",
-        "All CTAs correctly route to /custom-packages, /car-rentals, /railway-bookings, /flight-bookings.",
-        "The section uses the premium dark/grey palette with white typography.",
-        "No orange/amber or hot air balloon imagery remains on the homepage."
+        "The hero search widget includes a 'Hotels' tab.",
+        "The Hotels tab shows inputs for destination, check-in date, and check-out date.",
+        "Submitting navigates to '/hotels' and pre-fills search parameters in the Hotel page's search form.",
+        "The widget remains visually consistent and responsive."
       ]
     }
   ],
   "constraints": [
-    "All new inquiry categories (custom_package, railway_booking, flight_booking) must reuse/extend the existing Motoko inquiry model in backend/main.mo — do not create a separate actor.",
-    "Do not edit files under frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or frontend/src/components/ui.",
-    "All new images must be static assets placed in frontend/public/assets/generated — do not serve images through the backend.",
-    "Maintain the existing deployment slug 'blackrays-car-rentals-tours' in frontend/src/config/deployment.ts.",
-    "Keep the premium black/white/grey Uber-like theme — do not introduce blue, purple, orange, or amber as primary accents."
+    "Do not alter immutable frontend paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui.",
+    "All Motoko logic must remain in the single backend/main.mo actor.",
+    "Do not change any existing inquiry categories or their fields.",
+    "Real-time hotel API integration should degrade gracefully to inquiry fallback if API credentials are unavailable.",
+    "Deployment slug must remain 'blackrays-car-rentals-tours' as currently configured."
   ],
   "nonGoals": [
-    "Actual third-party railway or flight ticket booking/payment integration (IRCTC, airline APIs) — this is an inquiry/lead capture only.",
-    "Real-time fare calculation using external APIs.",
-    "Email or SMS notifications to customers or admin (platform does not support outbound messaging).",
-    "Changing the existing daily car rental rates (₹2500/day sedan, ₹5000/day SUV) — per-km pricing is additive.",
-    "Adding a Rust/JS backend or any external database."
+    "Adding outbound email or SMS notifications.",
+    "Building a hotel property management or CMS system.",
+    "Implementing user-facing hotel loyalty programs or payment processing.",
+    "Changing the existing flight or railway booking pages.",
+    "Modifying the existing daily rate (₹2500/day Sedan, ₹5000/day SUV) if it is still displayed elsewhere for reference."
   ],
   "imageRequirements": {
     "required": [
-      "Premium cinematic hero banner showing a luxury black sedan or SUV on an open highway at dusk with a dramatic dark sky, high contrast black and white tones with subtle warm road lighting (hero-premium-travel.dim_1600x800.png)"
+      "Premium hotel lobby or luxury hotel exterior at night with warm accent lighting, dark moody atmosphere, elegant and high-end feel consistent with black/white/grey premium palette (hotel-hero-premium.dim_1200x600.png)"
     ],
     "edits": []
   }

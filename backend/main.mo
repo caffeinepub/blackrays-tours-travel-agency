@@ -6,24 +6,20 @@ import Runtime "mo:core/Runtime";
 import MixinAuthorization "authorization/MixinAuthorization";
 import AccessControl "authorization/access-control";
 import Migration "migration";
+import MixinStorage "blob-storage/Mixin";
 
 (with migration = Migration.run)
 actor {
   // Initialize the access control system
   let accessControlState = AccessControl.initState();
   include MixinAuthorization(accessControlState);
+  include MixinStorage();
 
   let packages = Map.empty<Text, TourPackage>();
   let inquiries = Map.empty<Nat, CustomerInquiry>();
   var nextInquiryId : Nat = 0;
 
-  public type Status = {
-    #new;
-    #inProgress;
-    #resolved;
-  };
-
-  public type TourPackage = {
+  type TourPackage = {
     id : Text;
     title : Text;
     description : Text;
@@ -31,27 +27,34 @@ actor {
     duration : Nat; // Duration in days
   };
 
-  public type VehicleType = {
+  type VehicleType = {
     #suv;
     #sedan;
   };
 
-  public type InquiryCategory = {
+  type InquiryCategory = {
     #tourInquiry;
     #carRental;
     #customPackage;
     #railwayBooking;
     #flightBooking;
+    #hotelBooking;
   };
 
-  public type CarRentalDetails = {
+  type Status = {
+    #new;
+    #inProgress;
+    #resolved;
+  };
+
+  type CarRentalDetails = {
     vehicleType : VehicleType;
     driverRequired : Bool;
     estimatedDistance : ?Nat;
     estimatedFare : ?Nat;
   };
 
-  public type CustomPackageDetails = {
+  type CustomPackageDetails = {
     destinationType : Text;
     destination : Text;
     numberOfTravelers : Nat;
@@ -59,7 +62,7 @@ actor {
     preferredDates : ?Text;
   };
 
-  public type RailwayBookingDetails = {
+  type RailwayBookingDetails = {
     originStation : Text;
     destinationStation : Text;
     travelDate : Text;
@@ -67,7 +70,7 @@ actor {
     railClass : Text;
   };
 
-  public type FlightBookingDetails = {
+  type FlightBookingDetails = {
     originCity : Text;
     destinationCity : Text;
     departureDate : Text;
@@ -77,7 +80,20 @@ actor {
     cabinClass : Text;
   };
 
-  public type CustomerInquiry = {
+  type HotelBookingDetails = {
+    destination : Text;
+    checkInDate : Text;
+    checkOutDate : Text;
+    numberOfGuests : Nat;
+    numberOfRooms : Nat;
+    roomTypePreference : Text;
+    hotelName : ?Text;
+    starRating : ?Nat;
+    location : ?Text;
+    pricePerNight : ?Nat;
+  };
+
+  type CustomerInquiry = {
     id : Nat;
     name : Text;
     phoneNumber : Text;
@@ -89,6 +105,7 @@ actor {
     customPackageDetails : ?CustomPackageDetails;
     railwayBookingDetails : ?RailwayBookingDetails;
     flightBookingDetails : ?FlightBookingDetails;
+    hotelBookingDetails : ?HotelBookingDetails; // New field for hotel booking details
   };
 
   public type UserProfile = {
@@ -137,26 +154,44 @@ actor {
       customPackageDetails = null;
       railwayBookingDetails = null;
       flightBookingDetails = null;
+      hotelBookingDetails = null;
     };
     inquiries.add(nextInquiryId, inquiry);
     nextInquiryId += 1;
+  };
+
+  public type CarType = {
+    #suv;
+    #sedan;
   };
 
   public shared func submitCarRental(
     name : Text,
     phoneNumber : Text,
     email : Text,
-    vehicleType : VehicleType,
+    vehicleType : CarType,
     driverRequired : Bool,
     estimatedDistance : ?Nat,
-    estimatedFare : ?Nat,
   ) : async () {
+    // Map CarType to VehicleType
+    let mappedVehicleType : VehicleType = switch (vehicleType) {
+      case (#suv) { #suv };
+      case (#sedan) { #sedan };
+    };
+
+    let estimatedFare : ?Nat = switch (estimatedDistance, mappedVehicleType) {
+      case (null, _) { null };
+      case (?distance, #sedan) { ?(distance * 13) };
+      case (?distance, #suv) { ?(distance * 21) };
+    };
+
     let rentalDetails : CarRentalDetails = {
-      vehicleType;
+      vehicleType = mappedVehicleType;
       driverRequired;
       estimatedDistance;
       estimatedFare;
     };
+
     let inquiry : CustomerInquiry = {
       id = nextInquiryId;
       name;
@@ -169,6 +204,7 @@ actor {
       customPackageDetails = null;
       railwayBookingDetails = null;
       flightBookingDetails = null;
+      hotelBookingDetails = null;
     };
     inquiries.add(nextInquiryId, inquiry);
     nextInquiryId += 1;
@@ -203,6 +239,7 @@ actor {
       customPackageDetails = ?customPackageDetails;
       railwayBookingDetails = null;
       flightBookingDetails = null;
+      hotelBookingDetails = null;
     };
     inquiries.add(nextInquiryId, inquiry);
     nextInquiryId += 1;
@@ -237,6 +274,7 @@ actor {
       customPackageDetails = null;
       railwayBookingDetails = ?railwayBookingDetails;
       flightBookingDetails = null;
+      hotelBookingDetails = null;
     };
     inquiries.add(nextInquiryId, inquiry);
     nextInquiryId += 1;
@@ -275,6 +313,53 @@ actor {
       customPackageDetails = null;
       railwayBookingDetails = null;
       flightBookingDetails = ?flightBookingDetails;
+      hotelBookingDetails = null;
+    };
+    inquiries.add(nextInquiryId, inquiry);
+    nextInquiryId += 1;
+  };
+
+  public shared func submitHotelBooking(
+    name : Text,
+    phoneNumber : Text,
+    email : Text,
+    destination : Text,
+    checkInDate : Text,
+    checkOutDate : Text,
+    numberOfGuests : Nat,
+    numberOfRooms : Nat,
+    roomTypePreference : Text,
+    hotelName : ?Text,
+    starRating : ?Nat,
+    location : ?Text,
+    pricePerNight : ?Nat,
+  ) : async () {
+    let hotelBookingDetails : HotelBookingDetails = {
+      destination;
+      checkInDate;
+      checkOutDate;
+      numberOfGuests;
+      numberOfRooms;
+      roomTypePreference;
+      hotelName;
+      starRating;
+      location;
+      pricePerNight;
+    };
+
+    let inquiry : CustomerInquiry = {
+      id = nextInquiryId;
+      name;
+      phoneNumber;
+      email;
+      message = "Hotel booking inquiry";
+      status = #new;
+      category = #hotelBooking;
+      rentalDetails = null;
+      customPackageDetails = null;
+      railwayBookingDetails = null;
+      flightBookingDetails = null;
+      hotelBookingDetails = ?hotelBookingDetails;
     };
     inquiries.add(nextInquiryId, inquiry);
     nextInquiryId += 1;
@@ -326,17 +411,8 @@ actor {
       };
       case (?inquiry) {
         let updatedInquiry : CustomerInquiry = {
-          id = inquiry.id;
-          name = inquiry.name;
-          phoneNumber = inquiry.phoneNumber;
-          email = inquiry.email;
-          message = inquiry.message;
+          inquiry with
           status = newStatus;
-          category = inquiry.category;
-          rentalDetails = inquiry.rentalDetails;
-          customPackageDetails = inquiry.customPackageDetails;
-          railwayBookingDetails = inquiry.railwayBookingDetails;
-          flightBookingDetails = inquiry.flightBookingDetails;
         };
         inquiries.add(inquiryId, updatedInquiry);
       };

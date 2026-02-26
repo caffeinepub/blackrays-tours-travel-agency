@@ -13,6 +13,7 @@ import CarRentalsPage from './pages/CarRentalsPage';
 import CustomPackagesPage from './pages/CustomPackagesPage';
 import RailwayBookingsPage from './pages/RailwayBookingsPage';
 import FlightBookingsPage from './pages/FlightBookingsPage';
+import HotelBookingsPage from './pages/HotelBookingsPage';
 import TermsPage from './pages/TermsPage';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import AdminPackagesPage from './pages/admin/AdminPackagesPage';
@@ -80,14 +81,20 @@ const customPackagesRoute = createRoute({
 
 const railwayBookingsRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/railway-bookings',
+  path: '/railway',
   component: RailwayBookingsPage,
 });
 
 const flightBookingsRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/flight-bookings',
+  path: '/flights',
   component: FlightBookingsPage,
+});
+
+const hotelBookingsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/hotels',
+  component: HotelBookingsPage,
 });
 
 const termsRoute = createRoute({
@@ -136,6 +143,7 @@ const routeTree = rootRoute.addChildren([
   customPackagesRoute,
   railwayBookingsRoute,
   flightBookingsRoute,
+  hotelBookingsRoute,
   termsRoute,
   adminRoute,
   adminPackagesRoute,

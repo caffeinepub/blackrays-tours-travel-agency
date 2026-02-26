@@ -1,16 +1,20 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 15,
-  "summary": "Create an app/website for Blackrays Car Rentals & Tours and Travels with a premium black/white (Uber-style) branded frontend, including premium car rental booking (customized plans) plus tour/ticket booking services and inquiry/booking capture for the agency/admin.",
+  "projectStateVersion": 23,
+  "summary": "Create a premium travel and car rental platform for Blackrays Car Rentals & Tours and Travels, inspired by MakeMyTrip and Uber — combining luxury car rental booking (Uber-style) with full travel booking capabilities (MakeMyTrip-style). The platform should feature a consumer-friendly, error-free premium interface with direct flight and railway ticket booking via third-party APIs, alongside existing tour packages, custom travel packages, and car rentals.",
   "architectural_notes": [
-    "Plan for handling ~10,000 visits/day (performance/scalability considerations for frontend and canister APIs)."
+    "Plan for handling ~10,000 visits/day (performance/scalability considerations for frontend and canister APIs).",
+    "Flight and railway ticket booking must use live third-party APIs (e.g., Amadeus for flights, IRCTC/RailConnect for railways) to enable direct consumer bookings — not just inquiry capture.",
+    "Hotel booking requires integration with a real-time hotel API (e.g., Booking.com, Hotels.com, Amadeus Hotel API, or similar) covering India and international properties."
   ],
   "known_issues": [
     "Email and phone/SMS alerts requested, but platform/account currently does not support enabling outbound email/SMS notifications (blocked feature).",
-    "Domain name must be 5–50 characters and contain only letters, numbers, and hyphens; current domain string is invalid."
+    "Domain name must be 5–50 characters and contain only letters, numbers, and hyphens; current domain string is invalid.",
+    "Live flight/railway API integration requires valid API credentials and potential regulatory/partnership approvals (e.g., IRCTC agent registration); may not be immediately available.",
+    "Real-time hotel booking API integration requires valid API credentials and partnership/affiliate approvals with hotel aggregators."
   ],
   "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- Premium cinematic hero banner showing a luxury black sedan or SUV on an open highway at dusk with a dramatic dark sky, high contrast black and white tones with subtle warm road lighting (hero-premium-travel.dim_1600x800.png)",
+  "imageRequirements": "## Required Images\n- Premium hotel lobby or luxury hotel exterior at night with warm accent lighting, dark moody atmosphere, elegant and high-end feel consistent with black/white/grey premium palette (hotel-hero-premium.dim_1200x600.png)",
   "existing_features": [
     {
       "id": "feature-create-a-cohesive-branded-frontend-for-blackrays-tours-travel-agency-with-a-consistent-visual-theme-colors-typography-spacing-component-style-applied-across-all-pages-avoid-blue-purple-as-the-primary-palette",
@@ -187,6 +191,94 @@
         "REQ-25"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-redesign-the-overall-ui-ux-of-the-entire-website-to-reflect-a-premium-combination-of-makemytrip-and-uber-aesthetics-the-interface-must-feel-polished-consumer-friendly-and-high-end-across-all-public-and-admin-pages-key-visual-elements-to-adopt-a-bold-hero-with-a-live-search-booking-widget-makemytrip-style-clean-card-based-service-navigation-prominent-ctas-smooth-transitions-and-the-existing-black-white-grey-premium-palette-all-pages-must-be-visually-consistent-free-of-layout-errors-and-responsive-on-mobile-and-desktop",
+      "title": "Redesign the overall UI/UX of the entire website to reflect a premium combination of MakeMyTrip and Uber aesthetics. The interface must feel polished, consumer-friendly, and high-end across all public and admin pages. Key visual elements to adopt: a bold hero with a live search/booking widget (MakeMyTrip-style), clean card-based service navigation, prominent CTAs, smooth transitions, and the existing black/white/grey premium palette. All pages must be visually consistent, free of layout errors, and responsive on mobile and desktop.",
+      "reqIds": [
+        "REQ-26"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-integrate-a-live-flight-search-and-booking-api-amadeus-or-a-compatible-public-travel-api-into-the-flight-ticket-bookings-page-so-that-users-can-search-for-available-flights-by-origin-destination-date-and-passenger-count-view-real-results-and-initiate-a-direct-booking-flow-rather-than-only-submitting-an-inquiry-form-display-flight-results-in-a-clean-card-list-showing-airline-departure-arrival-times-duration-stops-and-price-handle-loading-empty-and-error-states-gracefully",
+      "title": "Integrate a live flight search and booking API (Amadeus or a compatible public travel API) into the Flight Ticket Bookings page so that users can search for available flights by origin, destination, date, and passenger count, view real results, and initiate a direct booking flow — rather than only submitting an inquiry form. Display flight results in a clean card list showing airline, departure/arrival times, duration, stops, and price. Handle loading, empty, and error states gracefully.",
+      "reqIds": [
+        "REQ-27"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-integrate-a-live-railway-train-search-and-booking-api-e-g-railconnect-rapidapi-train-search-or-equivalent-into-the-railway-ticket-bookings-page-so-that-users-can-search-for-available-trains-by-origin-station-destination-station-travel-date-and-passenger-count-view-real-results-with-class-availability-and-pricing-and-initiate-a-direct-booking-flow-display-results-in-a-clean-list-showing-train-name-number-departure-arrival-times-duration-available-classes-and-fare-per-class",
+      "title": "Integrate a live railway/train search and booking API (e.g., RailConnect, RapidAPI train search, or equivalent) into the Railway Ticket Bookings page so that users can search for available trains by origin station, destination station, travel date, and passenger count, view real results with class availability and pricing, and initiate a direct booking flow. Display results in a clean list showing train name/number, departure/arrival times, duration, available classes, and fare per class.",
+      "reqIds": [
+        "REQ-28"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-rebuild-the-homepage-hero-section-to-include-a-makemytrip-style-tabbed-search-widget-at-the-top-tabs-should-include-flights-trains-car-rentals-and-tour-packages-each-tab-shows-the-relevant-quick-search-inputs-e-g-flights-from-to-date-passengers-trains-from-to-date-class-car-rentals-pickup-location-date-vehicle-type-tour-packages-destination-duration-submitting-a-tab-s-form-should-navigate-to-the-corresponding-service-page-with-pre-filled-search-parameters-where-applicable",
+      "title": "Rebuild the homepage hero section to include a MakeMyTrip-style tabbed search widget at the top. Tabs should include: Flights, Trains, Car Rentals, and Tour Packages. Each tab shows the relevant quick-search inputs (e.g., Flights: from/to/date/passengers; Trains: from/to/date/class; Car Rentals: pickup location/date/vehicle type; Tour Packages: destination/duration). Submitting a tab's form should navigate to the corresponding service page with pre-filled search parameters where applicable.",
+      "reqIds": [
+        "REQ-29"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-all-box-shadows-and-drop-shadows-from-the-homepage-starting-interface-hero-section-tabbed-search-widget-service-cards-contact-bar-and-any-other-visible-elements-in-the-initial-viewport-replace-shadow-based-depth-cues-with-clean-borders-subtle-background-contrasts-or-spacing-to-maintain-visual-hierarchy-without-shadows-the-result-must-feel-clear-premium-and-user-friendly",
+      "title": "Remove all box shadows and drop shadows from the homepage starting interface (hero section, tabbed search widget, service cards, contact bar, and any other visible elements in the initial viewport). Replace shadow-based depth cues with clean borders, subtle background contrasts, or spacing to maintain visual hierarchy without shadows. The result must feel clear, premium, and user-friendly.",
+      "reqIds": [
+        "REQ-30"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-the-current-black-car-hero-background-image-on-the-homepage-starting-interface-with-the-new-premium-white-light-aviation-themed-flight-image-hero-flight-premium-dim-1920x1080-png-update-all-references-to-the-old-hero-image-asset-with-the-new-one-across-homepage-tsx-and-any-css-config-files-that-reference-it",
+      "title": "Replace the current black car hero background image on the homepage starting interface with the new premium white/light aviation-themed flight image (hero-flight-premium.dim_1920x1080.png). Update all references to the old hero image asset with the new one across HomePage.tsx and any CSS/config files that reference it.",
+      "reqIds": [
+        "REQ-31"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-expand-the-global-color-palette-beyond-strict-black-and-white-introduce-grey-tones-e-g-warm-grey-6b7280-light-grey-f3f4f6-charcoal-374151-beige-warm-neutral-tones-e-g-warm-sand-f5f0e8-light-beige-faf7f2-and-restrained-complementary-accent-colors-that-feel-premium-alongside-black-and-white-apply-these-colors-consistently-across-all-public-and-admin-pages-backgrounds-cards-section-dividers-input-fields-badges-and-typography-ensuring-the-result-remains-polished-user-friendly-and-never-garish-update-tailwind-config-js-and-index-css-design-tokens-to-include-the-expanded-palette",
+      "title": "Expand the global color palette beyond strict black and white. Introduce grey tones (e.g., warm grey #6B7280, light grey #F3F4F6, charcoal #374151), beige/warm neutral tones (e.g., warm sand #F5F0E8, light beige #FAF7F2), and restrained complementary accent colors that feel premium alongside black and white. Apply these colors consistently across all public and admin pages — backgrounds, cards, section dividers, input fields, badges, and typography — ensuring the result remains polished, user-friendly, and never garish. Update tailwind.config.js and index.css design tokens to include the expanded palette.",
+      "reqIds": [
+        "REQ-32"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-car-rentals-page-and-all-references-to-display-the-correct-per-km-pricing-sedan-at-13-km-and-suv-at-21-km-update-the-fare-estimator-calculation-logic-to-use-these-rates-ensure-the-estimated-fare-displayed-to-the-user-and-stored-in-the-car-rental-inquiry-submitted-to-the-backend-reflects-these-correct-rates",
+      "title": "Update the Car Rentals page and all references to display the correct per-km pricing: Sedan at ₹13/km and SUV at ₹21/km. Update the fare estimator calculation logic to use these rates. Ensure the estimated fare displayed to the user and stored in the car rental inquiry submitted to the backend reflects these correct rates.",
+      "reqIds": [
+        "REQ-33"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-new-public-hotel-hospitality-bookings-page-accessible-from-the-main-navigation-and-from-the-homepage-the-page-should-describe-blackrays-hotel-booking-assistance-service-covering-properties-across-india-and-internationally-include-a-hotel-search-inquiry-form-capturing-destination-city-location-check-in-date-check-out-date-number-of-guests-number-of-rooms-and-room-type-preference-standard-deluxe-suite-integrate-a-real-time-hotel-search-api-e-g-rapidapi-hotels-or-a-compatible-aggregator-to-display-live-hotel-results-with-property-name-star-rating-location-price-per-night-and-a-booking-contact-cta-handle-loading-empty-and-error-states-gracefully-on-form-submission-for-inquiry-fallback-store-the-request-as-an-inquiry-in-the-backend-with-category-hotel-booking",
+      "title": "Add a new public Hotel & Hospitality Bookings page accessible from the main navigation and from the homepage. The page should describe Blackrays' hotel booking assistance service covering properties across India and internationally. Include a hotel search/inquiry form capturing: destination city/location, check-in date, check-out date, number of guests, number of rooms, and room type preference (Standard / Deluxe / Suite). Integrate a real-time hotel search API (e.g., RapidAPI Hotels or a compatible aggregator) to display live hotel results with property name, star rating, location, price per night, and a booking/contact CTA. Handle loading, empty, and error states gracefully. On form submission (for inquiry fallback), store the request as an inquiry in the backend with category 'hotel_booking'.",
+      "reqIds": [
+        "REQ-34"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-homepage-service-cards-section-to-include-a-hotel-hospitality-bookings-card-with-a-brief-description-e-g-find-and-book-premium-hotels-across-india-and-internationally-and-a-cta-button-linking-to-the-hotels-page-ensure-the-layout-remains-visually-consistent-with-the-existing-premium-black-white-grey-aesthetic",
+      "title": "Update the homepage service cards/section to include a Hotel & Hospitality Bookings card with a brief description (e.g., 'Find and book premium hotels across India and internationally') and a CTA button linking to the '/hotels' page. Ensure the layout remains visually consistent with the existing premium black/white/grey aesthetic.",
+      "reqIds": [
+        "REQ-36"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-hotels-tab-to-the-homepage-hero-search-widget-herosearchwidget-alongside-the-existing-flights-trains-car-rentals-and-tour-packages-tabs-the-hotels-tab-should-show-quick-search-inputs-for-destination-city-check-in-date-and-check-out-date-submitting-the-form-should-navigate-to-the-hotels-page-with-pre-filled-search-parameters-where-applicable",
+      "title": "Add a 'Hotels' tab to the homepage hero search widget (HeroSearchWidget) alongside the existing Flights, Trains, Car Rentals, and Tour Packages tabs. The Hotels tab should show quick-search inputs for destination city, check-in date, and check-out date. Submitting the form should navigate to the '/hotels' page with pre-filled search parameters where applicable.",
+      "reqIds": [
+        "REQ-37"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -301,6 +393,56 @@
       "summary": "Extend the backend inquiry model to support 'railway_booking' and 'flight_booking' categories with their respective optional fields. For railway: originStation, destinationStation, travelDate, passengerCount, railClass. For flight: originCity, destinationCity, departureDate, returnDate, tripType, passengerCount, cabinClass. All existing categories must remain unaffected.",
       "reqIds": [
         "REQ-24"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-27",
+      "summary": "Redesign the overall UI/UX to be a premium combination of MakeMyTrip and Uber aesthetics — consumer-friendly, polished, and error-free across all pages.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-28",
+      "summary": "Integrate a live flight booking API (e.g., Amadeus, Skyscanner, or similar) so consumers can search and directly book flight tickets from the platform (not just submit inquiries).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-29",
+      "summary": "Integrate a live railway ticket booking API (e.g., IRCTC or RailConnect) so consumers can search and directly book train tickets from the platform (not just submit inquiries).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-30",
+      "summary": "Remove shadows from the starting/homepage interface — make it look clear, premium, and user-friendly without shadow effects.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-31",
+      "summary": "Replace the black car hero background image on the starting interface with a white premium flight/aviation themed image.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-32",
+      "summary": "Expand the color palette beyond strict black/white — incorporate grey, beige, and complementary accent colors alongside black and white to create a richer, more premium and user-friendly visual experience across the entire website.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-33",
+      "summary": "Add Hotel & Hospitality Booking section/page with real-time booking API integration covering hotel partners across India and internationally.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-36",
+      "summary": "Extend the backend inquiry data model to support a 'hotel_booking' category. Add optional fields: hotelDestination (Text), checkInDate (Text), checkOutDate (Text), numberOfGuests (Nat), numberOfRooms (Nat), and roomTypePreference (Text). Ensure existing inquiry categories and fields remain unaffected. Update the admin inquiries listing to display these fields when the category is 'hotel_booking'.",
+      "reqIds": [
+        "REQ-35"
       ],
       "status": "pending"
     }

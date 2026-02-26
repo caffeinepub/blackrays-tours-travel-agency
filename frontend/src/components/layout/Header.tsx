@@ -1,112 +1,118 @@
 import { useState } from 'react';
-import { Link } from '@tanstack/react-router';
-import { Menu, X, ChevronDown } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Link, useNavigate } from '@tanstack/react-router';
+import { Menu, X, Plane, ChevronDown } from 'lucide-react';
 import LoginButton from '../auth/LoginButton';
-import { useInternetIdentity } from '../../hooks/useInternetIdentity';
 
-const mainNavLinks = [
+const navLinks = [
   { label: 'Home', to: '/' },
   { label: 'About', to: '/about' },
-  { label: 'Tour Packages', to: '/packages' },
+  { label: 'Packages', to: '/packages' },
   { label: 'Car Rentals', to: '/car-rentals' },
-];
-
-const bookingLinks = [
-  { label: 'Custom Packages', to: '/custom-packages' },
-  { label: 'Railway Bookings', to: '/railway-bookings' },
-  { label: 'Flight Bookings', to: '/flight-bookings' },
+  {
+    label: 'Bookings',
+    children: [
+      { label: 'Flight Bookings', to: '/flights' },
+      { label: 'Railway Bookings', to: '/railway' },
+      { label: 'Hotel & Hospitality', to: '/hotels' },
+      { label: 'Custom Packages', to: '/custom-packages' },
+    ],
+  },
   { label: 'Contact', to: '/contact' },
 ];
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
-  const { identity } = useInternetIdentity();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border shadow-premium">
+    <header
+      className="sticky top-0 z-50 w-full"
+      style={{
+        backgroundColor: 'white',
+        borderBottom: '1px solid var(--border)',
+        boxShadow: '0 1px 12px -2px rgba(31,41,55,0.08)',
+      }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-9 h-9 rounded-sm overflow-hidden flex-shrink-0">
-              <img
-                src="/assets/generated/blackrays-logo.dim_512x512.png"
-                alt="Blackrays Logo"
-                className="w-full h-full object-cover"
-              />
+          <Link to="/" className="flex items-center gap-2.5 flex-shrink-0">
+            <div
+              className="w-9 h-9 rounded-lg flex items-center justify-center"
+              style={{ backgroundColor: 'var(--deep-charcoal)' }}
+            >
+              <Plane className="w-5 h-5 text-white" />
             </div>
             <div className="hidden sm:block">
-              <span className="font-display font-800 text-sm leading-tight text-foreground block">
+              <div className="font-display text-base font-bold leading-tight" style={{ color: 'var(--charcoal)' }}>
                 Blackrays
-              </span>
-              <span className="text-xs text-muted-foreground leading-tight block">
-                Car Rentals & Tours and Travels
-              </span>
+              </div>
+              <div className="text-xs leading-tight" style={{ color: 'var(--warm-grey)' }}>
+                Car Rentals & Tours
+              </div>
             </div>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-1">
-            {mainNavLinks.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-sm hover:bg-accent"
-                activeProps={{ className: 'px-3 py-2 text-sm font-medium text-foreground bg-accent rounded-sm' }}
-                activeOptions={{ exact: link.to === '/' }}
-              >
-                {link.label}
-              </Link>
-            ))}
-
-            {/* Services Dropdown */}
-            <div
-              className="relative"
-              onMouseEnter={() => setServicesOpen(true)}
-              onMouseLeave={() => setServicesOpen(false)}
-            >
-              <button
-                className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-sm hover:bg-accent"
-                onClick={() => setServicesOpen(!servicesOpen)}
-              >
-                Bookings
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${servicesOpen ? 'rotate-180' : ''}`} />
-              </button>
-              {servicesOpen && (
-                <div className="absolute top-full left-0 mt-1 w-48 bg-background border border-border rounded-sm shadow-premium-md py-1 z-50">
-                  {bookingLinks.map((link) => (
-                    <Link
-                      key={link.to}
-                      to={link.to}
-                      className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
-                      activeProps={{ className: 'block px-4 py-2 text-sm text-foreground bg-accent' }}
-                      onClick={() => setServicesOpen(false)}
+          <nav className="hidden lg:flex items-center gap-1">
+            {navLinks.map((link) =>
+              link.children ? (
+                <div key={link.label} className="relative">
+                  <button
+                    className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                    style={{ color: 'var(--charcoal)' }}
+                    onMouseEnter={() => setDropdownOpen(true)}
+                    onMouseLeave={() => setDropdownOpen(false)}
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                  >
+                    {link.label}
+                    <ChevronDown className="w-3.5 h-3.5 opacity-60" />
+                  </button>
+                  {dropdownOpen && (
+                    <div
+                      className="absolute top-full left-0 mt-1 w-52 rounded-xl py-1.5 z-50"
+                      style={{
+                        backgroundColor: 'white',
+                        border: '1px solid var(--border)',
+                        boxShadow: '0 8px 32px -8px rgba(31,41,55,0.18)',
+                      }}
+                      onMouseEnter={() => setDropdownOpen(true)}
+                      onMouseLeave={() => setDropdownOpen(false)}
                     >
-                      {link.label}
-                    </Link>
-                  ))}
+                      {link.children.map((child) => (
+                        <Link
+                          key={child.to}
+                          to={child.to}
+                          className="block px-4 py-2.5 text-sm font-medium transition-colors hover:bg-lightBeige"
+                          style={{ color: 'var(--charcoal)' }}
+                          onClick={() => setDropdownOpen(false)}
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-
-            {identity && (
-              <Link
-                to="/admin"
-                className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-sm hover:bg-accent"
-                activeProps={{ className: 'px-3 py-2 text-sm font-medium text-foreground bg-accent rounded-sm' }}
-              >
-                Admin
-              </Link>
+              ) : (
+                <Link
+                  key={link.to}
+                  to={link.to!}
+                  className="px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-lightBeige"
+                  style={{ color: 'var(--charcoal)' }}
+                  activeProps={{ style: { color: 'var(--deep-charcoal)', fontWeight: '700', backgroundColor: 'var(--warm-sand)' } }}
+                >
+                  {link.label}
+                </Link>
+              )
             )}
           </nav>
 
           {/* Right side */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <LoginButton />
             <button
-              className="md:hidden p-2 rounded-sm hover:bg-accent transition-colors"
+              className="lg:hidden p-2 rounded-lg transition-colors"
+              style={{ color: 'var(--charcoal)' }}
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle menu"
             >
@@ -118,42 +124,43 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-border bg-background">
-          <nav className="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-1">
-            {mainNavLinks.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className="px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-sm hover:bg-accent"
-                activeProps={{ className: 'px-3 py-2.5 text-sm font-medium text-foreground bg-accent rounded-sm' }}
-                activeOptions={{ exact: link.to === '/' }}
-                onClick={() => setMobileOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <div className="px-3 py-1.5">
-              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">Bookings</p>
-            </div>
-            {bookingLinks.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className="px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-sm hover:bg-accent pl-6"
-                activeProps={{ className: 'px-3 py-2.5 text-sm font-medium text-foreground bg-accent rounded-sm pl-6' }}
-                onClick={() => setMobileOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-            {identity && (
-              <Link
-                to="/admin"
-                className="px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-sm hover:bg-accent"
-                onClick={() => setMobileOpen(false)}
-              >
-                Admin
-              </Link>
+        <div
+          className="lg:hidden border-t"
+          style={{ backgroundColor: 'var(--light-beige)', borderColor: 'var(--border)' }}
+        >
+          <nav className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-1">
+            {navLinks.map((link) =>
+              link.children ? (
+                <div key={link.label}>
+                  <div
+                    className="px-3 py-2 text-xs font-bold tracking-widest uppercase"
+                    style={{ color: 'var(--warm-grey)' }}
+                  >
+                    {link.label}
+                  </div>
+                  {link.children.map((child) => (
+                    <Link
+                      key={child.to}
+                      to={child.to}
+                      className="block px-5 py-2.5 rounded-lg text-sm font-medium transition-colors"
+                      style={{ color: 'var(--charcoal)' }}
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      {child.label}
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <Link
+                  key={link.to}
+                  to={link.to!}
+                  className="block px-3 py-2.5 rounded-lg text-sm font-medium transition-colors"
+                  style={{ color: 'var(--charcoal)' }}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              )
             )}
           </nav>
         </div>

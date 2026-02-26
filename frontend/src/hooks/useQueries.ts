@@ -4,7 +4,7 @@ import {
   TourPackage,
   CustomerInquiry,
   Status,
-  VehicleType,
+  CarType,
   UserProfile,
 } from '../backend';
 
@@ -109,10 +109,9 @@ export function useSubmitCarRental() {
       name: string;
       phoneNumber: string;
       email: string;
-      vehicleType: VehicleType;
+      vehicleType: CarType;
       driverRequired: boolean;
       estimatedDistance?: bigint | null;
-      estimatedFare?: bigint | null;
     }) => {
       if (!actor) throw new Error('Actor not available');
       return actor.submitCarRental(
@@ -122,7 +121,6 @@ export function useSubmitCarRental() {
         params.vehicleType,
         params.driverRequired,
         params.estimatedDistance ?? null,
-        params.estimatedFare ?? null,
       );
     },
     onSuccess: () => {
@@ -232,6 +230,51 @@ export function useSubmitFlightBooking() {
         params.tripType,
         params.passengerCount,
         params.cabinClass,
+      );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['allInquiries'] });
+    },
+  });
+}
+
+// ─── Hotel Booking ────────────────────────────────────────────────────────────
+
+export function useSubmitHotelBooking() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (params: {
+      name: string;
+      phoneNumber: string;
+      email: string;
+      destination: string;
+      checkInDate: string;
+      checkOutDate: string;
+      numberOfGuests: bigint;
+      numberOfRooms: bigint;
+      roomTypePreference: string;
+      hotelName: string | null;
+      starRating: bigint | null;
+      location: string | null;
+      pricePerNight: bigint | null;
+    }) => {
+      if (!actor) throw new Error('Actor not available');
+      return actor.submitHotelBooking(
+        params.name,
+        params.phoneNumber,
+        params.email,
+        params.destination,
+        params.checkInDate,
+        params.checkOutDate,
+        params.numberOfGuests,
+        params.numberOfRooms,
+        params.roomTypePreference,
+        params.hotelName,
+        params.starRating,
+        params.location,
+        params.pricePerNight,
       );
     },
     onSuccess: () => {

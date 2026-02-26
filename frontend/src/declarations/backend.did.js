@@ -8,6 +8,17 @@
 
 import { IDL } from '@icp-sdk/core/candid';
 
+export const _CaffeineStorageCreateCertificateResult = IDL.Record({
+  'method' : IDL.Text,
+  'blob_hash' : IDL.Text,
+});
+export const _CaffeineStorageRefillInformation = IDL.Record({
+  'proposed_top_up_amount' : IDL.Opt(IDL.Nat),
+});
+export const _CaffeineStorageRefillResult = IDL.Record({
+  'success' : IDL.Opt(IDL.Bool),
+  'topped_up_amount' : IDL.Opt(IDL.Nat),
+});
 export const UserRole = IDL.Variant({
   'admin' : IDL.Null,
   'user' : IDL.Null,
@@ -44,6 +55,18 @@ export const FlightBookingDetails = IDL.Record({
   'returnDate' : IDL.Opt(IDL.Text),
   'originCity' : IDL.Text,
 });
+export const HotelBookingDetails = IDL.Record({
+  'destination' : IDL.Text,
+  'starRating' : IDL.Opt(IDL.Nat),
+  'hotelName' : IDL.Opt(IDL.Text),
+  'pricePerNight' : IDL.Opt(IDL.Nat),
+  'numberOfRooms' : IDL.Nat,
+  'checkInDate' : IDL.Text,
+  'roomTypePreference' : IDL.Text,
+  'checkOutDate' : IDL.Text,
+  'numberOfGuests' : IDL.Nat,
+  'location' : IDL.Opt(IDL.Text),
+});
 export const CustomPackageDetails = IDL.Record({
   'durationDays' : IDL.Nat,
   'destination' : IDL.Text,
@@ -53,6 +76,7 @@ export const CustomPackageDetails = IDL.Record({
 });
 export const InquiryCategory = IDL.Variant({
   'railwayBooking' : IDL.Null,
+  'hotelBooking' : IDL.Null,
   'flightBooking' : IDL.Null,
   'tourInquiry' : IDL.Null,
   'customPackage' : IDL.Null,
@@ -66,6 +90,7 @@ export const CustomerInquiry = IDL.Record({
   'railwayBookingDetails' : IDL.Opt(RailwayBookingDetails),
   'flightBookingDetails' : IDL.Opt(FlightBookingDetails),
   'email' : IDL.Text,
+  'hotelBookingDetails' : IDL.Opt(HotelBookingDetails),
   'message' : IDL.Text,
   'customPackageDetails' : IDL.Opt(CustomPackageDetails),
   'category' : InquiryCategory,
@@ -79,8 +104,35 @@ export const TourPackage = IDL.Record({
   'description' : IDL.Text,
   'price' : IDL.Nat,
 });
+export const CarType = IDL.Variant({ 'suv' : IDL.Null, 'sedan' : IDL.Null });
 
 export const idlService = IDL.Service({
+  '_caffeineStorageBlobIsLive' : IDL.Func(
+      [IDL.Vec(IDL.Nat8)],
+      [IDL.Bool],
+      ['query'],
+    ),
+  '_caffeineStorageBlobsToDelete' : IDL.Func(
+      [],
+      [IDL.Vec(IDL.Vec(IDL.Nat8))],
+      ['query'],
+    ),
+  '_caffeineStorageConfirmBlobDeletion' : IDL.Func(
+      [IDL.Vec(IDL.Vec(IDL.Nat8))],
+      [],
+      [],
+    ),
+  '_caffeineStorageCreateCertificate' : IDL.Func(
+      [IDL.Text],
+      [_CaffeineStorageCreateCertificateResult],
+      [],
+    ),
+  '_caffeineStorageRefillCashier' : IDL.Func(
+      [IDL.Opt(_CaffeineStorageRefillInformation)],
+      [_CaffeineStorageRefillResult],
+      [],
+    ),
+  '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
   '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
   'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
   'createPackage' : IDL.Func(
@@ -101,15 +153,7 @@ export const idlService = IDL.Service({
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
   'submitCarRental' : IDL.Func(
-      [
-        IDL.Text,
-        IDL.Text,
-        IDL.Text,
-        VehicleType,
-        IDL.Bool,
-        IDL.Opt(IDL.Nat),
-        IDL.Opt(IDL.Nat),
-      ],
+      [IDL.Text, IDL.Text, IDL.Text, CarType, IDL.Bool, IDL.Opt(IDL.Nat)],
       [],
       [],
     ),
@@ -143,6 +187,25 @@ export const idlService = IDL.Service({
       [],
       [],
     ),
+  'submitHotelBooking' : IDL.Func(
+      [
+        IDL.Text,
+        IDL.Text,
+        IDL.Text,
+        IDL.Text,
+        IDL.Text,
+        IDL.Text,
+        IDL.Nat,
+        IDL.Nat,
+        IDL.Text,
+        IDL.Opt(IDL.Text),
+        IDL.Opt(IDL.Nat),
+        IDL.Opt(IDL.Text),
+        IDL.Opt(IDL.Nat),
+      ],
+      [],
+      [],
+    ),
   'submitRailwayBooking' : IDL.Func(
       [
         IDL.Text,
@@ -169,6 +232,17 @@ export const idlService = IDL.Service({
 export const idlInitArgs = [];
 
 export const idlFactory = ({ IDL }) => {
+  const _CaffeineStorageCreateCertificateResult = IDL.Record({
+    'method' : IDL.Text,
+    'blob_hash' : IDL.Text,
+  });
+  const _CaffeineStorageRefillInformation = IDL.Record({
+    'proposed_top_up_amount' : IDL.Opt(IDL.Nat),
+  });
+  const _CaffeineStorageRefillResult = IDL.Record({
+    'success' : IDL.Opt(IDL.Bool),
+    'topped_up_amount' : IDL.Opt(IDL.Nat),
+  });
   const UserRole = IDL.Variant({
     'admin' : IDL.Null,
     'user' : IDL.Null,
@@ -202,6 +276,18 @@ export const idlFactory = ({ IDL }) => {
     'returnDate' : IDL.Opt(IDL.Text),
     'originCity' : IDL.Text,
   });
+  const HotelBookingDetails = IDL.Record({
+    'destination' : IDL.Text,
+    'starRating' : IDL.Opt(IDL.Nat),
+    'hotelName' : IDL.Opt(IDL.Text),
+    'pricePerNight' : IDL.Opt(IDL.Nat),
+    'numberOfRooms' : IDL.Nat,
+    'checkInDate' : IDL.Text,
+    'roomTypePreference' : IDL.Text,
+    'checkOutDate' : IDL.Text,
+    'numberOfGuests' : IDL.Nat,
+    'location' : IDL.Opt(IDL.Text),
+  });
   const CustomPackageDetails = IDL.Record({
     'durationDays' : IDL.Nat,
     'destination' : IDL.Text,
@@ -211,6 +297,7 @@ export const idlFactory = ({ IDL }) => {
   });
   const InquiryCategory = IDL.Variant({
     'railwayBooking' : IDL.Null,
+    'hotelBooking' : IDL.Null,
     'flightBooking' : IDL.Null,
     'tourInquiry' : IDL.Null,
     'customPackage' : IDL.Null,
@@ -224,6 +311,7 @@ export const idlFactory = ({ IDL }) => {
     'railwayBookingDetails' : IDL.Opt(RailwayBookingDetails),
     'flightBookingDetails' : IDL.Opt(FlightBookingDetails),
     'email' : IDL.Text,
+    'hotelBookingDetails' : IDL.Opt(HotelBookingDetails),
     'message' : IDL.Text,
     'customPackageDetails' : IDL.Opt(CustomPackageDetails),
     'category' : InquiryCategory,
@@ -237,8 +325,35 @@ export const idlFactory = ({ IDL }) => {
     'description' : IDL.Text,
     'price' : IDL.Nat,
   });
+  const CarType = IDL.Variant({ 'suv' : IDL.Null, 'sedan' : IDL.Null });
   
   return IDL.Service({
+    '_caffeineStorageBlobIsLive' : IDL.Func(
+        [IDL.Vec(IDL.Nat8)],
+        [IDL.Bool],
+        ['query'],
+      ),
+    '_caffeineStorageBlobsToDelete' : IDL.Func(
+        [],
+        [IDL.Vec(IDL.Vec(IDL.Nat8))],
+        ['query'],
+      ),
+    '_caffeineStorageConfirmBlobDeletion' : IDL.Func(
+        [IDL.Vec(IDL.Vec(IDL.Nat8))],
+        [],
+        [],
+      ),
+    '_caffeineStorageCreateCertificate' : IDL.Func(
+        [IDL.Text],
+        [_CaffeineStorageCreateCertificateResult],
+        [],
+      ),
+    '_caffeineStorageRefillCashier' : IDL.Func(
+        [IDL.Opt(_CaffeineStorageRefillInformation)],
+        [_CaffeineStorageRefillResult],
+        [],
+      ),
+    '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
     '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
     'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
     'createPackage' : IDL.Func(
@@ -259,15 +374,7 @@ export const idlFactory = ({ IDL }) => {
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
     'submitCarRental' : IDL.Func(
-        [
-          IDL.Text,
-          IDL.Text,
-          IDL.Text,
-          VehicleType,
-          IDL.Bool,
-          IDL.Opt(IDL.Nat),
-          IDL.Opt(IDL.Nat),
-        ],
+        [IDL.Text, IDL.Text, IDL.Text, CarType, IDL.Bool, IDL.Opt(IDL.Nat)],
         [],
         [],
       ),
@@ -297,6 +404,25 @@ export const idlFactory = ({ IDL }) => {
           IDL.Text,
           IDL.Nat,
           IDL.Text,
+        ],
+        [],
+        [],
+      ),
+    'submitHotelBooking' : IDL.Func(
+        [
+          IDL.Text,
+          IDL.Text,
+          IDL.Text,
+          IDL.Text,
+          IDL.Text,
+          IDL.Text,
+          IDL.Nat,
+          IDL.Nat,
+          IDL.Text,
+          IDL.Opt(IDL.Text),
+          IDL.Opt(IDL.Nat),
+          IDL.Opt(IDL.Text),
+          IDL.Opt(IDL.Nat),
         ],
         [],
         [],

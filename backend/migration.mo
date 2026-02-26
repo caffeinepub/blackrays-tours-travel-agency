@@ -1,25 +1,27 @@
 import Map "mo:core/Map";
 import Nat "mo:core/Nat";
-import Principal "mo:core/Principal";
 
 module {
-  public type Status = {
+  type OldStatus = {
     #new;
     #inProgress;
     #resolved;
   };
 
-  public type VehicleType = {
+  type OldTourPackage = {
+    id : Text;
+    title : Text;
+    description : Text;
+    price : Nat;
+    duration : Nat;
+  };
+
+  type OldVehicleType = {
     #suv;
     #sedan;
   };
 
-  public type OldInquiryCategory = {
-    #tourInquiry;
-    #carRental;
-  };
-
-  public type NewInquiryCategory = {
+  type OldInquiryCategory = {
     #tourInquiry;
     #carRental;
     #customPackage;
@@ -27,19 +29,14 @@ module {
     #flightBooking;
   };
 
-  public type OldCarRentalDetails = {
-    vehicleType : VehicleType;
-    driverRequired : Bool;
-  };
-
-  public type CarRentalDetails = {
-    vehicleType : VehicleType;
+  type OldCarRentalDetails = {
+    vehicleType : OldVehicleType;
     driverRequired : Bool;
     estimatedDistance : ?Nat;
     estimatedFare : ?Nat;
   };
 
-  public type CustomPackageDetails = {
+  type OldCustomPackageDetails = {
     destinationType : Text;
     destination : Text;
     numberOfTravelers : Nat;
@@ -47,7 +44,7 @@ module {
     preferredDates : ?Text;
   };
 
-  public type RailwayBookingDetails = {
+  type OldRailwayBookingDetails = {
     originStation : Text;
     destinationStation : Text;
     travelDate : Text;
@@ -55,7 +52,7 @@ module {
     railClass : Text;
   };
 
-  public type FlightBookingDetails = {
+  type OldFlightBookingDetails = {
     originCity : Text;
     destinationCity : Text;
     departureDate : Text;
@@ -65,69 +62,112 @@ module {
     cabinClass : Text;
   };
 
-  public type OldCustomerInquiry = {
+  type OldCustomerInquiry = {
     id : Nat;
     name : Text;
     phoneNumber : Text;
     email : Text;
     message : Text;
-    status : Status;
+    status : OldStatus;
     category : OldInquiryCategory;
     rentalDetails : ?OldCarRentalDetails;
+    customPackageDetails : ?OldCustomPackageDetails;
+    railwayBookingDetails : ?OldRailwayBookingDetails;
+    flightBookingDetails : ?OldFlightBookingDetails;
   };
 
-  public type NewCustomerInquiry = {
+  type OldActor = {
+    packages : Map.Map<Text, OldTourPackage>;
+    inquiries : Map.Map<Nat, OldCustomerInquiry>;
+    nextInquiryId : Nat;
+  };
+
+  // New types for hotel booking details and inquiries
+  type NewVehicleType = {
+    #suv;
+    #sedan;
+  };
+
+  type NewInquiryCategory = {
+    #tourInquiry;
+    #carRental;
+    #customPackage;
+    #railwayBooking;
+    #flightBooking;
+    #hotelBooking;
+  };
+
+  type NewStatus = {
+    #new;
+    #inProgress;
+    #resolved;
+  };
+
+  type NewCarRentalDetails = {
+    vehicleType : NewVehicleType;
+    driverRequired : Bool;
+    estimatedDistance : ?Nat;
+    estimatedFare : ?Nat;
+  };
+
+  type NewCustomPackageDetails = {
+    destinationType : Text;
+    destination : Text;
+    numberOfTravelers : Nat;
+    durationDays : Nat;
+    preferredDates : ?Text;
+  };
+
+  type NewRailwayBookingDetails = {
+    originStation : Text;
+    destinationStation : Text;
+    travelDate : Text;
+    passengerCount : Nat;
+    railClass : Text;
+  };
+
+  type NewFlightBookingDetails = {
+    originCity : Text;
+    destinationCity : Text;
+    departureDate : Text;
+    returnDate : ?Text;
+    tripType : Text;
+    passengerCount : Nat;
+    cabinClass : Text;
+  };
+
+  type HotelBookingDetails = {
+    destination : Text;
+    checkInDate : Text;
+    checkOutDate : Text;
+    numberOfGuests : Nat;
+    numberOfRooms : Nat;
+    roomTypePreference : Text;
+    hotelName : ?Text;
+    starRating : ?Nat;
+    location : ?Text;
+    pricePerNight : ?Nat;
+  };
+
+  type NewCustomerInquiry = {
     id : Nat;
     name : Text;
     phoneNumber : Text;
     email : Text;
     message : Text;
-    status : Status;
+    status : NewStatus;
     category : NewInquiryCategory;
-    rentalDetails : ?CarRentalDetails;
-    customPackageDetails : ?CustomPackageDetails;
-    railwayBookingDetails : ?RailwayBookingDetails;
-    flightBookingDetails : ?FlightBookingDetails;
+    rentalDetails : ?NewCarRentalDetails;
+    customPackageDetails : ?NewCustomPackageDetails;
+    railwayBookingDetails : ?NewRailwayBookingDetails;
+    flightBookingDetails : ?NewFlightBookingDetails;
+    hotelBookingDetails : ?HotelBookingDetails; // New field for hotel booking details
   };
 
-  public type TourPackage = {
-    id : Text;
-    title : Text;
-    description : Text;
-    price : Nat;
-    duration : Nat;
-  };
-
-  public type UserProfile = {
-    name : Text;
-  };
-
-  public type OldActor = {
-    packages : Map.Map<Text, TourPackage>;
-    inquiries : Map.Map<Nat, OldCustomerInquiry>;
-    nextInquiryId : Nat;
-    userProfiles : Map.Map<Principal, UserProfile>;
-  };
-
-  public type NewActor = {
-    packages : Map.Map<Text, TourPackage>;
+  type NewActor = {
+    packages : Map.Map<Text, OldTourPackage>;
     inquiries : Map.Map<Nat, NewCustomerInquiry>;
     nextInquiryId : Nat;
-    userProfiles : Map.Map<Principal, UserProfile>;
-  };
-
-  func convertCarRentalDetails(oldDetails : ?OldCarRentalDetails) : ?CarRentalDetails {
-    switch (oldDetails) {
-      case (null) { null };
-      case (?details) {
-        ?{
-          vehicleType = details.vehicleType;
-          driverRequired = details.driverRequired;
-          estimatedDistance = null;
-          estimatedFare = null;
-        };
-      };
-    };
   };
 
   public func run(old : OldActor) : NewActor {
@@ -140,14 +180,16 @@ module {
           email = oldInquiry.email;
           message = oldInquiry.message;
           status = oldInquiry.status;
-          category = switch (oldInquiry.category) {
-            case (#tourInquiry) { #tourInquiry };
-            case (#carRental) { #carRental };
-          };
-          rentalDetails = convertCarRentalDetails(oldInquiry.rentalDetails);
-          customPackageDetails = null;
-          railwayBookingDetails = null;
-          flightBookingDetails = null;
+          category = oldInquiry.category;
+          rentalDetails =
+            oldInquiry.rentalDetails;
+          customPackageDetails =
+            oldInquiry.customPackageDetails;
+          railwayBookingDetails =
+            oldInquiry.railwayBookingDetails;
+          flightBookingDetails =
+            oldInquiry.flightBookingDetails;
+          hotelBookingDetails = null; // No existing hotel booking details
         };
       }
     );
@@ -155,7 +197,6 @@ module {
       packages = old.packages;
       inquiries = newInquiries;
       nextInquiryId = old.nextInquiryId;
-      userProfiles = old.userProfiles;
     };
   };
 };

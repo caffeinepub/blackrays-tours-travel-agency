@@ -1,202 +1,149 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Add customized travel packages, per-km car rental pricing, T&C, railway/flight booking sections, replace hero image",
+  "title": "Update car rental pricing and add Hotel & Hospitality Booking section",
   "requirements": [
     {
-      "id": "REQ-17",
-      "summary": "Add a 'Custom Travel Packages' public page allowing users to submit personalized travel package inquiries with destination type, location, traveler count, duration, and preferred dates",
+      "id": "REQ-33",
+      "summary": "Update car rental per-km pricing to ₹13/km for Sedan and ₹21/km for SUV across all frontend displays and fare calculations",
       "acceptanceCriteria": [
-        "A new 'Custom Packages' or 'Plan My Trip' page exists and is linked in the header navigation.",
-        "The form collects: destination type (India/Abroad toggle or dropdown), destination name, number of travelers, duration in days, traveler name, phone number, and email.",
-        "On valid submission the form data is stored as an inquiry with category 'custom_package' and a success toast is shown.",
-        "The homepage has a prominent CTA or section directing users to this custom package planner."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/pages/CustomPackagesPage.tsx",
-          "operation": "create",
-          "description": "Create a new public page for custom travel package inquiries. Include a hero section describing the personalized travel service, and a form collecting destination type (India/Abroad radio or toggle), destination text input, number of travelers (number input), duration in days (number input), preferred dates (optional text or date input), name, phone, and email. Use the submitCustomPackage backend method to submit the inquiry. Show loading state during submission and success/error toasts. Style consistently with the premium black/white/grey theme."
-        },
-        {
-          "path": "frontend/src/hooks/useQueries.ts",
-          "operation": "modify",
-          "description": "Add a useSubmitCustomPackage mutation hook that calls actor.submitCustomPackage with the form fields: name, phoneNumber, email, destinationType, destination, numberOfTravelers, durationDays, and preferredDates (nullable). Follow the pattern of existing mutation hooks, invalidate the 'inquiries' query key on success, and handle errors appropriately."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Register a new public route at /custom-packages that renders the CustomPackagesPage component. Add the route alongside existing public routes like /packages and /car-rentals."
-        },
-        {
-          "path": "frontend/src/components/layout/Header.tsx",
-          "operation": "modify",
-          "description": "Add a 'Custom Packages' or 'Plan My Trip' navigation link in the desktop and mobile navigation menus, linking to /custom-packages. Place it logically near other service links (e.g., after 'Packages' or 'Car Rentals')."
-        },
-        {
-          "path": "frontend/src/pages/HomePage.tsx",
-          "operation": "modify",
-          "description": "Add a prominent 'Custom Travel Packages' CTA card or section in the services area of the homepage. Include a brief description (e.g., 'Personalized travel experiences tailored to your destination, group size, and duration') and a button linking to /custom-packages. Ensure the section is visually consistent with the premium theme and uses the existing layout patterns."
-        }
-      ]
-    },
-    {
-      "id": "REQ-19",
-      "summary": "Update Car Rentals page to add per-km pricing mode (Sedan ₹13/km, SUV ₹21/km), capture estimated distance, calculate and display estimated fare, and submit distance and fare in the inquiry",
-      "acceptanceCriteria": [
-        "Car Rentals page shows Sedan ₹13/km and SUV ₹21/km pricing prominently.",
-        "A distance input field is present on the booking form.",
-        "An estimated fare is calculated and displayed in real time (distance × rate).",
-        "Submitted inquiry includes the selected vehicle type, entered distance, and calculated estimated fare."
+        "Car Rentals page displays 'Sedan ₹13/km' and 'SUV ₹21/km' prominently.",
+        "Entering an estimated distance in km calculates and displays the fare using ₹13/km for Sedan and ₹21/km for SUV.",
+        "The calculated estimated fare stored in the backend inquiry reflects the correct per-km rates.",
+        "HomePage pricing section (if present) is updated to show ₹13/km for Sedan and ₹21/km for SUV."
       ],
       "file_operations": [
         {
           "path": "frontend/src/pages/CarRentalsPage.tsx",
           "operation": "modify",
-          "description": "Add per-km pricing display: show 'Sedan: ₹13/km' and 'SUV: ₹21/km' prominently in the pricing section. Add an 'Estimated Distance (km)' number input field to the booking form. Implement real-time fare calculation: when vehicleType and estimatedDistance are set, calculate estimatedFare = distance × rate (13 for Sedan, 21 for SUV) and display it (e.g., 'Estimated Fare: ₹X'). Update the form submission to pass estimatedDistance and estimatedFare (both as bigint or null) to the submitCarRental mutation. Ensure the pricing and fare display use the premium styling and are clearly visible."
+          "description": "Update the per-km pricing constants to SEDAN_RATE_PER_KM = 13 and SUV_RATE_PER_KM = 21. Update the pricing display text to show '₹13/km' for Sedan and '₹21/km' for SUV. Ensure the fare calculation logic (estimatedFare = distance * rate) uses these new rates and the calculated fare is passed to the submitCarRental mutation."
         },
         {
-          "path": "frontend/src/hooks/useQueries.ts",
+          "path": "frontend/src/pages/HomePage.tsx",
           "operation": "modify",
-          "description": "Update the useSubmitCarRental mutation hook to accept estimatedDistance (bigint | null) and estimatedFare (bigint | null) as additional parameters, and pass them to actor.submitCarRental. The backend method signature already supports these fields, so ensure the hook matches it."
+          "description": "Locate the car pricing section (likely in the service cards or features area) and update any displayed per-km rates to show 'Sedan ₹13/km' and 'SUV ₹21/km'. If daily rates (₹2500/₹5000) are also shown, leave them unchanged as they are not in scope for this requirement."
         }
       ]
     },
     {
-      "id": "REQ-20",
-      "summary": "Replace the hot air balloon hero image with a new premium travel/luxury car rental themed image, ensuring high-end cinematic feel and consistency with the black/white/grey palette",
+      "id": "REQ-34",
+      "summary": "Create a new Hotel & Hospitality Bookings page with live hotel search API integration and inquiry fallback",
       "acceptanceCriteria": [
-        "The hot air balloon image no longer appears anywhere on the site.",
-        "A new premium hero/banner image is used in its place (luxury car on a scenic road or skyline, dark/cinematic tone).",
-        "The new image is a static asset in frontend/public/assets/generated.",
-        "The visual theme remains consistent with the black/white/grey premium palette."
+        "A '/hotels' route exists and renders the Hotel & Hospitality Bookings page.",
+        "The page is linked from the main navigation header (Bookings dropdown or top-level link) and from the homepage service cards section.",
+        "The search form captures: destination, check-in date, check-out date, number of guests, number of rooms, and room type preference.",
+        "Live hotel search results are displayed in a clean card list showing property name, star rating, location, price per night, and a booking CTA.",
+        "Loading, empty, and error states are handled with appropriate UI feedback.",
+        "Submitting an inquiry (fallback) stores a backend record with category 'hotel_booking' and all relevant form fields.",
+        "The admin inquiries page displays hotel_booking inquiries with their relevant fields.",
+        "The page is visually consistent with the premium black/white/grey palette."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/HotelBookingsPage.tsx",
+          "operation": "create",
+          "description": "Create a new Hotel & Hospitality Bookings page featuring a hero section with the generated hotel hero image at frontend/public/assets/generated/hotel-hero-premium.dim_1200x600.png. Include a search form with fields: destination (text input), checkInDate (date picker), checkOutDate (date picker), numberOfGuests (number input), numberOfRooms (number input), and roomTypePreference (select: Standard/Deluxe/Suite). Wire the form to trigger a hotel search via useHotelSearch hook. Display live search results in a card list using HotelResultCard components. Include a collapsible manual inquiry form that calls useSubmitHotelBooking mutation with all form fields plus optional hotelName, starRating, location, and pricePerNight. Handle loading, empty, and error states with appropriate UI feedback. Verify the component's usage instructions for the http-outcalls component before implementing the live search API integration."
+        },
+        {
+          "path": "frontend/src/hooks/useHotelSearch.ts",
+          "operation": "create",
+          "description": "Create a custom React hook that manages hotel search state using React Query. Define HotelSearchParams interface (destination, checkInDate, checkOutDate, numberOfGuests, numberOfRooms, roomTypePreference) and HotelResult interface (hotelName, starRating, location, pricePerNight, bookingUrl). Expose searchHotels and resetSearch functions. Integrate with a hotel search API service (defined in frontend/src/services/hotelApi.ts) using a 5-minute stale time similar to useFlightSearch. Handle API errors gracefully and return empty results on failure to allow fallback to inquiry form."
+        },
+        {
+          "path": "frontend/src/services/hotelApi.ts",
+          "operation": "create",
+          "description": "Create a hotel search API service that defines TypeScript interfaces for HotelSearchParams and HotelResult. Implement searchHotels function that makes HTTP requests to a hotel aggregator API (e.g., RapidAPI Hotels or Booking.com API). Include mock data generation as a fallback if API credentials are unavailable. The service should return an array of hotel results with property name, star rating, location, price per night, and booking URL. Include error handling and timeout logic. Note: The actual API integration will use the http-outcalls component for backend-mediated requests if required for CORS or API key security."
+        },
+        {
+          "path": "frontend/src/components/hotels/HotelSearchForm.tsx",
+          "operation": "create",
+          "description": "Create a reusable hotel search form component with validated inputs for destination, checkInDate, checkOutDate, numberOfGuests, numberOfRooms, and roomTypePreference (dropdown: Standard/Deluxe/Suite). Include client-side validation (check-out after check-in, positive guest/room counts). On submit, invoke the onSearch callback with HotelSearchParams. Style consistently with FlightSearchForm and RailwaySearchForm using the premium black/white/grey palette and Tailwind utilities."
+        },
+        {
+          "path": "frontend/src/components/hotels/HotelResultCard.tsx",
+          "operation": "create",
+          "description": "Create a card component to display a single hotel search result. Show hotel name (heading), star rating (icon display), location (subtext), price per night (prominent), and a booking CTA button. If bookingUrl is present, open it in a new tab; otherwise trigger an onBook callback to pre-fill the inquiry form. Style consistently with FlightResultCard and RailwayResultCard using card shadows, rounded corners, and hover effects."
+        },
+        {
+          "path": "frontend/src/components/hotels/HotelResultsList.tsx",
+          "operation": "create",
+          "description": "Create a component that renders a list of HotelResultCard components. Accept props for results array, loading state, error message, and onBook callback. Display loading spinner when searching, error alert on failure, empty state message when no results, and a grid of hotel cards when results are available. Follow the pattern used in FlightResultsList and RailwayResultsList."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add a new mutation hook useSubmitHotelBooking that calls actor.submitHotelBooking with parameters: name, phoneNumber, email, destination, checkInDate, checkOutDate, numberOfGuests, numberOfRooms, roomTypePreference, and optional hotelName, starRating, location, pricePerNight (all as bigint or string per backend interface). Invalidate the 'inquiries' query key on success. Include error handling with toast notifications."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register a new public route '/hotels' that renders HotelBookingsPage component. Place it alongside other booking routes (flights, railway, car-rentals) in the router configuration."
+        }
+      ]
+    },
+    {
+      "id": "REQ-36",
+      "summary": "Add a Hotel & Hospitality Bookings service card to the homepage service section",
+      "acceptanceCriteria": [
+        "The homepage service section includes a Hotel & Hospitality card alongside existing service cards.",
+        "The card shows a relevant icon, brief description, and a CTA button linking to '/hotels'.",
+        "The homepage layout remains consistent and responsive on mobile and desktop."
       ],
       "file_operations": [
         {
           "path": "frontend/src/pages/HomePage.tsx",
           "operation": "modify",
-          "description": "Replace the current hero banner image reference (if it points to a hot air balloon image asset) with the new generated image at frontend/public/assets/generated/hero-premium-travel.dim_1600x800.png. Ensure the hero section uses this image as a background or inline <img> with proper styling (high contrast, dark overlay if needed) to maintain the premium black/white/grey aesthetic. Verify that no other references to the old hot air balloon image remain in this file."
-        },
-        {
-          "path": "frontend/src/pages/PackagesPage.tsx",
-          "operation": "modify",
-          "description": "If the PackagesPage currently uses the hot air balloon hero image in its banner, replace it with frontend/public/assets/generated/hero-premium-travel.dim_1600x800.png. If no hot air balloon image is used here, verify and ensure the hero banner (if present) uses a premium travel-themed image consistent with the new design."
+          "description": "Add a new service card in the services section for 'Hotel & Hospitality Bookings'. Use a hotel/bed icon from lucide-react (e.g., Hotel or Bed). Include a brief description: 'Find and book premium hotels across India and internationally'. Add a CTA button linking to '/hotels'. Ensure the card matches the styling and layout of existing service cards (Packages, Car Rentals, Flights, Railway) and remains responsive on mobile and desktop."
         }
       ]
     },
     {
-      "id": "REQ-21",
-      "summary": "Add a Terms & Conditions page with the mandatory liability clause for self-drive rentals, and add a T&C acknowledgment checkbox to the Car Rentals booking form linking to the T&C page",
+      "id": "REQ-37",
+      "summary": "Add a Hotels tab to the homepage hero search widget",
       "acceptanceCriteria": [
-        "A dedicated Terms & Conditions page exists at route /terms.",
-        "The page includes the clause: 'Self-drive (without driver): The renter is fully responsible for any damage, repair costs, or losses incurred to the vehicle during the rental period.'",
-        "The Car Rentals booking form includes a checkbox: 'I have read and agree to the Terms & Conditions' that must be checked before submission.",
-        "The T&C page is linked in the site footer.",
-        "The T&C checkbox links to the /terms page."
+        "The hero search widget includes a 'Hotels' tab.",
+        "The Hotels tab shows inputs for destination, check-in date, and check-out date.",
+        "Submitting navigates to '/hotels' and pre-fills search parameters in the Hotel page's search form.",
+        "The widget remains visually consistent and responsive."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/pages/TermsPage.tsx",
-          "operation": "create",
-          "description": "Create a new Terms & Conditions page displaying standard car rental terms. Prominently include the clause: 'Self-drive (without driver): The renter is fully responsible for any damage, repair costs, or losses incurred to the vehicle during the rental period.' Add additional standard clauses as appropriate (booking policies, cancellation, payment terms, vehicle usage restrictions). Use a clean, readable layout with headings and paragraphs, styled consistently with the premium black/white/grey theme."
+          "path": "frontend/src/components/home/HeroSearchWidget.tsx",
+          "operation": "modify",
+          "description": "Add a new 'Hotels' tab to the existing tabbed widget alongside Flights, Trains, Car Rentals, and Tour Packages. In the Hotels tab content, include three input fields: destination (text input), checkInDate (date picker), and checkOutDate (date picker). On form submit, navigate to '/hotels' with query parameters (e.g., ?destination=...&checkIn=...&checkOut=...) using the router navigation hook. Ensure the tab and inputs match the styling and layout of existing tabs. Keep the widget responsive and visually consistent with the premium black/white/grey palette."
         },
         {
-          "path": "frontend/src/App.tsx",
+          "path": "frontend/src/pages/HotelBookingsPage.tsx",
           "operation": "modify",
-          "description": "Register a new public route at /terms that renders the TermsPage component. Add it alongside other public routes."
-        },
-        {
-          "path": "frontend/src/components/layout/Footer.tsx",
-          "operation": "modify",
-          "description": "Add a 'Terms & Conditions' link in the footer's quick links or navigation section, pointing to /terms. Place it logically near other informational links like About or Contact."
-        },
-        {
-          "path": "frontend/src/pages/CarRentalsPage.tsx",
-          "operation": "modify",
-          "description": "Add a checkbox input to the car rental booking form labeled 'I have read and agree to the Terms & Conditions' with a clickable link to /terms embedded in the label text. Make the checkbox required (form validation should prevent submission if unchecked). Position the checkbox above the submit button. Style it consistently with the form's premium design."
+          "description": "Add logic to HotelBookingsPage to read URL query parameters on mount (using frontend/src/utils/urlParams.ts utility functions). If destination, checkIn, and checkOut params are present, pre-fill the search form fields and auto-trigger a hotel search. This enables seamless navigation from the hero widget with pre-populated search criteria."
         }
       ]
     },
     {
-      "id": "REQ-22",
-      "summary": "Add a Railway Ticket Bookings page explaining the service and allowing users to submit a railway booking inquiry with origin, destination, travel date, passenger count, class, and contact details",
+      "id": "REQ-34",
+      "summary": "Update Header navigation to include Hotels link",
       "acceptanceCriteria": [
-        "A 'Railway Bookings' page exists at route /railway-bookings.",
-        "The page has a service description and a booking inquiry form.",
-        "Form collects: origin station, destination station, travel date, number of passengers, class (Sleeper/3AC/2AC/1AC/General), passenger name, phone, email.",
-        "On submission, inquiry is stored in the backend with category 'railway_booking'.",
-        "Page is linked in the header navigation under a 'Services' or 'Bookings' group."
+        "The page is linked from the main navigation header (Bookings dropdown or top-level link) and from the homepage service cards section."
       ],
       "file_operations": [
-        {
-          "path": "frontend/src/pages/RailwayBookingsPage.tsx",
-          "operation": "create",
-          "description": "Create a new public page for railway ticket booking assistance. Include a hero or intro section describing Blackrays' railway booking service. Add a form collecting: origin station (text input), destination station (text input), travel date (date input), number of passengers (number input), rail class (dropdown or radio with options: Sleeper, 3AC, 2AC, 1AC, General), passenger name, phone number, and email. Use the submitRailwayBooking backend method to submit the inquiry. Show loading state and success/error toasts. Style consistently with the premium theme."
-        },
-        {
-          "path": "frontend/src/hooks/useQueries.ts",
-          "operation": "modify",
-          "description": "Add a useSubmitRailwayBooking mutation hook that calls actor.submitRailwayBooking with parameters: name, phoneNumber, email, originStation, destinationStation, travelDate, passengerCount (bigint), and railClass. Invalidate the 'inquiries' query key on success and handle errors."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Register a new public route at /railway-bookings that renders the RailwayBookingsPage component."
-        },
         {
           "path": "frontend/src/components/layout/Header.tsx",
           "operation": "modify",
-          "description": "Add a 'Railway Bookings' navigation link in the desktop and mobile menus, linking to /railway-bookings. Consider grouping it under a 'Services' or 'Bookings' section if the navigation becomes long, or place it near 'Flight Bookings' if added in the same batch."
+          "description": "Add a 'Hotels' link to the Bookings dropdown menu in the desktop navigation. The link should navigate to '/hotels'. Ensure the mobile hamburger menu also includes the Hotels link under the Bookings section. Keep the navigation styling consistent with existing links."
         }
       ]
     },
     {
-      "id": "REQ-23",
-      "summary": "Add a Flight Ticket Bookings page describing the service and allowing users to submit a flight booking inquiry with origin, destination, travel dates, trip type, passenger count, cabin class, and contact details",
+      "id": "REQ-34",
+      "summary": "Update admin inquiries page to display hotel_booking inquiry details",
       "acceptanceCriteria": [
-        "A 'Flight Bookings' page exists at route /flight-bookings.",
-        "The page has a service description and a booking inquiry form.",
-        "Form collects: origin city/airport, destination city/airport, departure date, return date (if round-trip), trip type (one-way/round-trip), number of passengers, cabin class (Economy/Business/First), passenger name, phone, email.",
-        "On submission, inquiry is stored in the backend with category 'flight_booking'.",
-        "Page is linked in the header navigation."
+        "The admin inquiries page displays hotel_booking inquiries with their relevant fields."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/pages/FlightBookingsPage.tsx",
-          "operation": "create",
-          "description": "Create a new public page for flight ticket booking assistance. Include a hero or intro section describing Blackrays' flight booking service. Add a form collecting: origin city/airport (text input), destination city/airport (text input), departure date (date input), return date (date input, conditionally required if trip type is round-trip), trip type (dropdown or radio: one-way/round-trip), number of passengers (number input), cabin class (dropdown: Economy/Business/First), passenger name, phone number, and email. Use the submitFlightBooking backend method to submit the inquiry. Show loading state and success/error toasts. Style consistently with the premium theme."
-        },
-        {
-          "path": "frontend/src/hooks/useQueries.ts",
+          "path": "frontend/src/pages/admin/AdminInquiriesPage.tsx",
           "operation": "modify",
-          "description": "Add a useSubmitFlightBooking mutation hook that calls actor.submitFlightBooking with parameters: name, phoneNumber, email, originCity, destinationCity, departureDate, returnDate (string | null), tripType, passengerCount (bigint), and cabinClass. Invalidate the 'inquiries' query key on success and handle errors."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Register a new public route at /flight-bookings that renders the FlightBookingsPage component."
-        },
-        {
-          "path": "frontend/src/components/layout/Header.tsx",
-          "operation": "modify",
-          "description": "Add a 'Flight Bookings' navigation link in the desktop and mobile menus, linking to /flight-bookings. Place it near 'Railway Bookings' or under a 'Services' grouping if the navigation is reorganized."
-        }
-      ]
-    },
-    {
-      "id": "REQ-25",
-      "summary": "Update the homepage to include prominent service cards for Custom Travel Packages, Car Rentals (per-km), Railway Ticket Bookings, and Flight Ticket Bookings, each with a description and CTA linking to the respective page",
-      "acceptanceCriteria": [
-        "Homepage has a 'Our Services' or equivalent section listing all four services with icons/images, descriptions, and CTA links.",
-        "All CTAs correctly route to /custom-packages, /car-rentals, /railway-bookings, /flight-bookings.",
-        "The section uses the premium dark/grey palette with white typography.",
-        "No orange/amber or hot air balloon imagery remains on the homepage."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/pages/HomePage.tsx",
-          "operation": "modify",
-          "description": "Add or expand an 'Our Services' section on the homepage that prominently displays four service cards: Custom Travel Packages, Car Rentals (highlight per-km pricing), Railway Ticket Bookings, and Flight Ticket Bookings. Each card should include a brief description, an icon or small image (use existing assets or simple icons), and a CTA button linking to the respective page (/custom-packages, /car-rentals, /railway-bookings, /flight-bookings). Style the section with the premium black/white/grey palette, ensuring high contrast and readability. Remove any references to orange/amber accents or hot air balloon imagery. Ensure the layout is responsive and visually balanced."
+          "description": "Add a conditional rendering block for inquiries with category 'hotelBooking'. Display hotel-specific fields from inquiry.hotelBookingDetails: destination, checkInDate, checkOutDate, numberOfGuests, numberOfRooms, roomTypePreference, and optional hotelName, starRating, location, pricePerNight. Format the display similarly to existing category-specific details (carRental, flightBooking, railwayBooking). Ensure the layout remains clean and the fields are labeled clearly."
         }
       ]
     }

@@ -15,71 +15,79 @@ export default {
         background: 'oklch(var(--background) / <alpha-value>)',
         foreground: 'oklch(var(--foreground) / <alpha-value>)',
         card: {
-          DEFAULT: 'oklch(var(--card) / <alpha-value>)',
-          foreground: 'oklch(var(--card-foreground) / <alpha-value>)',
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))'
         },
         popover: {
-          DEFAULT: 'oklch(var(--popover) / <alpha-value>)',
-          foreground: 'oklch(var(--popover-foreground) / <alpha-value>)',
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))'
         },
         primary: {
           DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
+          foreground: 'hsl(var(--primary-foreground))'
         },
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
+          foreground: 'hsl(var(--secondary-foreground))'
         },
         muted: {
           DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
+          foreground: 'hsl(var(--muted-foreground))'
         },
         accent: {
           DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
+          foreground: 'hsl(var(--accent-foreground))'
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
+          foreground: 'hsl(var(--destructive-foreground))'
         },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
+        chart: {
+          '1': 'hsl(var(--chart-1))',
+          '2': 'hsl(var(--chart-2))',
+          '3': 'hsl(var(--chart-3))',
+          '4': 'hsl(var(--chart-4))',
+          '5': 'hsl(var(--chart-5))'
+        },
+        // Extended warm palette tokens
+        warmGrey: '#9CA3AF',
+        lightGrey: '#F3F4F6',
+        charcoal: '#374151',
+        warmSand: '#F5F0E8',
+        lightBeige: '#FAF7F2',
+        deepCharcoal: '#1F2937',
+        goldAccent: '#B8975A',
+        warmBrown: '#6B5744',
+        cream: '#FEFCF8',
+        stone: '#78716C',
       },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+        xl: '1rem',
+        '2xl': '1.5rem',
+        '3xl': '2rem',
       },
       boxShadow: {
-        'premium': '0 1px 3px oklch(0 0 0 / 0.08), 0 4px 12px oklch(0 0 0 / 0.06)',
-        'premium-md': '0 4px 16px oklch(0 0 0 / 0.10), 0 1px 4px oklch(0 0 0 / 0.06)',
-        'premium-lg': '0 8px 32px oklch(0 0 0 / 0.12), 0 2px 8px oklch(0 0 0 / 0.08)',
-        'premium-xl': '0 16px 48px oklch(0 0 0 / 0.16), 0 4px 16px oklch(0 0 0 / 0.10)',
+        'premium': '0 4px 24px -4px rgba(31, 41, 55, 0.12)',
+        'premium-lg': '0 8px 40px -8px rgba(31, 41, 55, 0.16)',
+        'warm': '0 4px 20px -4px rgba(107, 87, 68, 0.15)',
+        'warm-lg': '0 8px 32px -8px rgba(107, 87, 68, 0.20)',
+        'card': '0 2px 12px -2px rgba(31, 41, 55, 0.08)',
       },
-      keyframes: {
-        'accordion-down': {
-          from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
-        },
-        'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
-        },
-        'fade-in': {
-          from: { opacity: '0', transform: 'translateY(8px)' },
-          to: { opacity: '1', transform: 'translateY(0)' },
-        },
-      },
-      animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
-        'fade-in': 'fade-in 0.4s ease-out',
+      backgroundImage: {
+        'hero-flight': "url('/assets/generated/hero-flight-premium.dim_1920x1080.png')",
+        'hero-gradient': 'linear-gradient(135deg, rgba(31,41,55,0.65) 0%, rgba(55,65,81,0.45) 50%, rgba(31,41,55,0.30) 100%)',
       },
     },
   },
   plugins: [
-    require('tailwindcss-animate'),
-    require('@tailwindcss/typography'),
+    require("tailwindcss-animate"),
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/container-queries"),
   ],
-};
+}

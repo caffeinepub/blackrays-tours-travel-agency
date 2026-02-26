@@ -1,339 +1,240 @@
-import { useState } from 'react';
-import { Plane, CheckCircle, Loader2, Globe, Clock, Shield } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useSearch } from '@tanstack/react-router';
+import { Plane, ChevronDown, ChevronUp, Info } from 'lucide-react';
+import FlightSearchForm from '../components/flights/FlightSearchForm';
+import FlightResultsList from '../components/flights/FlightResultsList';
+import { useFlightSearch } from '../hooks/useFlightSearch';
+import { FlightSearchParams } from '../services/flightApi';
+import { useSubmitFlightBooking } from '../hooks/useQueries';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { useSubmitFlightBooking } from '../hooks/useQueries';
-import { toast } from 'sonner';
-
-const cabinClasses = [
-  { value: 'Economy', label: 'Economy' },
-  { value: 'Business', label: 'Business' },
-  { value: 'First', label: 'First Class' },
-];
-
-const tripTypes = [
-  { value: 'one-way', label: 'One Way' },
-  { value: 'round-trip', label: 'Round Trip' },
-];
-
-const features = [
-  { icon: Globe, title: 'Domestic & International', desc: 'Flights to destinations across India and worldwide.' },
-  { icon: Clock, title: 'Fast Assistance', desc: 'Quick booking support with best fare options.' },
-  { icon: Shield, title: 'All Cabin Classes', desc: 'Economy, Business, and First Class bookings.' },
-];
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 export default function FlightBookingsPage() {
-  const [tripType, setTripType] = useState('one-way');
-  const [cabinClass, setCabinClass] = useState('');
-  const [form, setForm] = useState({
+  const searchParams = useSearch({ strict: false }) as Record<string, string>;
+  const { search, results, isLoading, isError, error, hasSearched } = useFlightSearch();
+  const submitFlightBooking = useSubmitFlightBooking();
+
+  const [showInquiry, setShowInquiry] = useState(false);
+  const [inquiryForm, setInquiryForm] = useState({
     name: '',
     phone: '',
     email: '',
-    originCity: '',
-    destinationCity: '',
-    departureDate: '',
+    origin: searchParams?.origin || '',
+    destination: searchParams?.destination || '',
+    departureDate: searchParams?.date || '',
     returnDate: '',
-    passengerCount: '',
+    tripType: 'one_way',
+    passengers: '1',
+    cabinClass: 'economy',
   });
   const [submitted, setSubmitted] = useState(false);
 
-  const submitFlightBooking = useSubmitFlightBooking();
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  const initialParams: Partial<FlightSearchParams> = {
+    origin: searchParams?.origin || '',
+    destination: searchParams?.destination || '',
+    departureDate: searchParams?.date || '',
+    passengers: Number(searchParams?.passengers) || 1,
+    cabinClass: (searchParams?.class as FlightSearchParams['cabinClass']) || 'economy',
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Auto-search if params are provided from homepage widget
+  useEffect(() => {
+    if (searchParams?.origin && searchParams?.destination && searchParams?.date) {
+      search({
+        origin: searchParams.origin,
+        destination: searchParams.destination,
+        departureDate: searchParams.date,
+        passengers: Number(searchParams.passengers) || 1,
+        cabinClass: (searchParams.class as FlightSearchParams['cabinClass']) || 'economy',
+        tripType: 'one_way',
+      });
+    }
+  }, []);
+
+  const handleInquirySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name || !form.phone || !form.email || !form.originCity || !form.destinationCity || !form.departureDate || !form.passengerCount || !cabinClass) {
-      toast.error('Please fill in all required fields.');
-      return;
-    }
-    if (tripType === 'round-trip' && !form.returnDate) {
-      toast.error('Please enter a return date for round-trip bookings.');
-      return;
-    }
-    const count = parseInt(form.passengerCount);
-    if (isNaN(count) || count < 1) {
-      toast.error('Please enter a valid number of passengers.');
-      return;
-    }
     try {
       await submitFlightBooking.mutateAsync({
-        name: form.name,
-        phoneNumber: form.phone,
-        email: form.email,
-        originCity: form.originCity,
-        destinationCity: form.destinationCity,
-        departureDate: form.departureDate,
-        returnDate: tripType === 'round-trip' && form.returnDate ? form.returnDate : null,
-        tripType,
-        passengerCount: BigInt(count),
-        cabinClass,
+        name: inquiryForm.name,
+        phoneNumber: inquiryForm.phone,
+        email: inquiryForm.email,
+        originCity: inquiryForm.origin,
+        destinationCity: inquiryForm.destination,
+        departureDate: inquiryForm.departureDate,
+        returnDate: inquiryForm.returnDate || null,
+        tripType: inquiryForm.tripType,
+        passengerCount: BigInt(inquiryForm.passengers),
+        cabinClass: inquiryForm.cabinClass,
       });
       setSubmitted(true);
-      toast.success('Flight booking request submitted! We will contact you shortly.');
-    } catch {
-      toast.error('Failed to submit booking. Please try again.');
+    } catch (err) {
+      console.error('Inquiry submission failed:', err);
     }
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-background">
       {/* Hero */}
-      <section className="relative py-24 overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/assets/generated/hero-premium-travel.dim_1600x800.png')" }}
-        />
-        <div className="absolute inset-0 hero-overlay" />
-        <div className="relative z-10 text-center px-4 max-w-3xl mx-auto">
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-white/60 mb-4 border border-white/20 px-3 py-1 rounded-sm">
-            Air Travel
-          </span>
-          <h1 className="font-display text-4xl sm:text-5xl font-bold text-white mb-4">
-            Flight Ticket Bookings
+      <section className="relative bg-foreground text-background py-16">
+        <div className="absolute inset-0 overflow-hidden opacity-10">
+          <img src="/assets/generated/hero-premium-travel.dim_1600x800.png" alt="" className="w-full h-full object-cover" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center gap-2 bg-white/10 rounded-full px-4 py-1.5 text-sm font-medium mb-4">
+            <Plane className="w-4 h-4" />
+            Live Flight Search
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-bold font-display mb-3">
+            Book Your Flight
           </h1>
-          <p className="text-white/80 text-lg max-w-xl mx-auto">
-            Domestic and international flight booking assistance for Economy, Business, and First Class travel.
+          <p className="text-background/70 text-lg max-w-xl mx-auto">
+            Search across all major airlines and find the best fares for your journey
           </p>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-12 bg-foreground text-background">
+      {/* Search Section */}
+      <section className="py-8 bg-muted/30 border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {features.map((f) => (
-              <div key={f.title} className="flex items-start gap-4">
-                <div className="w-10 h-10 bg-background/15 rounded-sm flex items-center justify-center flex-shrink-0">
-                  <f.icon className="w-5 h-5 text-background" />
-                </div>
-                <div>
-                  <h3 className="font-display font-semibold text-sm mb-1">{f.title}</h3>
-                  <p className="text-xs opacity-60 leading-relaxed">{f.desc}</p>
-                </div>
-              </div>
-            ))}
+          <div className="bg-card border border-border rounded-2xl shadow-premium-lg p-6">
+            <FlightSearchForm
+              onSearch={search}
+              isLoading={isLoading}
+              initialParams={initialParams}
+            />
           </div>
         </div>
       </section>
 
-      {/* Booking Form */}
-      <section className="py-16 bg-background">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <h2 className="font-display text-3xl font-bold text-foreground mb-3">Book Flight Tickets</h2>
-            <p className="text-muted-foreground">
-              Submit your booking request and our team will find the best options for you.
-            </p>
-          </div>
+      {/* Results */}
+      <section className="py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <FlightResultsList
+            results={results}
+            isLoading={isLoading}
+            isError={isError}
+            error={error}
+            hasSearched={hasSearched}
+          />
 
-          <div className="border border-border rounded-sm p-8 bg-card">
-            {submitted ? (
-              <div className="text-center py-8">
-                <CheckCircle className="w-16 h-16 text-foreground mx-auto mb-4" />
-                <h3 className="font-display text-2xl font-bold text-foreground mb-2">Booking Request Sent!</h3>
-                <p className="text-muted-foreground mb-6">
-                  Thank you, <strong>{form.name}</strong>! We will contact you at{' '}
-                  <strong>{form.phone}</strong> with flight options from{' '}
-                  <strong>{form.originCity}</strong> to <strong>{form.destinationCity}</strong>.
-                </p>
-                <Button
-                  onClick={() => {
-                    setSubmitted(false);
-                    setForm({ name: '', phone: '', email: '', originCity: '', destinationCity: '', departureDate: '', returnDate: '', passengerCount: '' });
-                    setTripType('one-way');
-                    setCabinClass('');
-                  }}
-                  variant="outline"
-                >
-                  Make Another Booking
-                </Button>
+          {/* API Notice */}
+          {!hasSearched && (
+            <div className="py-12 text-center">
+              <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
+                <Plane className="w-10 h-10 text-muted-foreground" />
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
-                {/* Trip Type */}
-                <div className="space-y-2">
-                  <Label>Trip Type *</Label>
-                  <div className="grid grid-cols-2 gap-3">
-                    {tripTypes.map((tt) => (
-                      <button
-                        key={tt.value}
-                        type="button"
-                        onClick={() => setTripType(tt.value)}
-                        className={`py-2.5 px-4 rounded-sm border text-sm font-medium transition-all ${
-                          tripType === tt.value
-                            ? 'border-foreground bg-foreground text-background'
-                            : 'border-border bg-background text-muted-foreground hover:border-foreground/40'
-                        }`}
-                      >
-                        {tt.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+              <h3 className="font-bold font-display text-xl mb-2">Search for Flights</h3>
+              <p className="text-muted-foreground max-w-md mx-auto">
+                Enter your origin, destination, and travel date above to find available flights.
+              </p>
+              <div className="mt-4 inline-flex items-center gap-2 bg-muted rounded-lg px-4 py-2 text-sm text-muted-foreground">
+                <Info className="w-4 h-4" />
+                Currently showing demo results. Live API integration available with credentials.
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
 
-                {/* Origin & Destination */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="originCity">From (City/Airport) *</Label>
-                    <Input
-                      id="originCity"
-                      name="originCity"
-                      value={form.originCity}
-                      onChange={handleChange}
-                      placeholder="e.g. Mumbai (BOM)"
-                      required
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="destinationCity">To (City/Airport) *</Label>
-                    <Input
-                      id="destinationCity"
-                      name="destinationCity"
-                      value={form.destinationCity}
-                      onChange={handleChange}
-                      placeholder="e.g. Delhi (DEL)"
-                      required
-                    />
-                  </div>
+      {/* Inquiry Fallback */}
+      <section className="py-8 border-t border-border">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Collapsible open={showInquiry} onOpenChange={setShowInquiry}>
+            <CollapsibleTrigger asChild>
+              <button className="w-full flex items-center justify-between p-4 bg-muted rounded-xl hover:bg-accent transition-colors">
+                <div className="text-left">
+                  <p className="font-semibold">Prefer a manual inquiry?</p>
+                  <p className="text-sm text-muted-foreground">Submit your details and our team will assist you</p>
                 </div>
-
-                {/* Dates */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="departureDate">Departure Date *</Label>
-                    <Input
-                      id="departureDate"
-                      name="departureDate"
-                      type="date"
-                      value={form.departureDate}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  {tripType === 'round-trip' && (
-                    <div className="space-y-1.5">
-                      <Label htmlFor="returnDate">Return Date *</Label>
-                      <Input
-                        id="returnDate"
-                        name="returnDate"
-                        type="date"
-                        value={form.returnDate}
-                        onChange={handleChange}
-                        required
-                      />
+                {showInquiry ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+              </button>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <div className="mt-4 bg-card border border-border rounded-xl p-6">
+                {submitted ? (
+                  <div className="text-center py-8">
+                    <div className="w-14 h-14 rounded-full bg-foreground text-background flex items-center justify-center mx-auto mb-4">
+                      <Plane className="w-7 h-7" />
                     </div>
-                  )}
-                </div>
-
-                {/* Passengers & Class */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="passengerCount">Number of Passengers *</Label>
-                    <Input
-                      id="passengerCount"
-                      name="passengerCount"
-                      type="number"
-                      min="1"
-                      value={form.passengerCount}
-                      onChange={handleChange}
-                      placeholder="e.g. 2"
-                      required
-                    />
+                    <h3 className="font-bold font-display text-xl mb-2">Inquiry Submitted!</h3>
+                    <p className="text-muted-foreground">Our team will contact you within 24 hours.</p>
                   </div>
-                  <div className="space-y-1.5">
-                    <Label>Cabin Class *</Label>
-                    <Select value={cabinClass} onValueChange={setCabinClass} required>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select class" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {cabinClasses.map((cls) => (
-                          <SelectItem key={cls.value} value={cls.value}>
-                            {cls.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                <div className="border-t border-border pt-5">
-                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">Contact Details</p>
-                  <div className="space-y-4">
+                ) : (
+                  <form onSubmit={handleInquirySubmit} className="space-y-4">
+                    <h3 className="font-bold font-display text-lg mb-4">Flight Booking Inquiry</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-1.5">
-                        <Label htmlFor="name">Full Name *</Label>
-                        <Input
-                          id="name"
-                          name="name"
-                          value={form.name}
-                          onChange={handleChange}
-                          placeholder="Your full name"
-                          required
-                        />
+                      <div>
+                        <Label>Full Name *</Label>
+                        <Input required value={inquiryForm.name} onChange={(e) => setInquiryForm(p => ({ ...p, name: e.target.value }))} placeholder="Your name" />
                       </div>
-                      <div className="space-y-1.5">
-                        <Label htmlFor="phone">Phone Number *</Label>
-                        <Input
-                          id="phone"
-                          name="phone"
-                          type="tel"
-                          value={form.phone}
-                          onChange={handleChange}
-                          placeholder="Your phone number"
-                          required
-                        />
+                      <div>
+                        <Label>Phone *</Label>
+                        <Input required value={inquiryForm.phone} onChange={(e) => setInquiryForm(p => ({ ...p, phone: e.target.value }))} placeholder="+91 XXXXX XXXXX" />
+                      </div>
+                      <div>
+                        <Label>Email *</Label>
+                        <Input required type="email" value={inquiryForm.email} onChange={(e) => setInquiryForm(p => ({ ...p, email: e.target.value }))} placeholder="your@email.com" />
+                      </div>
+                      <div>
+                        <Label>Trip Type</Label>
+                        <Select value={inquiryForm.tripType} onValueChange={(v) => setInquiryForm(p => ({ ...p, tripType: v }))}>
+                          <SelectTrigger><SelectValue /></SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="one_way">One Way</SelectItem>
+                            <SelectItem value="round_trip">Round Trip</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Label>From City *</Label>
+                        <Input required value={inquiryForm.origin} onChange={(e) => setInquiryForm(p => ({ ...p, origin: e.target.value }))} placeholder="Origin city" />
+                      </div>
+                      <div>
+                        <Label>To City *</Label>
+                        <Input required value={inquiryForm.destination} onChange={(e) => setInquiryForm(p => ({ ...p, destination: e.target.value }))} placeholder="Destination city" />
+                      </div>
+                      <div>
+                        <Label>Departure Date *</Label>
+                        <Input required type="date" value={inquiryForm.departureDate} onChange={(e) => setInquiryForm(p => ({ ...p, departureDate: e.target.value }))} />
+                      </div>
+                      <div>
+                        <Label>Return Date</Label>
+                        <Input type="date" value={inquiryForm.returnDate} onChange={(e) => setInquiryForm(p => ({ ...p, returnDate: e.target.value }))} />
+                      </div>
+                      <div>
+                        <Label>Passengers</Label>
+                        <Input type="number" min={1} max={9} value={inquiryForm.passengers} onChange={(e) => setInquiryForm(p => ({ ...p, passengers: e.target.value }))} />
+                      </div>
+                      <div>
+                        <Label>Cabin Class</Label>
+                        <Select value={inquiryForm.cabinClass} onValueChange={(v) => setInquiryForm(p => ({ ...p, cabinClass: v }))}>
+                          <SelectTrigger><SelectValue /></SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="economy">Economy</SelectItem>
+                            <SelectItem value="premium_economy">Premium Economy</SelectItem>
+                            <SelectItem value="business">Business</SelectItem>
+                            <SelectItem value="first">First Class</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </div>
                     </div>
-                    <div className="space-y-1.5">
-                      <Label htmlFor="email">Email Address *</Label>
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        value={form.email}
-                        onChange={handleChange}
-                        placeholder="your@email.com"
-                        required
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={submitFlightBooking.isPending}
-                >
-                  {submitFlightBooking.isPending ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Submitting...
-                    </>
-                  ) : (
-                    <>
-                      <Plane className="w-4 h-4 mr-2" />
-                      Submit Booking Request
-                    </>
-                  )}
-                </Button>
-                <p className="text-xs text-muted-foreground text-center">
-                  Our team will contact you within a few hours with the best available flight options.
-                </p>
-              </form>
-            )}
-          </div>
+                    <Button type="submit" disabled={submitFlightBooking.isPending} className="w-full">
+                      {submitFlightBooking.isPending ? (
+                        <span className="flex items-center gap-2">
+                          <span className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                          Submitting...
+                        </span>
+                      ) : 'Submit Inquiry'}
+                    </Button>
+                  </form>
+                )}
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
         </div>
       </section>
     </div>

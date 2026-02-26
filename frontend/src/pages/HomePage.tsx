@@ -1,307 +1,338 @@
 import { Link } from '@tanstack/react-router';
-import { ArrowRight, Car, MapPin, Shield, Clock, Star, Phone, Train, Plane, Package } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Phone, Star, Shield, Clock, Users, Plane, Train, Car, Package, Hotel, ChevronRight, ArrowRight } from 'lucide-react';
+import HeroSearchWidget from '../components/home/HeroSearchWidget';
 import HomeContactBar from '../components/home/HomeContactBar';
-import { useGetPublicPackages } from '../hooks/useQueries';
-import PackageCard from '../components/packages/PackageCard';
 
-const features = [
-  {
-    icon: Car,
-    title: 'Premium Fleet',
-    description: 'Choose from our well-maintained Sedans and SUVs for a comfortable journey.',
-  },
-  {
-    icon: Shield,
-    title: 'Safe & Reliable',
-    description: 'All vehicles are regularly serviced and insured for your peace of mind.',
-  },
-  {
-    icon: Clock,
-    title: '24/7 Support',
-    description: 'Our team is available round the clock to assist you with any queries.',
-  },
-  {
-    icon: Star,
-    title: 'Expert Guides',
-    description: 'Experienced local guides who know every corner of the destination.',
-  },
+const destinations = [
+  { name: 'Goa', image: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=400&h=300&fit=crop', tag: 'Beach Paradise' },
+  { name: 'Rajasthan', image: 'https://images.unsplash.com/photo-1477587458883-47145ed94245?w=400&h=300&fit=crop', tag: 'Royal Heritage' },
+  { name: 'Kerala', image: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=400&h=300&fit=crop', tag: 'God\'s Own Country' },
+  { name: 'Himachal Pradesh', image: 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=400&h=300&fit=crop', tag: 'Mountain Escape' },
+  { name: 'Andaman', image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop', tag: 'Island Bliss' },
+  { name: 'Ladakh', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop', tag: 'High Altitude' },
 ];
 
 const services = [
   {
-    icon: Package,
-    title: 'Custom Travel Packages',
-    description: 'Personalized travel experiences tailored to your destination (India & Abroad), group size, and duration.',
-    cta: 'Plan My Trip',
-    to: '/custom-packages',
-    highlight: true,
+    icon: <Package className="w-7 h-7" />,
+    title: 'Tour Packages',
+    description: 'Curated travel experiences across India\'s most breathtaking destinations.',
+    link: '/packages',
+    color: 'bg-deepCharcoal text-lightBeige',
   },
   {
-    icon: Car,
+    icon: <Car className="w-7 h-7" />,
     title: 'Car Rentals',
-    description: 'Sedan at ₹13/km or ₹2,500/day · SUV at ₹21/km or ₹5,000/day. With or without driver.',
-    cta: 'Book a Car',
-    to: '/car-rentals',
-    highlight: false,
+    description: 'Premium vehicles with professional drivers. Sedan ₹13/km · SUV ₹21/km.',
+    link: '/car-rentals',
+    color: 'bg-charcoal text-lightBeige',
   },
   {
-    icon: Train,
-    title: 'Railway Ticket Bookings',
-    description: 'Hassle-free railway ticket booking assistance for Sleeper, 3AC, 2AC, 1AC, and General classes.',
-    cta: 'Book Train Tickets',
-    to: '/railway-bookings',
-    highlight: false,
+    icon: <Plane className="w-7 h-7" />,
+    title: 'Flight Bookings',
+    description: 'Best fares on domestic and international flights, booked with ease.',
+    link: '/flights',
+    color: 'bg-warmBrown text-lightBeige',
   },
   {
-    icon: Plane,
-    title: 'Flight Ticket Bookings',
-    description: 'Domestic and international flight booking assistance for Economy, Business, and First class.',
-    cta: 'Book Flights',
-    to: '/flight-bookings',
-    highlight: false,
+    icon: <Train className="w-7 h-7" />,
+    title: 'Railway Bookings',
+    description: 'Hassle-free train ticket reservations across all classes and routes.',
+    link: '/railway',
+    color: 'bg-stone-600 text-lightBeige',
+  },
+  {
+    icon: <Hotel className="w-7 h-7" />,
+    title: 'Hotel & Hospitality',
+    description: 'Find and book premium hotels across India and internationally.',
+    link: '/hotels',
+    color: 'bg-stone-800 text-lightBeige',
   },
 ];
 
-const vehicles = [
-  {
-    type: 'Sedan',
-    priceDay: '₹2,500/day',
-    priceKm: '₹13/km',
-    description: 'Comfortable and fuel-efficient for city and highway travel.',
-    features: ['AC', 'GPS Navigation', 'Music System', 'Comfortable Seating'],
-  },
-  {
-    type: 'SUV',
-    priceDay: '₹5,000/day',
-    priceKm: '₹21/km',
-    description: 'Spacious and powerful for long-distance and off-road adventures.',
-    features: ['AC', 'GPS Navigation', 'Music System', '7-Seater Capacity'],
-  },
+const features = [
+  { icon: <Shield className="w-6 h-6" />, title: 'Trusted & Secure', desc: 'Your bookings are safe with our verified partners and secure payment systems.' },
+  { icon: <Clock className="w-6 h-6" />, title: '24/7 Support', desc: 'Round-the-clock assistance for all your travel needs and emergencies.' },
+  { icon: <Star className="w-6 h-6" />, title: 'Premium Experience', desc: 'Handpicked services ensuring the highest quality travel experiences.' },
+  { icon: <Users className="w-6 h-6" />, title: 'Expert Guidance', desc: 'Seasoned travel experts to help plan your perfect itinerary.' },
+];
+
+const carPricing = [
+  { type: 'Sedan', icon: '🚗', price: '₹13/km', features: ['AC Comfort', 'Up to 4 Passengers', 'Professional Driver'], popular: false },
+  { type: 'SUV', icon: '🚙', price: '₹21/km', features: ['Spacious Cabin', 'Up to 7 Passengers', 'Luggage Space', 'Professional Driver'], popular: true },
 ];
 
 export default function HomePage() {
-  const { data: packages, isLoading } = useGetPublicPackages();
-
   return (
-    <div>
-      {/* Contact Bar */}
-      <HomeContactBar />
-
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--light-beige)' }}>
       {/* Hero Section */}
-      <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
+      <section
+        className="relative min-h-[92vh] flex flex-col items-center justify-center overflow-hidden"
+        style={{
+          backgroundImage: "url('/assets/generated/hero-flight-premium.dim_1920x1080.png')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center top',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
+        {/* Gradient overlay for legibility */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/assets/generated/hero-premium-travel.dim_1600x800.png')" }}
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(160deg, rgba(15,20,30,0.72) 0%, rgba(31,41,55,0.55) 45%, rgba(20,28,40,0.40) 100%)',
+          }}
         />
-        <div className="absolute inset-0 hero-overlay" />
-        <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
-            Blackrays Car Rentals &<br />
-            <span className="text-white/90">Tours and Travels</span>
-          </h1>
-          <p className="text-lg sm:text-xl text-white/80 mb-8 max-w-2xl mx-auto leading-relaxed">
-            Experience premium travel across India with our reliable car rental services, expertly curated tour packages, and seamless ticket bookings.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" className="bg-white text-foreground hover:bg-white/90 font-semibold px-8">
-              <Link to="/car-rentals">
-                <Car className="w-5 h-5 mr-2" />
-                Book a Car
-              </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white/10 font-semibold px-8">
-              <Link to="/custom-packages">
-                <Package className="w-5 h-5 mr-2" />
-                Plan My Trip
-              </Link>
-            </Button>
+
+        {/* Hero Content */}
+        <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center pt-16 pb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6 text-sm font-medium"
+            style={{ backgroundColor: 'rgba(184,151,90,0.25)', color: '#E8D5A3', border: '1px solid rgba(184,151,90,0.4)' }}>
+            <Star className="w-3.5 h-3.5 fill-current" />
+            India's Premium Travel Partner
           </div>
+
+          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-4"
+            style={{ textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}>
+            Discover the World
+            <span className="block" style={{ color: '#E8D5A3' }}>in Luxury & Comfort</span>
+          </h1>
+
+          <p className="text-lg sm:text-xl text-white/85 max-w-2xl mb-10 leading-relaxed"
+            style={{ textShadow: '0 1px 8px rgba(0,0,0,0.4)' }}>
+            From mountain peaks to coastal shores — Blackrays crafts unforgettable journeys
+            with premium cars, curated packages, flights, rail & hotel bookings.
+          </p>
+
+          {/* Search Widget */}
+          <div className="w-full max-w-4xl">
+            <HeroSearchWidget />
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 text-white/60">
+          <span className="text-xs tracking-widest uppercase">Explore</span>
+          <div className="w-px h-8 bg-white/30 animate-pulse" />
         </div>
       </section>
 
-      {/* Our Services */}
-      <section className="py-16 bg-foreground text-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="font-display text-3xl font-bold mb-3">Our Services</h2>
-            <p className="opacity-70 max-w-xl mx-auto">
-              Everything you need for a seamless travel experience — from custom packages to ticket bookings.
+      {/* Contact Bar */}
+      <HomeContactBar />
+
+      {/* Services Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: 'var(--light-beige)' }}>
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14">
+            <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: 'var(--gold-accent)' }}>
+              What We Offer
+            </p>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold mb-4" style={{ color: 'var(--charcoal)' }}>
+              Complete Travel Solutions
+            </h2>
+            <p className="text-base max-w-xl mx-auto" style={{ color: 'var(--warm-grey)' }}>
+              Everything you need for a seamless travel experience, all under one roof.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
             {services.map((service) => (
-              <div
+              <Link
                 key={service.title}
-                className={`rounded-sm p-6 flex flex-col border transition-all hover:scale-[1.02] ${
-                  service.highlight
-                    ? 'bg-background text-foreground border-background/20'
-                    : 'bg-background/10 text-background border-background/10 hover:bg-background/15'
-                }`}
+                to={service.link}
+                className="group block rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1"
+                style={{ boxShadow: '0 4px 20px -4px rgba(31,41,55,0.12)' }}
               >
-                <div className={`w-12 h-12 rounded-sm flex items-center justify-center mb-4 ${
-                  service.highlight ? 'bg-foreground' : 'bg-background/20'
-                }`}>
-                  <service.icon className={`w-6 h-6 ${service.highlight ? 'text-background' : 'text-background'}`} />
+                <div className={`${service.color} p-6 h-full flex flex-col`}>
+                  <div className="mb-4 opacity-90">{service.icon}</div>
+                  <h3 className="font-display text-lg font-bold mb-2">{service.title}</h3>
+                  <p className="text-sm opacity-80 leading-relaxed flex-1">{service.description}</p>
+                  <div className="mt-4 flex items-center gap-1 text-sm font-medium opacity-90 group-hover:gap-2 transition-all">
+                    Explore <ArrowRight className="w-4 h-4" />
+                  </div>
                 </div>
-                <h3 className={`font-display font-bold text-lg mb-2 ${service.highlight ? 'text-foreground' : 'text-background'}`}>
-                  {service.title}
-                </h3>
-                <p className={`text-sm leading-relaxed mb-5 flex-1 ${service.highlight ? 'text-muted-foreground' : 'opacity-70'}`}>
-                  {service.description}
-                </p>
-                <Button
-                  asChild
-                  size="sm"
-                  variant={service.highlight ? 'default' : 'outline'}
-                  className={service.highlight ? '' : 'border-background/40 text-background hover:bg-background/10'}
-                >
-                  <Link to={service.to}>
-                    {service.cta} <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
-                  </Link>
-                </Button>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Vehicle Pricing */}
-      <section className="py-16 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="font-display text-3xl font-bold text-foreground mb-3">Our Fleet & Pricing</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">
-              Flexible pricing — pay per day or per kilometre. All vehicles available with or without driver.
+      {/* Car Rental Pricing */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: 'var(--warm-sand)' }}>
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-14">
+            <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: 'var(--gold-accent)' }}>
+              Car Rentals
+            </p>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold mb-4" style={{ color: 'var(--charcoal)' }}>
+              Transparent Pricing
+            </h2>
+            <p className="text-base max-w-xl mx-auto" style={{ color: 'var(--warm-grey)' }}>
+              No hidden charges. Premium vehicles with professional drivers at honest rates.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-            {vehicles.map((vehicle) => (
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+            {carPricing.map((car) => (
               <div
-                key={vehicle.type}
-                className="border border-border rounded-sm p-6 hover:shadow-premium-md transition-shadow bg-card"
+                key={car.type}
+                className="relative rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1"
+                style={{
+                  backgroundColor: car.popular ? 'var(--deep-charcoal)' : 'white',
+                  color: car.popular ? 'var(--light-beige)' : 'var(--charcoal)',
+                  boxShadow: car.popular ? '0 8px 32px -8px rgba(31,41,55,0.30)' : '0 4px 20px -4px rgba(31,41,55,0.10)',
+                  border: car.popular ? 'none' : '1px solid var(--border)',
+                }}
               >
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <h3 className="font-display text-xl font-bold text-foreground">{vehicle.type}</h3>
-                    <p className="text-sm text-muted-foreground mt-1">{vehicle.description}</p>
+                {car.popular && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold tracking-wide"
+                    style={{ backgroundColor: 'var(--gold-accent)', color: 'white' }}>
+                    MOST POPULAR
                   </div>
-                  <div className="text-right flex-shrink-0 ml-3">
-                    <span className="font-display text-base font-bold text-foreground bg-secondary px-3 py-1 rounded-sm block mb-1">
-                      {vehicle.priceDay}
-                    </span>
-                    <span className="font-display text-base font-bold text-foreground bg-secondary px-3 py-1 rounded-sm block">
-                      {vehicle.priceKm}
-                    </span>
-                  </div>
+                )}
+                <div className="text-4xl mb-4">{car.icon}</div>
+                <h3 className="font-display text-2xl font-bold mb-1">{car.type}</h3>
+                <div className="text-3xl font-bold mb-1" style={{ color: car.popular ? '#E8D5A3' : 'var(--gold-accent)' }}>
+                  {car.price}
                 </div>
-                <ul className="space-y-1.5">
-                  {vehicle.features.map((f) => (
-                    <li key={f} className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <span className="w-1.5 h-1.5 rounded-full bg-foreground/40 flex-shrink-0" />
+                <p className="text-sm mb-6 opacity-70">Per kilometre rate</p>
+                <ul className="space-y-2 mb-8">
+                  {car.features.map((f) => (
+                    <li key={f} className="flex items-center gap-2 text-sm">
+                      <span className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                        style={{ backgroundColor: car.popular ? '#E8D5A3' : 'var(--gold-accent)' }} />
                       {f}
                     </li>
                   ))}
                 </ul>
-                <Button asChild className="w-full mt-5" variant="outline">
-                  <Link to="/car-rentals">Book {vehicle.type}</Link>
-                </Button>
+                <Link
+                  to="/car-rentals"
+                  className="block text-center py-3 px-6 rounded-xl font-semibold text-sm transition-all duration-200"
+                  style={{
+                    backgroundColor: car.popular ? 'var(--gold-accent)' : 'var(--deep-charcoal)',
+                    color: 'white',
+                  }}
+                >
+                  Book Now
+                </Link>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-16 bg-secondary/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="font-display text-3xl font-bold text-foreground mb-3">Why Choose Us</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">
-              We are committed to providing the best travel experience with safety, comfort, and reliability.
+      {/* Why Choose Us */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: 'var(--light-beige)' }}>
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14">
+            <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: 'var(--gold-accent)' }}>
+              Why Blackrays
             </p>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold mb-4" style={{ color: 'var(--charcoal)' }}>
+              Travel with Confidence
+            </h2>
           </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((feature) => (
+            {features.map((f) => (
               <div
-                key={feature.title}
-                className="bg-card border border-border rounded-sm p-6 text-center hover:shadow-premium transition-shadow"
+                key={f.title}
+                className="rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-1"
+                style={{
+                  backgroundColor: 'white',
+                  border: '1px solid var(--border)',
+                  boxShadow: '0 2px 12px -2px rgba(31,41,55,0.08)',
+                }}
               >
-                <div className="w-12 h-12 bg-foreground rounded-sm flex items-center justify-center mx-auto mb-4">
-                  <feature.icon className="w-6 h-6 text-background" />
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl mb-4"
+                  style={{ backgroundColor: 'var(--warm-sand)', color: 'var(--charcoal)' }}>
+                  {f.icon}
                 </div>
-                <h3 className="font-display font-semibold text-foreground mb-2">{feature.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
+                <h3 className="font-display text-base font-bold mb-2" style={{ color: 'var(--charcoal)' }}>{f.title}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: 'var(--warm-grey)' }}>{f.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Tour Packages Preview */}
-      <section className="py-16 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between mb-10">
+      {/* Popular Destinations */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: 'var(--warm-sand)' }}>
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
             <div>
-              <h2 className="font-display text-3xl font-bold text-foreground mb-2">Featured Tour Packages</h2>
-              <p className="text-muted-foreground">Handpicked destinations for unforgettable experiences.</p>
+              <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: 'var(--gold-accent)' }}>
+                Destinations
+              </p>
+              <h2 className="font-display text-3xl sm:text-4xl font-bold" style={{ color: 'var(--charcoal)' }}>
+                Popular Getaways
+              </h2>
             </div>
-            <Button asChild variant="outline" className="hidden sm:flex">
-              <Link to="/packages">
-                View All <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
-            </Button>
+            <Link
+              to="/packages"
+              className="inline-flex items-center gap-2 text-sm font-semibold transition-colors"
+              style={{ color: 'var(--charcoal)' }}
+            >
+              View All Packages <ChevronRight className="w-4 h-4" />
+            </Link>
           </div>
 
-          {isLoading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="h-64 bg-secondary/50 rounded-sm animate-pulse" />
-              ))}
-            </div>
-          ) : packages && packages.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {packages.slice(0, 3).map((pkg) => (
-                <PackageCard key={pkg.id} package={pkg} />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-16 border border-dashed border-border rounded-sm">
-              <MapPin className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
-              <p className="text-muted-foreground">Tour packages coming soon. Check back later!</p>
-              <Button asChild variant="outline" className="mt-4">
-                <Link to="/custom-packages">Request a Custom Package</Link>
-              </Button>
-            </div>
-          )}
-
-          <div className="mt-8 text-center sm:hidden">
-            <Button asChild variant="outline">
-              <Link to="/packages">
-                View All Packages <ArrowRight className="w-4 h-4 ml-2" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {destinations.map((dest) => (
+              <Link
+                key={dest.name}
+                to="/packages"
+                className="group block rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1"
+                style={{ boxShadow: '0 4px 20px -4px rgba(31,41,55,0.12)' }}
+              >
+                <div className="relative h-52 overflow-hidden">
+                  <img
+                    src={dest.image}
+                    alt={dest.name}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <div className="inline-block px-2.5 py-1 rounded-full text-xs font-medium mb-1"
+                      style={{ backgroundColor: 'rgba(184,151,90,0.85)', color: 'white' }}>
+                      {dest.tag}
+                    </div>
+                    <h3 className="font-display text-xl font-bold text-white">{dest.name}</h3>
+                  </div>
+                </div>
               </Link>
-            </Button>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16 bg-foreground text-background">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-display text-3xl font-bold mb-4">Ready to Start Your Journey?</h2>
-          <p className="opacity-70 mb-8 text-lg">
-            Contact us today to book your car rental, plan a custom tour, or get assistance with train and flight tickets.
+      {/* CTA Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: 'var(--deep-charcoal)' }}>
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-sm font-semibold tracking-widest uppercase mb-4" style={{ color: 'var(--gold-accent)' }}>
+            Ready to Travel?
+          </p>
+          <h2 className="font-display text-3xl sm:text-4xl font-bold text-white mb-4">
+            Plan Your Dream Journey Today
+          </h2>
+          <p className="text-base mb-10" style={{ color: 'rgba(250,247,242,0.75)' }}>
+            Let our travel experts craft the perfect itinerary for you. Get in touch and we'll handle everything.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" className="bg-background text-foreground hover:bg-background/90 font-semibold">
-              <Link to="/contact">
-                <Phone className="w-5 h-5 mr-2" />
-                Get in Touch
-              </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="border-background/40 text-background hover:bg-background/10">
-              <Link to="/custom-packages">Plan My Trip</Link>
-            </Button>
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-sm transition-all duration-200 hover:-translate-y-0.5"
+              style={{ backgroundColor: 'var(--gold-accent)', color: 'white' }}
+            >
+              <Phone className="w-4 h-4" />
+              Contact Us Now
+            </Link>
+            <Link
+              to="/packages"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-sm transition-all duration-200 hover:-translate-y-0.5"
+              style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)' }}
+            >
+              Browse Packages <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>

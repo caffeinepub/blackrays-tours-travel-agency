@@ -2,75 +2,11 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-add-a-custom-travel-packages-public-page-and-section-the-page-must-allow-users-to-submit-a-personalized-travel-package-inquiry-by-specifying-destination-type-india-abroad-specific-location-destination-free-text-number-of-travelers-trip-duration-number-of-days-nights-and-preferred-travel-dates-optional-on-submission-store-the-request-as-an-inquiry-in-the-backend-with-category-custom-package-the-page-must-be-accessible-from-the-main-navigation-and-from-the-homepage",
-      "featureTitle": "Add a 'Custom Travel Packages' public page and section. The page must allow users to submit a personalized travel package inquiry by specifying: destination type (India / Abroad), specific location/destination (free text), number of travelers, trip duration (number of days/nights), and preferred travel dates (optional). On submission, store the request as an inquiry in the backend with category 'custom_package'. The page must be accessible from the main navigation and from the homepage.",
+      "featureId": "feature-update-the-car-rentals-page-and-all-references-to-display-the-correct-per-km-pricing-sedan-at-13-km-and-suv-at-21-km-update-the-fare-estimator-calculation-logic-to-use-these-rates-ensure-the-estimated-fare-displayed-to-the-user-and-stored-in-the-car-rental-inquiry-submitted-to-the-backend-reflects-these-correct-rates",
+      "featureTitle": "Update the Car Rentals page and all references to display the correct per-km pricing: Sedan at ₹13/km and SUV at ₹21/km. Update the fare estimator calculation logic to use these rates. Ensure the estimated fare displayed to the user and stored in the car rental inquiry submitted to the backend reflects these correct rates.",
       "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/layout/Header.tsx",
-        "frontend/src/hooks/useQueries.ts",
-        "frontend/src/pages/CustomPackagesPage.tsx",
-        "frontend/src/pages/HomePage.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-17"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-update-the-car-rentals-page-to-add-a-per-km-pricing-mode-alongside-or-replacing-the-existing-daily-rate-display-clearly-sedan-at-13-km-and-suv-at-21-km-the-booking-form-must-capture-estimated-distance-in-km-and-calculate-display-an-estimated-fare-store-the-distance-and-estimated-fare-in-the-car-rental-inquiry-submitted-to-the-backend",
-      "featureTitle": "Update the Car Rentals page to add a per-km pricing mode alongside (or replacing) the existing daily rate. Display clearly: Sedan at ₹13/km and SUV at ₹21/km. The booking form must capture estimated distance (in km) and calculate/display an estimated fare. Store the distance and estimated fare in the car rental inquiry submitted to the backend.",
-      "files": [
-        "frontend/src/hooks/useQueries.ts",
-        "frontend/src/pages/CarRentalsPage.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-19"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-replace-the-hot-air-balloon-hero-image-on-the-website-with-a-new-premium-travel-luxury-car-rental-themed-image-the-replacement-image-must-feel-high-end-cinematic-and-consistent-with-the-black-white-grey-premium-palette-update-all-references-to-the-old-image-asset-with-the-new-one",
-      "featureTitle": "Replace the hot air balloon hero image on the website with a new premium travel/luxury car rental themed image. The replacement image must feel high-end, cinematic, and consistent with the black/white/grey premium palette. Update all references to the old image asset with the new one.",
-      "files": [
-        "frontend/src/pages/HomePage.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-20"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-add-a-terms-conditions-page-and-a-visible-t-c-notice-on-the-car-rentals-booking-page-the-t-c-must-prominently-state-without-driver-if-anything-happens-to-the-vehicle-the-consumer-is-fully-liable-for-all-repair-and-associated-costs-include-additional-standard-rental-terms-as-appropriate-link-to-the-t-c-page-from-the-footer-and-from-the-car-rental-booking-form-checkbox-acknowledgment-before-submission",
-      "featureTitle": "Add a Terms & Conditions page and a visible T&C notice on the Car Rentals booking page. The T&C must prominently state: 'Without driver — if anything happens to the vehicle, the consumer is fully liable for all repair and associated costs.' Include additional standard rental terms as appropriate. Link to the T&C page from the footer and from the car rental booking form (checkbox acknowledgment before submission).",
-      "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/layout/Footer.tsx",
         "frontend/src/pages/CarRentalsPage.tsx",
-        "frontend/src/pages/TermsPage.tsx"
+        "frontend/src/pages/HomePage.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -78,21 +14,20 @@
         "shadcn-ui@1.0.0",
         "build-template-react@1.0.0",
         "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0",
+        "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-21"
+        "REQ-33"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-add-a-railway-ticket-bookings-section-page-to-the-website-the-page-should-explain-the-railway-ticket-booking-assistance-service-offered-by-blackrays-allow-users-to-submit-a-ticket-booking-inquiry-origin-destination-travel-date-number-of-passengers-class-preference-contact-details-and-store-it-as-an-inquiry-in-the-backend-with-category-railway-booking-link-the-page-from-main-navigation-and-homepage",
-      "featureTitle": "Add a Railway Ticket Bookings section/page to the website. The page should explain the railway ticket booking assistance service offered by Blackrays, allow users to submit a ticket booking inquiry (origin, destination, travel date, number of passengers, class preference, contact details), and store it as an inquiry in the backend with category 'railway_booking'. Link the page from main navigation and homepage.",
+      "featureId": "feature-add-a-new-public-hotel-hospitality-bookings-page-accessible-from-the-main-navigation-and-from-the-homepage-the-page-should-describe-blackrays-hotel-booking-assistance-service-covering-properties-across-india-and-internationally-include-a-hotel-search-inquiry-form-capturing-destination-city-location-check-in-date-check-out-date-number-of-guests-number-of-rooms-and-room-type-preference-standard-deluxe-suite-integrate-a-real-time-hotel-search-api-e-g-rapidapi-hotels-or-a-compatible-aggregator-to-display-live-hotel-results-with-property-name-star-rating-location-price-per-night-and-a-booking-contact-cta-handle-loading-empty-and-error-states-gracefully-on-form-submission-for-inquiry-fallback-store-the-request-as-an-inquiry-in-the-backend-with-category-hotel-booking",
+      "featureTitle": "Add a new public Hotel & Hospitality Bookings page accessible from the main navigation and from the homepage. The page should describe Blackrays' hotel booking assistance service covering properties across India and internationally. Include a hotel search/inquiry form capturing: destination city/location, check-in date, check-out date, number of guests, number of rooms, and room type preference (Standard / Deluxe / Suite). Integrate a real-time hotel search API (e.g., RapidAPI Hotels or a compatible aggregator) to display live hotel results with property name, star rating, location, price per night, and a booking/contact CTA. Handle loading, empty, and error states gracefully. On form submission (for inquiry fallback), store the request as an inquiry in the backend with category 'hotel_booking'.",
       "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/layout/Header.tsx",
-        "frontend/src/hooks/useQueries.ts",
-        "frontend/src/pages/RailwayBookingsPage.tsx"
+        "frontend/src/pages/admin/AdminInquiriesPage.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -100,38 +35,18 @@
         "shadcn-ui@1.0.0",
         "build-template-react@1.0.0",
         "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0",
+        "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-22"
+        "REQ-34"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-add-a-flight-ticket-bookings-section-page-to-the-website-the-page-should-describe-blackrays-flight-booking-assistance-service-allow-users-to-submit-a-flight-booking-inquiry-origin-city-airport-destination-city-airport-travel-date-number-of-passengers-trip-type-one-way-round-trip-contact-details-and-store-it-as-an-inquiry-in-the-backend-with-category-flight-booking-link-the-page-from-main-navigation-and-homepage",
-      "featureTitle": "Add a Flight Ticket Bookings section/page to the website. The page should describe Blackrays' flight booking assistance service, allow users to submit a flight booking inquiry (origin city/airport, destination city/airport, travel date, number of passengers, trip type one-way/round-trip, contact details), and store it as an inquiry in the backend with category 'flight_booking'. Link the page from main navigation and homepage.",
-      "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/layout/Header.tsx",
-        "frontend/src/hooks/useQueries.ts",
-        "frontend/src/pages/FlightBookingsPage.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-23"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-update-the-homepage-to-include-prominent-cards-or-sections-for-all-service-offerings-custom-travel-packages-car-rentals-per-km-railway-ticket-bookings-and-flight-ticket-bookings-each-with-a-brief-description-and-cta-button-linking-to-the-respective-page-ensure-the-overall-homepage-layout-remains-premium-and-consistent-with-the-black-white-grey-uber-like-aesthetic",
-      "featureTitle": "Update the homepage to include prominent cards or sections for all service offerings: Custom Travel Packages, Car Rentals (per-km), Railway Ticket Bookings, and Flight Ticket Bookings — each with a brief description and CTA button linking to the respective page. Ensure the overall homepage layout remains premium and consistent with the black/white/grey Uber-like aesthetic.",
+      "featureId": "feature-update-the-homepage-service-cards-section-to-include-a-hotel-hospitality-bookings-card-with-a-brief-description-e-g-find-and-book-premium-hotels-across-india-and-internationally-and-a-cta-button-linking-to-the-hotels-page-ensure-the-layout-remains-visually-consistent-with-the-existing-premium-black-white-grey-aesthetic",
+      "featureTitle": "Update the homepage service cards/section to include a Hotel & Hospitality Bookings card with a brief description (e.g., 'Find and book premium hotels across India and internationally') and a CTA button linking to the '/hotels' page. Ensure the layout remains visually consistent with the existing premium black/white/grey aesthetic.",
       "files": [
         "frontend/src/pages/HomePage.tsx"
       ],
@@ -141,10 +56,34 @@
         "shadcn-ui@1.0.0",
         "build-template-react@1.0.0",
         "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0",
+        "http-outcalls@3.0.0"
       ],
       "testIds": [
-        "REQ-25"
+        "REQ-36"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-hotels-tab-to-the-homepage-hero-search-widget-herosearchwidget-alongside-the-existing-flights-trains-car-rentals-and-tour-packages-tabs-the-hotels-tab-should-show-quick-search-inputs-for-destination-city-check-in-date-and-check-out-date-submitting-the-form-should-navigate-to-the-hotels-page-with-pre-filled-search-parameters-where-applicable",
+      "featureTitle": "Add a 'Hotels' tab to the homepage hero search widget (HeroSearchWidget) alongside the existing Flights, Trains, Car Rentals, and Tour Packages tabs. The Hotels tab should show quick-search inputs for destination city, check-in date, and check-out date. Submitting the form should navigate to the '/hotels' page with pre-filled search parameters where applicable.",
+      "files": [
+        "frontend/src/components/home/HeroSearchWidget.tsx",
+        "frontend/src/pages/HotelBookingsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-37"
       ],
       "confidence": "high"
     }

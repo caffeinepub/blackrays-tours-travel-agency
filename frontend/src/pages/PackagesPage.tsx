@@ -1,76 +1,77 @@
-import { Link } from '@tanstack/react-router';
-import { MapPin, Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import PackageCard from '../components/packages/PackageCard';
 import { useGetPublicPackages } from '../hooks/useQueries';
+import PackageCard from '../components/packages/PackageCard';
+import { Package, Loader2 } from 'lucide-react';
 
 export default function PackagesPage() {
   const { data: packages, isLoading, isError } = useGetPublicPackages();
 
   return (
-    <div>
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--light-beige)' }}>
       {/* Hero */}
-      <section className="relative py-20 overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/assets/generated/blackrays-destinations-set.dim_1200x400.png')" }}
+      <section
+        className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
+        style={{ backgroundColor: 'var(--deep-charcoal)' }}
+      >
+        <div className="absolute inset-0 opacity-10"
+          style={{ backgroundImage: 'radial-gradient(circle at 70% 50%, var(--gold-accent) 0%, transparent 60%)' }}
         />
-        <div className="absolute inset-0 hero-overlay" />
-        <div className="relative z-10 text-center px-4">
+        <div className="relative max-w-4xl mx-auto text-center">
+          <p className="text-sm font-semibold tracking-widest uppercase mb-4" style={{ color: 'var(--gold-accent)' }}>
+            Explore India
+          </p>
           <h1 className="font-display text-4xl sm:text-5xl font-bold text-white mb-4">
             Tour Packages
           </h1>
-          <p className="text-white/80 text-lg max-w-xl mx-auto">
-            Discover India's most beautiful destinations with our expertly curated tour packages.
+          <p className="text-lg" style={{ color: 'rgba(250,247,242,0.75)' }}>
+            Handcrafted travel experiences for every kind of explorer.
           </p>
         </div>
       </section>
 
       {/* Packages Grid */}
-      <section className="py-16 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {isLoading ? (
-            <div className="flex items-center justify-center py-24">
-              <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+      <section className="py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
+          {isLoading && (
+            <div className="flex flex-col items-center justify-center py-24 gap-4">
+              <Loader2 className="w-8 h-8 animate-spin" style={{ color: 'var(--warm-grey)' }} />
+              <p className="text-sm" style={{ color: 'var(--warm-grey)' }}>Loading packages...</p>
             </div>
-          ) : isError ? (
-            <div className="text-center py-24">
-              <p className="text-destructive font-medium mb-2">Failed to load packages</p>
-              <p className="text-muted-foreground text-sm">Please try again later.</p>
+          )}
+
+          {isError && (
+            <div
+              className="rounded-2xl p-8 text-center"
+              style={{ backgroundColor: 'var(--warm-sand)', border: '1px solid var(--border)' }}
+            >
+              <p className="font-semibold mb-2" style={{ color: 'var(--charcoal)' }}>Unable to load packages</p>
+              <p className="text-sm" style={{ color: 'var(--warm-grey)' }}>Please try again later or contact us directly.</p>
             </div>
-          ) : packages && packages.length > 0 ? (
+          )}
+
+          {!isLoading && !isError && packages && packages.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-24 gap-4 text-center">
+              <div
+                className="w-16 h-16 rounded-2xl flex items-center justify-center"
+                style={{ backgroundColor: 'var(--warm-sand)' }}
+              >
+                <Package className="w-8 h-8" style={{ color: 'var(--warm-grey)' }} />
+              </div>
+              <h3 className="font-display text-xl font-bold" style={{ color: 'var(--charcoal)' }}>
+                No Packages Yet
+              </h3>
+              <p className="text-sm max-w-sm" style={{ color: 'var(--warm-grey)' }}>
+                We're curating amazing travel packages. Check back soon or contact us for custom packages.
+              </p>
+            </div>
+          )}
+
+          {!isLoading && !isError && packages && packages.length > 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {packages.map((pkg) => (
                 <PackageCard key={pkg.id} package={pkg} />
               ))}
             </div>
-          ) : (
-            <div className="text-center py-24 border border-dashed border-border rounded-sm">
-              <MapPin className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="font-display text-xl font-semibold text-foreground mb-2">No Packages Yet</h3>
-              <p className="text-muted-foreground mb-6">
-                We're preparing exciting tour packages. Check back soon!
-              </p>
-              <Button asChild variant="outline">
-                <Link to="/contact">Contact Us for Custom Tours</Link>
-              </Button>
-            </div>
           )}
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-16 bg-secondary/20">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-display text-2xl font-bold text-foreground mb-3">
-            Can't Find What You're Looking For?
-          </h2>
-          <p className="text-muted-foreground mb-6">
-            We offer custom tour packages tailored to your preferences. Contact us to plan your perfect trip.
-          </p>
-          <Button asChild>
-            <Link to="/contact">Request Custom Package</Link>
-          </Button>
         </div>
       </section>
     </div>

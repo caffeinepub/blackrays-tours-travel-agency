@@ -16,6 +16,8 @@ export interface CarRentalDetails {
   'estimatedFare' : [] | [bigint],
   'driverRequired' : boolean,
 }
+export type CarType = { 'suv' : null } |
+  { 'sedan' : null };
 export interface CustomPackageDetails {
   'durationDays' : bigint,
   'destination' : string,
@@ -31,6 +33,7 @@ export interface CustomerInquiry {
   'railwayBookingDetails' : [] | [RailwayBookingDetails],
   'flightBookingDetails' : [] | [FlightBookingDetails],
   'email' : string,
+  'hotelBookingDetails' : [] | [HotelBookingDetails],
   'message' : string,
   'customPackageDetails' : [] | [CustomPackageDetails],
   'category' : InquiryCategory,
@@ -45,7 +48,20 @@ export interface FlightBookingDetails {
   'returnDate' : [] | [string],
   'originCity' : string,
 }
+export interface HotelBookingDetails {
+  'destination' : string,
+  'starRating' : [] | [bigint],
+  'hotelName' : [] | [string],
+  'pricePerNight' : [] | [bigint],
+  'numberOfRooms' : bigint,
+  'checkInDate' : string,
+  'roomTypePreference' : string,
+  'checkOutDate' : string,
+  'numberOfGuests' : bigint,
+  'location' : [] | [string],
+}
 export type InquiryCategory = { 'railwayBooking' : null } |
+  { 'hotelBooking' : null } |
   { 'flightBooking' : null } |
   { 'tourInquiry' : null } |
   { 'customPackage' : null } |
@@ -73,7 +89,33 @@ export type UserRole = { 'admin' : null } |
   { 'guest' : null };
 export type VehicleType = { 'suv' : null } |
   { 'sedan' : null };
+export interface _CaffeineStorageCreateCertificateResult {
+  'method' : string,
+  'blob_hash' : string,
+}
+export interface _CaffeineStorageRefillInformation {
+  'proposed_top_up_amount' : [] | [bigint],
+}
+export interface _CaffeineStorageRefillResult {
+  'success' : [] | [boolean],
+  'topped_up_amount' : [] | [bigint],
+}
 export interface _SERVICE {
+  '_caffeineStorageBlobIsLive' : ActorMethod<[Uint8Array], boolean>,
+  '_caffeineStorageBlobsToDelete' : ActorMethod<[], Array<Uint8Array>>,
+  '_caffeineStorageConfirmBlobDeletion' : ActorMethod<
+    [Array<Uint8Array>],
+    undefined
+  >,
+  '_caffeineStorageCreateCertificate' : ActorMethod<
+    [string],
+    _CaffeineStorageCreateCertificateResult
+  >,
+  '_caffeineStorageRefillCashier' : ActorMethod<
+    [[] | [_CaffeineStorageRefillInformation]],
+    _CaffeineStorageRefillResult
+  >,
+  '_caffeineStorageUpdateGatewayPrincipals' : ActorMethod<[], undefined>,
   '_initializeAccessControlWithSecret' : ActorMethod<[string], undefined>,
   'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
   'createPackage' : ActorMethod<
@@ -89,15 +131,7 @@ export interface _SERVICE {
   'isCallerAdmin' : ActorMethod<[], boolean>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
   'submitCarRental' : ActorMethod<
-    [
-      string,
-      string,
-      string,
-      VehicleType,
-      boolean,
-      [] | [bigint],
-      [] | [bigint],
-    ],
+    [string, string, string, CarType, boolean, [] | [bigint]],
     undefined
   >,
   'submitCustomPackage' : ActorMethod<
@@ -116,6 +150,24 @@ export interface _SERVICE {
       string,
       bigint,
       string,
+    ],
+    undefined
+  >,
+  'submitHotelBooking' : ActorMethod<
+    [
+      string,
+      string,
+      string,
+      string,
+      string,
+      string,
+      bigint,
+      bigint,
+      string,
+      [] | [string],
+      [] | [bigint],
+      [] | [string],
+      [] | [bigint],
     ],
     undefined
   >,
