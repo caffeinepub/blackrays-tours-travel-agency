@@ -1,0 +1,204 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Add customized travel packages, per-km car rental pricing, T&C, railway/flight booking sections, replace hero image",
+  "requirements": [
+    {
+      "id": "REQ-17",
+      "summary": "Add a 'Custom Travel Packages' public page allowing users to submit personalized travel package inquiries with destination type, location, traveler count, duration, and preferred dates",
+      "acceptanceCriteria": [
+        "A new 'Custom Packages' or 'Plan My Trip' page exists and is linked in the header navigation.",
+        "The form collects: destination type (India/Abroad toggle or dropdown), destination name, number of travelers, duration in days, traveler name, phone number, and email.",
+        "On valid submission the form data is stored as an inquiry with category 'custom_package' and a success toast is shown.",
+        "The homepage has a prominent CTA or section directing users to this custom package planner."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/CustomPackagesPage.tsx",
+          "operation": "create",
+          "description": "Create a new public page for custom travel package inquiries. Include a hero section describing the personalized travel service, and a form collecting destination type (India/Abroad radio or toggle), destination text input, number of travelers (number input), duration in days (number input), preferred dates (optional text or date input), name, phone, and email. Use the submitCustomPackage backend method to submit the inquiry. Show loading state during submission and success/error toasts. Style consistently with the premium black/white/grey theme."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add a useSubmitCustomPackage mutation hook that calls actor.submitCustomPackage with the form fields: name, phoneNumber, email, destinationType, destination, numberOfTravelers, durationDays, and preferredDates (nullable). Follow the pattern of existing mutation hooks, invalidate the 'inquiries' query key on success, and handle errors appropriately."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register a new public route at /custom-packages that renders the CustomPackagesPage component. Add the route alongside existing public routes like /packages and /car-rentals."
+        },
+        {
+          "path": "frontend/src/components/layout/Header.tsx",
+          "operation": "modify",
+          "description": "Add a 'Custom Packages' or 'Plan My Trip' navigation link in the desktop and mobile navigation menus, linking to /custom-packages. Place it logically near other service links (e.g., after 'Packages' or 'Car Rentals')."
+        },
+        {
+          "path": "frontend/src/pages/HomePage.tsx",
+          "operation": "modify",
+          "description": "Add a prominent 'Custom Travel Packages' CTA card or section in the services area of the homepage. Include a brief description (e.g., 'Personalized travel experiences tailored to your destination, group size, and duration') and a button linking to /custom-packages. Ensure the section is visually consistent with the premium theme and uses the existing layout patterns."
+        }
+      ]
+    },
+    {
+      "id": "REQ-19",
+      "summary": "Update Car Rentals page to add per-km pricing mode (Sedan ₹13/km, SUV ₹21/km), capture estimated distance, calculate and display estimated fare, and submit distance and fare in the inquiry",
+      "acceptanceCriteria": [
+        "Car Rentals page shows Sedan ₹13/km and SUV ₹21/km pricing prominently.",
+        "A distance input field is present on the booking form.",
+        "An estimated fare is calculated and displayed in real time (distance × rate).",
+        "Submitted inquiry includes the selected vehicle type, entered distance, and calculated estimated fare."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/CarRentalsPage.tsx",
+          "operation": "modify",
+          "description": "Add per-km pricing display: show 'Sedan: ₹13/km' and 'SUV: ₹21/km' prominently in the pricing section. Add an 'Estimated Distance (km)' number input field to the booking form. Implement real-time fare calculation: when vehicleType and estimatedDistance are set, calculate estimatedFare = distance × rate (13 for Sedan, 21 for SUV) and display it (e.g., 'Estimated Fare: ₹X'). Update the form submission to pass estimatedDistance and estimatedFare (both as bigint or null) to the submitCarRental mutation. Ensure the pricing and fare display use the premium styling and are clearly visible."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Update the useSubmitCarRental mutation hook to accept estimatedDistance (bigint | null) and estimatedFare (bigint | null) as additional parameters, and pass them to actor.submitCarRental. The backend method signature already supports these fields, so ensure the hook matches it."
+        }
+      ]
+    },
+    {
+      "id": "REQ-20",
+      "summary": "Replace the hot air balloon hero image with a new premium travel/luxury car rental themed image, ensuring high-end cinematic feel and consistency with the black/white/grey palette",
+      "acceptanceCriteria": [
+        "The hot air balloon image no longer appears anywhere on the site.",
+        "A new premium hero/banner image is used in its place (luxury car on a scenic road or skyline, dark/cinematic tone).",
+        "The new image is a static asset in frontend/public/assets/generated.",
+        "The visual theme remains consistent with the black/white/grey premium palette."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/HomePage.tsx",
+          "operation": "modify",
+          "description": "Replace the current hero banner image reference (if it points to a hot air balloon image asset) with the new generated image at frontend/public/assets/generated/hero-premium-travel.dim_1600x800.png. Ensure the hero section uses this image as a background or inline <img> with proper styling (high contrast, dark overlay if needed) to maintain the premium black/white/grey aesthetic. Verify that no other references to the old hot air balloon image remain in this file."
+        },
+        {
+          "path": "frontend/src/pages/PackagesPage.tsx",
+          "operation": "modify",
+          "description": "If the PackagesPage currently uses the hot air balloon hero image in its banner, replace it with frontend/public/assets/generated/hero-premium-travel.dim_1600x800.png. If no hot air balloon image is used here, verify and ensure the hero banner (if present) uses a premium travel-themed image consistent with the new design."
+        }
+      ]
+    },
+    {
+      "id": "REQ-21",
+      "summary": "Add a Terms & Conditions page with the mandatory liability clause for self-drive rentals, and add a T&C acknowledgment checkbox to the Car Rentals booking form linking to the T&C page",
+      "acceptanceCriteria": [
+        "A dedicated Terms & Conditions page exists at route /terms.",
+        "The page includes the clause: 'Self-drive (without driver): The renter is fully responsible for any damage, repair costs, or losses incurred to the vehicle during the rental period.'",
+        "The Car Rentals booking form includes a checkbox: 'I have read and agree to the Terms & Conditions' that must be checked before submission.",
+        "The T&C page is linked in the site footer.",
+        "The T&C checkbox links to the /terms page."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/TermsPage.tsx",
+          "operation": "create",
+          "description": "Create a new Terms & Conditions page displaying standard car rental terms. Prominently include the clause: 'Self-drive (without driver): The renter is fully responsible for any damage, repair costs, or losses incurred to the vehicle during the rental period.' Add additional standard clauses as appropriate (booking policies, cancellation, payment terms, vehicle usage restrictions). Use a clean, readable layout with headings and paragraphs, styled consistently with the premium black/white/grey theme."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register a new public route at /terms that renders the TermsPage component. Add it alongside other public routes."
+        },
+        {
+          "path": "frontend/src/components/layout/Footer.tsx",
+          "operation": "modify",
+          "description": "Add a 'Terms & Conditions' link in the footer's quick links or navigation section, pointing to /terms. Place it logically near other informational links like About or Contact."
+        },
+        {
+          "path": "frontend/src/pages/CarRentalsPage.tsx",
+          "operation": "modify",
+          "description": "Add a checkbox input to the car rental booking form labeled 'I have read and agree to the Terms & Conditions' with a clickable link to /terms embedded in the label text. Make the checkbox required (form validation should prevent submission if unchecked). Position the checkbox above the submit button. Style it consistently with the form's premium design."
+        }
+      ]
+    },
+    {
+      "id": "REQ-22",
+      "summary": "Add a Railway Ticket Bookings page explaining the service and allowing users to submit a railway booking inquiry with origin, destination, travel date, passenger count, class, and contact details",
+      "acceptanceCriteria": [
+        "A 'Railway Bookings' page exists at route /railway-bookings.",
+        "The page has a service description and a booking inquiry form.",
+        "Form collects: origin station, destination station, travel date, number of passengers, class (Sleeper/3AC/2AC/1AC/General), passenger name, phone, email.",
+        "On submission, inquiry is stored in the backend with category 'railway_booking'.",
+        "Page is linked in the header navigation under a 'Services' or 'Bookings' group."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/RailwayBookingsPage.tsx",
+          "operation": "create",
+          "description": "Create a new public page for railway ticket booking assistance. Include a hero or intro section describing Blackrays' railway booking service. Add a form collecting: origin station (text input), destination station (text input), travel date (date input), number of passengers (number input), rail class (dropdown or radio with options: Sleeper, 3AC, 2AC, 1AC, General), passenger name, phone number, and email. Use the submitRailwayBooking backend method to submit the inquiry. Show loading state and success/error toasts. Style consistently with the premium theme."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add a useSubmitRailwayBooking mutation hook that calls actor.submitRailwayBooking with parameters: name, phoneNumber, email, originStation, destinationStation, travelDate, passengerCount (bigint), and railClass. Invalidate the 'inquiries' query key on success and handle errors."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register a new public route at /railway-bookings that renders the RailwayBookingsPage component."
+        },
+        {
+          "path": "frontend/src/components/layout/Header.tsx",
+          "operation": "modify",
+          "description": "Add a 'Railway Bookings' navigation link in the desktop and mobile menus, linking to /railway-bookings. Consider grouping it under a 'Services' or 'Bookings' section if the navigation becomes long, or place it near 'Flight Bookings' if added in the same batch."
+        }
+      ]
+    },
+    {
+      "id": "REQ-23",
+      "summary": "Add a Flight Ticket Bookings page describing the service and allowing users to submit a flight booking inquiry with origin, destination, travel dates, trip type, passenger count, cabin class, and contact details",
+      "acceptanceCriteria": [
+        "A 'Flight Bookings' page exists at route /flight-bookings.",
+        "The page has a service description and a booking inquiry form.",
+        "Form collects: origin city/airport, destination city/airport, departure date, return date (if round-trip), trip type (one-way/round-trip), number of passengers, cabin class (Economy/Business/First), passenger name, phone, email.",
+        "On submission, inquiry is stored in the backend with category 'flight_booking'.",
+        "Page is linked in the header navigation."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/FlightBookingsPage.tsx",
+          "operation": "create",
+          "description": "Create a new public page for flight ticket booking assistance. Include a hero or intro section describing Blackrays' flight booking service. Add a form collecting: origin city/airport (text input), destination city/airport (text input), departure date (date input), return date (date input, conditionally required if trip type is round-trip), trip type (dropdown or radio: one-way/round-trip), number of passengers (number input), cabin class (dropdown: Economy/Business/First), passenger name, phone number, and email. Use the submitFlightBooking backend method to submit the inquiry. Show loading state and success/error toasts. Style consistently with the premium theme."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add a useSubmitFlightBooking mutation hook that calls actor.submitFlightBooking with parameters: name, phoneNumber, email, originCity, destinationCity, departureDate, returnDate (string | null), tripType, passengerCount (bigint), and cabinClass. Invalidate the 'inquiries' query key on success and handle errors."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register a new public route at /flight-bookings that renders the FlightBookingsPage component."
+        },
+        {
+          "path": "frontend/src/components/layout/Header.tsx",
+          "operation": "modify",
+          "description": "Add a 'Flight Bookings' navigation link in the desktop and mobile menus, linking to /flight-bookings. Place it near 'Railway Bookings' or under a 'Services' grouping if the navigation is reorganized."
+        }
+      ]
+    },
+    {
+      "id": "REQ-25",
+      "summary": "Update the homepage to include prominent service cards for Custom Travel Packages, Car Rentals (per-km), Railway Ticket Bookings, and Flight Ticket Bookings, each with a description and CTA linking to the respective page",
+      "acceptanceCriteria": [
+        "Homepage has a 'Our Services' or equivalent section listing all four services with icons/images, descriptions, and CTA links.",
+        "All CTAs correctly route to /custom-packages, /car-rentals, /railway-bookings, /flight-bookings.",
+        "The section uses the premium dark/grey palette with white typography.",
+        "No orange/amber or hot air balloon imagery remains on the homepage."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/HomePage.tsx",
+          "operation": "modify",
+          "description": "Add or expand an 'Our Services' section on the homepage that prominently displays four service cards: Custom Travel Packages, Car Rentals (highlight per-km pricing), Railway Ticket Bookings, and Flight Ticket Bookings. Each card should include a brief description, an icon or small image (use existing assets or simple icons), and a CTA button linking to the respective page (/custom-packages, /car-rentals, /railway-bookings, /flight-bookings). Style the section with the premium black/white/grey palette, ensuring high contrast and readability. Remove any references to orange/amber accents or hot air balloon imagery. Ensure the layout is responsive and visually balanced."
+        }
+      ]
+    }
+  ]
+}

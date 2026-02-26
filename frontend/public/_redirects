@@ -1,0 +1,3 @@
+# SPA fallback for static hosting
+# Serves the app shell for all routes so TanStack Router can handle navigation
+/*    /index.html   200

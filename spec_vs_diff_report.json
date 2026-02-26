@@ -1,0 +1,81 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-26T10:40:35.338Z",
+  "summary": "The diff implements the majority of requirements: new backend inquiry model extensions (REQ-18, REQ-24), new pages for Custom Packages, Railway Bookings, Flight Bookings, and Terms & Conditions (REQ-17, REQ-21, REQ-22, REQ-23), updated Car Rentals page with per-km pricing (REQ-19), hero image replacement (REQ-20), updated homepage services section (REQ-25), updated header and footer navigation. However, several specific acceptance criteria have gaps, particularly around the admin inquiries page displaying the new fields for all new inquiry categories.",
+  "missing_requirements": [
+    {
+      "id": "REQ-17",
+      "requirement": "The admin inquiries page displays custom package inquiries with all submitted fields visible.",
+      "reason": "The diff does not show any modifications to AdminInquiriesPage to display custom package fields (destinationType, destination, numberOfTravelers, durationDays, preferredDates). The admin page file is not in the modified files list.",
+      "evidence": [
+        "frontend/src/pages/admin/AdminInquiriesPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-19",
+      "requirement": "Admin inquiries list displays distance and estimated fare for car rental bookings.",
+      "reason": "AdminInquiriesPage is not listed as a modified file, so there is no evidence that the admin view was updated to show estimatedDistance and estimatedFare for car rental inquiries.",
+      "evidence": [
+        "frontend/src/pages/admin/AdminInquiriesPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-21",
+      "requirement": "The Car Rentals booking form includes a checkbox that must be checked before submission for all rentals.",
+      "reason": "In CarRentalsPage.tsx, the termsAccepted check is only enforced when driverRequired is false. The AC states the checkbox must be present and checked before submission, but the implementation only blocks self-drive rentals without T&C acceptance.",
+      "evidence": [
+        "frontend/src/pages/CarRentalsPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-22",
+      "requirement": "Admin inquiries list shows railway booking inquiries with all fields.",
+      "reason": "AdminInquiriesPage is not listed as a modified file; no evidence of railway booking fields being displayed in the admin view.",
+      "evidence": [
+        "frontend/src/pages/admin/AdminInquiriesPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-23",
+      "requirement": "Admin inquiries list shows flight booking inquiries with all fields.",
+      "reason": "AdminInquiriesPage is not listed as a modified file; no evidence of flight booking fields being displayed in the admin view.",
+      "evidence": [
+        "frontend/src/pages/admin/AdminInquiriesPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-20",
+      "requirement": "The new image file hero-premium-travel.dim_1600x800.png must be present as a static asset in frontend/public/assets/generated.",
+      "reason": "The diff lists 5 added files but does not include the actual image binary hero-premium-travel.dim_1600x800.png. Only .tsx and .mo files are listed as added. The image is referenced in code but there is no evidence the asset file was added.",
+      "evidence": [
+        "frontend/public/assets/generated/hero-premium-travel.dim_1600x800.png"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "A dedicated migration module (backend/migration.mo) was created to handle schema migration from old to new inquiry types.",
+      "reason": "The build request did not explicitly request a separate migration module. It only required extending the existing Motoko inquiry model. While useful for upgrades, this was not listed as a requested deliverable.",
+      "evidence": [
+        "backend/migration.mo"
+      ]
+    }
+  ],
+  "confidence": 0.78,
+  "changed_files": [
+    "backend/main.mo",
+    "backend/migration.mo",
+    "frontend/src/App.tsx",
+    "frontend/src/components/layout/Footer.tsx",
+    "frontend/src/components/layout/Header.tsx",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/pages/CarRentalsPage.tsx",
+    "frontend/src/pages/CustomPackagesPage.tsx",
+    "frontend/src/pages/FlightBookingsPage.tsx",
+    "frontend/src/pages/HomePage.tsx",
+    "frontend/src/pages/RailwayBookingsPage.tsx",
+    "frontend/src/pages/TermsPage.tsx",
+    "project_state.json"
+  ]
+}

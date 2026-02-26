@@ -1,0 +1,161 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-26T10:40:35.343Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 9,
+    "implemented": 7,
+    "items": [
+      {
+        "id": "REQ-17",
+        "summary": "Add a 'Custom Travel Packages' public page and section. The page must allow users to submit a personalized travel package inquiry by specifying: destination type (India / Abroad), specific location/destination (free text), number of travelers, trip duration (number of days/nights), and preferred travel dates (optional). On submission, store the request as an inquiry in the backend with category 'custom_package'. The page must be accessible from the main navigation and from the homepage.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/CustomPackagesPage.tsx",
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/App.tsx",
+          "frontend/src/components/layout/Header.tsx",
+          "frontend/src/pages/HomePage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/CustomPackagesPage.tsx",
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/App.tsx",
+          "frontend/src/components/layout/Header.tsx",
+          "frontend/src/pages/HomePage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-18",
+        "summary": "Extend the backend inquiry model to support a 'custom_package' inquiry category. Add fields for: destinationType (text: 'India' or 'Abroad'), destination (text), numberOfTravelers (Nat), durationDays (Nat), and preferredDates (optional text). Ensure the existing submitInquiry or equivalent API accepts these fields and the admin listing displays them.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-19",
+        "summary": "Update the Car Rentals page to add a per-km pricing mode alongside (or replacing) the existing daily rate. Display clearly: Sedan at ₹13/km and SUV at ₹21/km. The booking form must capture estimated distance (in km) and calculate/display an estimated fare. Store the distance and estimated fare in the car rental inquiry submitted to the backend.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/CarRentalsPage.tsx",
+          "frontend/src/hooks/useQueries.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/CarRentalsPage.tsx",
+          "frontend/src/hooks/useQueries.ts"
+        ]
+      },
+      {
+        "id": "REQ-20",
+        "summary": "Replace the hot air balloon hero image on the website with a new premium travel/luxury car rental themed image. The replacement image must feel high-end, cinematic, and consistent with the black/white/grey premium palette. Update all references to the old image asset with the new one.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/HomePage.tsx",
+          "frontend/src/pages/PackagesPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/HomePage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-21",
+        "summary": "Add a Terms & Conditions page and a visible T&C notice on the Car Rentals booking page. The T&C must prominently state: 'Without driver — if anything happens to the vehicle, the consumer is fully liable for all repair and associated costs.' Include additional standard rental terms as appropriate. Link to the T&C page from the footer and from the car rental booking form (checkbox acknowledgment before submission).",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/TermsPage.tsx",
+          "frontend/src/App.tsx",
+          "frontend/src/components/layout/Footer.tsx",
+          "frontend/src/pages/CarRentalsPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/TermsPage.tsx",
+          "frontend/src/App.tsx",
+          "frontend/src/components/layout/Footer.tsx",
+          "frontend/src/pages/CarRentalsPage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-22",
+        "summary": "Add a Railway Ticket Bookings section/page to the website. The page should explain the railway ticket booking assistance service offered by Blackrays, allow users to submit a ticket booking inquiry (origin, destination, travel date, number of passengers, class preference, contact details), and store it as an inquiry in the backend with category 'railway_booking'. Link the page from main navigation and homepage.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/RailwayBookingsPage.tsx",
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/App.tsx",
+          "frontend/src/components/layout/Header.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/RailwayBookingsPage.tsx",
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/App.tsx",
+          "frontend/src/components/layout/Header.tsx"
+        ]
+      },
+      {
+        "id": "REQ-23",
+        "summary": "Add a Flight Ticket Bookings section/page to the website. The page should describe Blackrays' flight booking assistance service, allow users to submit a flight booking inquiry (origin city/airport, destination city/airport, travel date, number of passengers, trip type one-way/round-trip, contact details), and store it as an inquiry in the backend with category 'flight_booking'. Link the page from main navigation and homepage.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/FlightBookingsPage.tsx",
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/App.tsx",
+          "frontend/src/components/layout/Header.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/FlightBookingsPage.tsx",
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/App.tsx",
+          "frontend/src/components/layout/Header.tsx"
+        ]
+      },
+      {
+        "id": "REQ-24",
+        "summary": "Extend the backend inquiry model to support 'railway_booking' and 'flight_booking' categories with their respective optional fields. For railway: originStation, destinationStation, travelDate, passengerCount, railClass. For flight: originCity, destinationCity, departureDate, returnDate, tripType, passengerCount, cabinClass. All existing categories must remain unaffected.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-25",
+        "summary": "Update the homepage to include prominent cards or sections for all service offerings: Custom Travel Packages, Car Rentals (per-km), Railway Ticket Bookings, and Flight Ticket Bookings — each with a brief description and CTA button linking to the respective page. Ensure the overall homepage layout remains premium and consistent with the black/white/grey Uber-like aesthetic.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/HomePage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/HomePage.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "backend/main.mo",
+    "backend/migration.mo",
+    "build-request.json",
+    "feature_evidence.json",
+    "frontend-implementation-plan.json",
+    "frontend/public/assets/generated/hero-premium-travel.dim_1600x800.png",
+    "frontend/src/App.tsx",
+    "frontend/src/backend.d.ts",
+    "frontend/src/backend.ts",
+    "frontend/src/components/layout/Footer.tsx",
+    "frontend/src/components/layout/Header.tsx",
+    "frontend/src/declarations/backend.did.d.ts",
+    "frontend/src/declarations/backend.did.js",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/pages/CarRentalsPage.tsx",
+    "frontend/src/pages/CustomPackagesPage.tsx",
+    "frontend/src/pages/FlightBookingsPage.tsx",
+    "frontend/src/pages/HomePage.tsx",
+    "frontend/src/pages/RailwayBookingsPage.tsx",
+    "frontend/src/pages/TermsPage.tsx",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}
