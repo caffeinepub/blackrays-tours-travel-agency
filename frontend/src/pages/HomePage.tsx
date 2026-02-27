@@ -1,303 +1,262 @@
-import { Link } from '@tanstack/react-router';
-import { Phone, Star, Shield, Clock, Users, Plane, Train, Car, Package, Hotel, ChevronRight, ArrowRight } from 'lucide-react';
-import HeroSearchWidget from '../components/home/HeroSearchWidget';
-import HomeContactBar from '../components/home/HomeContactBar';
-
-const destinations = [
-  { name: 'Goa', image: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=400&h=300&fit=crop', tag: 'Beach Paradise' },
-  { name: 'Rajasthan', image: 'https://images.unsplash.com/photo-1477587458883-47145ed94245?w=400&h=300&fit=crop', tag: 'Royal Heritage' },
-  { name: 'Kerala', image: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=400&h=300&fit=crop', tag: 'God\'s Own Country' },
-  { name: 'Himachal Pradesh', image: 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=400&h=300&fit=crop', tag: 'Mountain Escape' },
-  { name: 'Andaman', image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop', tag: 'Island Bliss' },
-  { name: 'Ladakh', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop', tag: 'High Altitude' },
-];
+import { Link } from "@tanstack/react-router";
+import { Plane, Car, Train, Hotel, Package, ArrowRight, MapPin, Phone, Mail, Star, Shield, Clock, Users, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import HomeContactBar from "@/components/home/HomeContactBar";
+import HeroSearchWidget from "@/components/home/HeroSearchWidget";
 
 const services = [
   {
-    icon: <Package className="w-7 h-7" />,
-    title: 'Tour Packages',
-    description: 'Curated travel experiences across India\'s most breathtaking destinations.',
-    link: '/packages',
-    color: 'bg-deepCharcoal text-lightBeige',
+    icon: Car,
+    title: "Car Rentals",
+    description: "Premium sedans & SUVs with professional drivers",
+    href: "/car-rentals",
+    badge: "Most Popular",
   },
   {
-    icon: <Car className="w-7 h-7" />,
-    title: 'Car Rentals',
-    description: 'Premium vehicles with professional drivers. Sedan ₹13/km · SUV ₹21/km.',
-    link: '/car-rentals',
-    color: 'bg-charcoal text-lightBeige',
+    icon: Plane,
+    title: "Flight Bookings",
+    description: "Global flights at competitive fares",
+    href: "/flights",
   },
   {
-    icon: <Plane className="w-7 h-7" />,
-    title: 'Flight Bookings',
-    description: 'Best fares on domestic and international flights, booked with ease.',
-    link: '/flights',
-    color: 'bg-warmBrown text-lightBeige',
+    icon: Hotel,
+    title: "Hotel Bookings",
+    description: "Curated stays worldwide",
+    href: "/hotels",
   },
   {
-    icon: <Train className="w-7 h-7" />,
-    title: 'Railway Bookings',
-    description: 'Hassle-free train ticket reservations across all classes and routes.',
-    link: '/railway',
-    color: 'bg-stone-600 text-lightBeige',
+    icon: Train,
+    title: "Railway Bookings",
+    description: "Seamless train reservations across India",
+    href: "/railway",
   },
   {
-    icon: <Hotel className="w-7 h-7" />,
-    title: 'Hotel & Hospitality',
-    description: 'Find and book premium hotels across India and internationally.',
-    link: '/hotels',
-    color: 'bg-stone-800 text-lightBeige',
+    icon: Package,
+    title: "Tour Packages",
+    description: "Handcrafted itineraries for every traveller",
+    href: "/packages",
+  },
+  {
+    icon: MapPin,
+    title: "Custom Packages",
+    description: "Bespoke travel experiences, your way",
+    href: "/custom-packages",
   },
 ];
 
 const features = [
-  { icon: <Shield className="w-6 h-6" />, title: 'Trusted & Secure', desc: 'Your bookings are safe with our verified partners and secure payment systems.' },
-  { icon: <Clock className="w-6 h-6" />, title: '24/7 Support', desc: 'Round-the-clock assistance for all your travel needs and emergencies.' },
-  { icon: <Star className="w-6 h-6" />, title: 'Premium Experience', desc: 'Handpicked services ensuring the highest quality travel experiences.' },
-  { icon: <Users className="w-6 h-6" />, title: 'Expert Guidance', desc: 'Seasoned travel experts to help plan your perfect itinerary.' },
+  { icon: Shield, title: "Trusted & Verified", desc: "Licensed operators, verified vehicles" },
+  { icon: Clock, title: "24/7 Support", desc: "Round-the-clock assistance" },
+  { icon: Star, title: "Premium Quality", desc: "Curated premium experiences" },
+  { icon: Users, title: "10,000+ Clients", desc: "Trusted by thousands" },
 ];
 
-const carPricing = [
-  { type: 'Sedan', icon: '🚗', price: '₹13/km', features: ['AC Comfort', 'Up to 4 Passengers', 'Professional Driver'], popular: false },
-  { type: 'SUV', icon: '🚙', price: '₹21/km', features: ['Spacious Cabin', 'Up to 7 Passengers', 'Luggage Space', 'Professional Driver'], popular: true },
+const destinations = [
+  { name: "Mumbai", tag: "City Break" },
+  { name: "Goa", tag: "Beach" },
+  { name: "Rajasthan", tag: "Heritage" },
+  { name: "Kerala", tag: "Nature" },
+  { name: "Himachal", tag: "Adventure" },
+  { name: "Andaman", tag: "Island" },
 ];
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--light-beige)' }}>
-      {/* Hero Section */}
-      <section
-        className="relative min-h-[92vh] flex flex-col items-center justify-center overflow-hidden"
-        style={{
-          backgroundImage: "url('/assets/generated/hero-flight-premium.dim_1920x1080.png')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center top',
-          backgroundRepeat: 'no-repeat',
-        }}
-      >
-        {/* Gradient overlay for legibility */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: 'linear-gradient(160deg, rgba(15,20,30,0.72) 0%, rgba(31,41,55,0.55) 45%, rgba(20,28,40,0.40) 100%)',
-          }}
-        />
-
-        {/* Hero Content */}
-        <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center pt-16 pb-8">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6 text-sm font-medium"
-            style={{ backgroundColor: 'rgba(184,151,90,0.25)', color: '#E8D5A3', border: '1px solid rgba(184,151,90,0.4)' }}>
-            <Star className="w-3.5 h-3.5 fill-current" />
-            India's Premium Travel Partner
-          </div>
-
-          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-4"
-            style={{ textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}>
-            Discover the World
-            <span className="block" style={{ color: '#E8D5A3' }}>in Luxury & Comfort</span>
-          </h1>
-
-          <p className="text-lg sm:text-xl text-white/85 max-w-2xl mb-10 leading-relaxed"
-            style={{ textShadow: '0 1px 8px rgba(0,0,0,0.4)' }}>
-            From mountain peaks to coastal shores — Blackrays crafts unforgettable journeys
-            with premium cars, curated packages, flights, rail & hotel bookings.
-          </p>
-
-          {/* Search Widget */}
-          <div className="w-full max-w-4xl">
-            <HeroSearchWidget />
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 text-white/60">
-          <span className="text-xs tracking-widest uppercase">Explore</span>
-          <div className="w-px h-8 bg-white/30 animate-pulse" />
-        </div>
-      </section>
-
+    <div className="min-h-screen bg-background">
       {/* Contact Bar */}
       <HomeContactBar />
 
-      {/* Services Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: 'var(--light-beige)' }}>
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-14">
-            <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: 'var(--gold-accent)' }}>
-              What We Offer
-            </p>
-            <h2 className="font-display text-3xl sm:text-4xl font-bold mb-4" style={{ color: 'var(--charcoal)' }}>
-              Complete Travel Solutions
-            </h2>
-            <p className="text-base max-w-xl mx-auto" style={{ color: 'var(--warm-grey)' }}>
-              Everything you need for a seamless travel experience, all under one roof.
+      {/* Hero Section */}
+      <section
+        className="relative min-h-[92vh] flex flex-col justify-center overflow-hidden"
+        style={{
+          backgroundImage: "url('/assets/generated/hero-premium-jet-tarmac.dim_1920x1080.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center top",
+        }}
+      >
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
+
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
+          {/* Hero Text */}
+          <div className="max-w-3xl mb-10">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-6">
+              <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
+              <span className="text-white/90 text-xs font-medium tracking-widest uppercase">Premium Travel Experience</span>
+            </div>
+            <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight mb-4">
+              Travel Premium.<br />
+              <span className="text-transparent bg-clip-text" style={{ backgroundImage: "linear-gradient(90deg, oklch(0.82 0.1 80), oklch(0.92 0.06 75))" }}>
+                Arrive in Style.
+              </span>
+            </h1>
+            <p className="text-white/70 text-lg sm:text-xl font-light max-w-xl">
+              Blackrays — your gateway to world-class travel across India and beyond.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-            {services.map((service) => (
-              <Link
-                key={service.title}
-                to={service.link}
-                className="group block rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1"
-                style={{ boxShadow: '0 4px 20px -4px rgba(31,41,55,0.12)' }}
-              >
-                <div className={`${service.color} p-6 h-full flex flex-col`}>
-                  <div className="mb-4 opacity-90">{service.icon}</div>
-                  <h3 className="font-display text-lg font-bold mb-2">{service.title}</h3>
-                  <p className="text-sm opacity-80 leading-relaxed flex-1">{service.description}</p>
-                  <div className="mt-4 flex items-center gap-1 text-sm font-medium opacity-90 group-hover:gap-2 transition-all">
-                    Explore <ArrowRight className="w-4 h-4" />
+          {/* Search Widget */}
+          <div className="max-w-4xl">
+            <HeroSearchWidget />
+          </div>
+        </div>
+      </section>
+
+      {/* Services Grid */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-3">
+              Everything You Need to Travel
+            </h2>
+            <p className="text-muted-foreground text-base max-w-xl mx-auto">
+              One platform for all your travel needs — cars, flights, hotels, trains, and more.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {services.map((service) => {
+              const Icon = service.icon;
+              return (
+                <Link key={service.title} to={service.href}>
+                  <div className="home-card group p-6 cursor-pointer relative overflow-hidden">
+                    {service.badge && (
+                      <span className="absolute top-4 right-4 badge-popular text-[10px]">
+                        {service.badge}
+                      </span>
+                    )}
+                    <div className="w-11 h-11 rounded-xl bg-primary/5 border border-border flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
+                      <Icon className="w-5 h-5 text-primary" />
+                    </div>
+                    <h3 className="font-display font-semibold text-lg text-foreground mb-1.5">
+                      {service.title}
+                    </h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                      {service.description}
+                    </p>
+                    <div className="flex items-center gap-1 text-xs font-semibold text-primary group-hover:gap-2 transition-all">
+                      Explore <ChevronRight className="w-3.5 h-3.5" />
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Strip */}
+      <section className="py-14 section-warm border-y border-border">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {features.map((f) => {
+              const Icon = f.icon;
+              return (
+                <div key={f.title} className="flex items-start gap-3">
+                  <div className="w-9 h-9 rounded-lg bg-primary/8 border border-border flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-4 h-4 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-display font-semibold text-sm text-foreground">{f.title}</p>
+                    <p className="text-muted-foreground text-xs mt-0.5">{f.desc}</p>
                   </div>
                 </div>
-              </Link>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* Car Rental Pricing */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: 'var(--warm-sand)' }}>
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-14">
-            <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: 'var(--gold-accent)' }}>
-              Car Rentals
-            </p>
-            <h2 className="font-display text-3xl sm:text-4xl font-bold mb-4" style={{ color: 'var(--charcoal)' }}>
-              Transparent Pricing
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-3">
+              Transparent Car Rental Pricing
             </h2>
-            <p className="text-base max-w-xl mx-auto" style={{ color: 'var(--warm-grey)' }}>
-              No hidden charges. Premium vehicles with professional drivers at honest rates.
-            </p>
+            <p className="text-muted-foreground text-sm">No hidden charges. No surprises.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-            {carPricing.map((car) => (
-              <div
-                key={car.type}
-                className="relative rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1"
-                style={{
-                  backgroundColor: car.popular ? 'var(--deep-charcoal)' : 'white',
-                  color: car.popular ? 'var(--light-beige)' : 'var(--charcoal)',
-                  boxShadow: car.popular ? '0 8px 32px -8px rgba(31,41,55,0.30)' : '0 4px 20px -4px rgba(31,41,55,0.10)',
-                  border: car.popular ? 'none' : '1px solid var(--border)',
-                }}
-              >
-                {car.popular && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold tracking-wide"
-                    style={{ backgroundColor: 'var(--gold-accent)', color: 'white' }}>
-                    MOST POPULAR
-                  </div>
-                )}
-                <div className="text-4xl mb-4">{car.icon}</div>
-                <h3 className="font-display text-2xl font-bold mb-1">{car.type}</h3>
-                <div className="text-3xl font-bold mb-1" style={{ color: car.popular ? '#E8D5A3' : 'var(--gold-accent)' }}>
-                  {car.price}
-                </div>
-                <p className="text-sm mb-6 opacity-70">Per kilometre rate</p>
-                <ul className="space-y-2 mb-8">
-                  {car.features.map((f) => (
-                    <li key={f} className="flex items-center gap-2 text-sm">
-                      <span className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                        style={{ backgroundColor: car.popular ? '#E8D5A3' : 'var(--gold-accent)' }} />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  to="/car-rentals"
-                  className="block text-center py-3 px-6 rounded-xl font-semibold text-sm transition-all duration-200"
-                  style={{
-                    backgroundColor: car.popular ? 'var(--gold-accent)' : 'var(--deep-charcoal)',
-                    color: 'white',
-                  }}
-                >
-                  Book Now
-                </Link>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+            {/* Sedan — Most Popular */}
+            <div className="sedan-card-highlight p-6 bg-card relative overflow-hidden">
+              <div className="absolute top-4 right-4">
+                <span className="badge-popular text-[10px]">Most Popular</span>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Why Choose Us */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: 'var(--light-beige)' }}>
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-14">
-            <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: 'var(--gold-accent)' }}>
-              Why Blackrays
-            </p>
-            <h2 className="font-display text-3xl sm:text-4xl font-bold mb-4" style={{ color: 'var(--charcoal)' }}>
-              Travel with Confidence
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((f) => (
-              <div
-                key={f.title}
-                className="rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-1"
-                style={{
-                  backgroundColor: 'white',
-                  border: '1px solid var(--border)',
-                  boxShadow: '0 2px 12px -2px rgba(31,41,55,0.08)',
-                }}
-              >
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl mb-4"
-                  style={{ backgroundColor: 'var(--warm-sand)', color: 'var(--charcoal)' }}>
-                  {f.icon}
-                </div>
-                <h3 className="font-display text-base font-bold mb-2" style={{ color: 'var(--charcoal)' }}>{f.title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--warm-grey)' }}>{f.desc}</p>
+              <div className="w-10 h-10 rounded-xl bg-primary/5 border border-border flex items-center justify-center mb-4">
+                <Car className="w-5 h-5 text-primary" />
               </div>
-            ))}
+              <h3 className="font-display font-bold text-xl text-foreground mb-1">Sedan</h3>
+              <p className="text-muted-foreground text-xs mb-4">Swift Dzire, Honda Amaze & similar</p>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center py-2 border-b border-border">
+                  <span className="text-sm text-muted-foreground">Per Kilometre</span>
+                  <span className="font-bold text-foreground">₹13/km</span>
+                </div>
+                <div className="flex justify-between items-center py-2">
+                  <span className="text-sm text-muted-foreground">Per Day</span>
+                  <span className="font-bold text-foreground">₹2,500/day</span>
+                </div>
+              </div>
+              <Link to="/car-rentals">
+                <Button className="w-full mt-5 btn-premium" size="sm">
+                  Book Sedan
+                </Button>
+              </Link>
+            </div>
+
+            {/* SUV */}
+            <div className="home-card p-6 bg-card">
+              <div className="w-10 h-10 rounded-xl bg-primary/5 border border-border flex items-center justify-center mb-4">
+                <Car className="w-5 h-5 text-primary" />
+              </div>
+              <h3 className="font-display font-bold text-xl text-foreground mb-1">SUV</h3>
+              <p className="text-muted-foreground text-xs mb-4">Innova, Ertiga & similar</p>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center py-2 border-b border-border">
+                  <span className="text-sm text-muted-foreground">Per Kilometre</span>
+                  <span className="font-bold text-foreground">₹21/km</span>
+                </div>
+                <div className="flex justify-between items-center py-2">
+                  <span className="text-sm text-muted-foreground">Per Day</span>
+                  <span className="font-bold text-foreground">₹5,000/day</span>
+                </div>
+              </div>
+              <Link to="/car-rentals">
+                <Button variant="outline" className="w-full mt-5" size="sm">
+                  Book SUV
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Popular Destinations */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: 'var(--warm-sand)' }}>
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
+      <section className="py-20 section-warm border-t border-border">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-end justify-between mb-10">
             <div>
-              <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: 'var(--gold-accent)' }}>
-                Destinations
-              </p>
-              <h2 className="font-display text-3xl sm:text-4xl font-bold" style={{ color: 'var(--charcoal)' }}>
-                Popular Getaways
+              <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-2">
+                Popular Destinations
               </h2>
+              <p className="text-muted-foreground text-sm">Handpicked for the discerning traveller</p>
             </div>
-            <Link
-              to="/packages"
-              className="inline-flex items-center gap-2 text-sm font-semibold transition-colors"
-              style={{ color: 'var(--charcoal)' }}
-            >
-              View All Packages <ChevronRight className="w-4 h-4" />
+            <Link to="/packages" className="hidden sm:flex items-center gap-1 text-sm font-semibold text-primary hover:opacity-80 transition-opacity">
+              View All <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
             {destinations.map((dest) => (
-              <Link
-                key={dest.name}
-                to="/packages"
-                className="group block rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1"
-                style={{ boxShadow: '0 4px 20px -4px rgba(31,41,55,0.12)' }}
-              >
-                <div className="relative h-52 overflow-hidden">
-                  <img
-                    src={dest.image}
-                    alt={dest.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <div className="inline-block px-2.5 py-1 rounded-full text-xs font-medium mb-1"
-                      style={{ backgroundColor: 'rgba(184,151,90,0.85)', color: 'white' }}>
-                      {dest.tag}
-                    </div>
-                    <h3 className="font-display text-xl font-bold text-white">{dest.name}</h3>
+              <Link key={dest.name} to="/packages">
+                <div className="home-card group p-4 text-center cursor-pointer">
+                  <div className="w-10 h-10 rounded-full bg-primary/5 border border-border flex items-center justify-center mx-auto mb-3 group-hover:bg-primary/10 transition-colors">
+                    <MapPin className="w-4 h-4 text-primary" />
                   </div>
+                  <p className="font-display font-semibold text-sm text-foreground">{dest.name}</p>
+                  <p className="text-muted-foreground text-xs mt-0.5">{dest.tag}</p>
                 </div>
               </Link>
             ))}
@@ -306,33 +265,33 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: 'var(--deep-charcoal)' }}>
-        <div className="max-w-3xl mx-auto text-center">
-          <p className="text-sm font-semibold tracking-widest uppercase mb-4" style={{ color: 'var(--gold-accent)' }}>
-            Ready to Travel?
-          </p>
+      <section className="py-20 section-dark">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-white mb-4">
-            Plan Your Dream Journey Today
+            Ready to Travel in Style?
           </h2>
-          <p className="text-base mb-10" style={{ color: 'rgba(250,247,242,0.75)' }}>
-            Let our travel experts craft the perfect itinerary for you. Get in touch and we'll handle everything.
+          <p className="text-white/60 text-base mb-8 max-w-md mx-auto">
+            Contact our travel experts and let us craft your perfect journey.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/contact"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-sm transition-all duration-200 hover:-translate-y-0.5"
-              style={{ backgroundColor: 'var(--gold-accent)', color: 'white' }}
-            >
-              <Phone className="w-4 h-4" />
-              Contact Us Now
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link to="/contact">
+              <Button size="lg" className="bg-white text-primary hover:bg-white/90 font-semibold px-8">
+                Get in Touch
+              </Button>
             </Link>
-            <Link
-              to="/packages"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-semibold text-sm transition-all duration-200 hover:-translate-y-0.5"
-              style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)' }}
-            >
-              Browse Packages <ArrowRight className="w-4 h-4" />
+            <Link to="/packages">
+              <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8">
+                Browse Packages
+              </Button>
             </Link>
+          </div>
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-6 text-white/50 text-sm">
+            <a href="tel:9373624669" className="flex items-center gap-2 hover:text-white/80 transition-colors">
+              <Phone className="w-4 h-4" /> 9373624669
+            </a>
+            <a href="mailto:blackraystravelagency@gmail.com" className="flex items-center gap-2 hover:text-white/80 transition-colors">
+              <Mail className="w-4 h-4" /> blackraystravelagency@gmail.com
+            </a>
           </div>
         </div>
       </section>

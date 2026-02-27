@@ -1,26 +1,38 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { searchFlights, FlightSearchParams, FlightSearchResponse } from '../services/flightApi';
+import { searchFlights, FlightSearchParams, FlightResult } from '../services/flightApi';
 
 export function useFlightSearch() {
+  const [results, setResults] = useState<FlightResult[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+  const [hasSearched, setHasSearched] = useState(false);
   const [searchParams, setSearchParams] = useState<FlightSearchParams | null>(null);
 
-  const query = useQuery<FlightSearchResponse, Error>({
-    queryKey: ['flightSearch', searchParams],
-    queryFn: async () => {
-      if (!searchParams) throw new Error('No search params');
-      return searchFlights(searchParams);
-    },
-    enabled: !!searchParams,
-    retry: 1,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-  });
-
-  const search = (params: FlightSearchParams) => {
+  const search = async (params: FlightSearchParams) => {
+    setIsLoading(true);
+    setIsError(false);
+    setError(null);
+    setHasSearched(true);
     setSearchParams(params);
+    try {
+      const data = await searchFlights(params);
+      setResults(data);
+    } catch (err) {
+      setIsError(true);
+      setError(err instanceof Error ? err : new Error('Search failed'));
+      setResults([]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const reset = () => {
+    setResults([]);
+    setIsLoading(false);
+    setIsError(false);
+    setError(null);
+    setHasSearched(false);
     setSearchParams(null);
   };
 
@@ -28,10 +40,10 @@ export function useFlightSearch() {
     search,
     reset,
     searchParams,
-    results: query.data?.results ?? [],
-    isLoading: query.isLoading,
-    isError: query.isError,
-    error: query.error,
-    hasSearched: !!searchParams,
+    results,
+    isLoading,
+    isError,
+    error,
+    hasSearched,
   };
 }

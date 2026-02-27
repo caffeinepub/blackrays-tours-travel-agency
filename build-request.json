@@ -1,163 +1,211 @@
 {
   "kind": "build_request",
-  "title": "Move SUV 'Most Popular' badge, add business address, premium homepage redesign, and direct booking UI for flights/trains/hotels",
-  "projectName": "Blackrays Car Rentals & Tours",
+  "title": "Fix address, premium homepage redesign, remove car emojis, global airports/hotels API, sedan popular badge",
+  "projectName": "Blackrays Car Rentals & Tours and Travels",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-42",
-      "text": "On the Car Rentals page, move the 'Most Popular' badge from the Sedan vehicle card to the SUV vehicle card. The Sedan card should no longer display any 'Most Popular' badge.",
+      "id": "REQ-55",
+      "text": "Fix the business address from any reference to 'Nagpur' to 'Dhule, Maharashtra 424001' across all pages and components where the address appears, including Footer.tsx, ContactInquiryPage.tsx, AboutPage.tsx, HomeContactBar, TermsPage.tsx, and any other user-facing text. No instance of 'Nagpur' should remain anywhere on the site.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-latest"
         ],
         "quotes": [
-          "Make suv segment more popular",
-          "SUV gets the 'Most Popular' badge (moved from Sedan)"
+          "Change the business address it's dhule Maharashtra 424001 not nagpur"
         ]
       },
       "acceptanceCriteria": [
-        "The SUV vehicle card displays a 'Most Popular' badge prominently.",
-        "The Sedan vehicle card does not display a 'Most Popular' badge.",
-        "All other vehicle card content (pricing, description, features) remains unchanged."
+        "Footer displays 'Dhule, Maharashtra 424001' as the business address",
+        "ContactInquiryPage shows 'Dhule, Maharashtra 424001'",
+        "AboutPage shows 'Dhule, Maharashtra 424001'",
+        "HomeContactBar shows 'Dhule, Maharashtra 424001'",
+        "No occurrence of 'Nagpur' remains in any user-facing text across all pages"
       ]
     },
     {
-      "id": "REQ-43",
-      "text": "Add the business address 'Dhule, Maharashtra 424001' to the site footer alongside existing contact details, and to the Contact/Inquiry page's contact information section.",
+      "id": "REQ-56",
+      "text": "Reduce and refine the text copy on the homepage starting interface (hero section, contact bar, HeroSearchWidget area). The hero headline must be a single concise line (e.g., 'Travel Premium. Arrive in Style.') and the sub-headline no more than one brief supporting sentence. Remove verbose descriptive paragraphs, redundant CTAs, and any cluttered copy from the initial viewport. The contact bar should show only the essential details (phone, email, MD name) in a compact single-row layout. The result must feel clean, uncluttered, and premium.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-latest"
         ],
         "quotes": [
-          "business address is dhule Maharashtra 424001",
-          "Business address added: Dhule, Maharashtra 424001 (footer + contact sections)"
+          "reduce the text of starting interface it's looking messy"
         ]
       },
       "acceptanceCriteria": [
-        "The footer displays 'Dhule, Maharashtra 424001' as the business address.",
-        "The Contact/Inquiry page displays 'Dhule, Maharashtra 424001' in the contact info section.",
-        "The address appears consistently formatted alongside the phone, email, and MD & Chairman details."
+        "Hero headline is one concise line of text",
+        "Hero sub-headline is one brief supporting line only",
+        "No verbose paragraphs or redundant CTAs visible in the initial viewport",
+        "Contact bar is compact and single-row on desktop",
+        "Overall hero area feels uncluttered and premium on both mobile and desktop"
       ]
     },
     {
-      "id": "REQ-44",
-      "text": "Overhaul the homepage starting interface (hero section, search widget, service cards, and contact bar) with a more unique, premium, and user-friendly visual design. Apply richer visual hierarchy, updated hero treatment with improved typography and layout flow, polished micro-details, and ensure no box shadows are present. The redesign must remain consistent with the existing black/white/grey premium palette and the expanded beige/warm neutral tones already in the design system.",
+      "id": "REQ-57",
+      "text": "Overhaul the homepage starting interface (hero section, HeroSearchWidget, service cards, and contact bar) with a uniquely premium visual design that surpasses MakeMyTrip and Uber in polish. Apply: a bold cinematic hero background using the existing hero-flight-premium-v2.png, elevated typography with large confident headings, a glassmorphism-style or frosted-panel search widget (clean borders, no shadows), premium card treatments with subtle gradients or metallic accents on service cards, smooth CSS transitions on hover states, and a visual hierarchy that guides the eye from headline → search → services. All updates must remain consistent with the existing black/white/grey/warm-neutral premium palette, be free of box shadows, and be fully responsive on mobile and desktop.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1",
-          "msg-3"
+          "msg-latest"
         ],
         "quotes": [
-          "change starting interface and make it look more unique premium and used friendly",
-          "New unique, premium starting interface with refreshed hero treatment",
-          "All service tabs (Flights, Trains, Hotels, Car Rentals, Tour Packages) in the search widget",
-          "Polished visual hierarchy, layout flow, and micro-details"
+          "change the text and background with new and premium and user friendly interface our Website should look more cool than make my trip and uber premium combine"
         ]
       },
       "acceptanceCriteria": [
-        "The homepage hero section has a visually distinct, premium look that differs meaningfully from the previous version.",
-        "The HeroSearchWidget includes tabs for Flights, Trains, Hotels, Car Rentals, and Tour Packages.",
-        "No box shadows are present on any element in the initial viewport.",
-        "Service cards for all offerings (Flights, Trains, Car Rentals, Hotels, Custom Packages, Tour Packages, Railway Bookings) are displayed with clear descriptions and CTA buttons.",
-        "The layout is fully responsive on mobile and desktop.",
-        "The design remains consistent with the black/white/grey/beige premium palette."
+        "Hero section uses hero-flight-premium-v2.png as the background",
+        "Typography is bold and confident — large headline, short sub-headline",
+        "HeroSearchWidget uses clean borders and subtle background contrast with no box shadows",
+        "Service cards have premium hover transitions and refined visual treatment",
+        "No box shadows anywhere in the initial viewport",
+        "Layout is fully responsive on mobile and desktop",
+        "Overall feel visually surpasses a basic MakeMyTrip/Uber clone — uniquely premium"
       ]
     },
     {
-      "id": "REQ-45",
-      "text": "Rebuild the Flight Ticket Bookings page (FlightBookingsPage.tsx) to feature a prominent live search UI with flight result cards showing airline name, departure/arrival times, duration, number of stops, cabin class, and fare. Use the existing mock flight API service (flightApi.ts) as the data source with clearly marked placeholders for real Amadeus API credentials. Users should be able to search flights and see results in a clean card list, then initiate a booking action (CTA that links to the inquiry form or an external booking URL placeholder). Handle loading, empty, and error states gracefully.",
+      "id": "REQ-58",
+      "text": "On the Car Rentals page (CarRentalsPage.tsx), move the 'Most Popular' badge to the Sedan vehicle card. Remove any 'Most Popular' badge from the SUV card. The Sedan card must be visually prominent — display it first in the vehicle selection, use a highlighted border or accent treatment to draw the eye, and ensure the badge is clearly visible. The SUV card should remain a premium option but without the popularity badge.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1",
-          "msg-3"
+          "msg-latest"
         ],
         "quotes": [
-          "add api so users can directly book flights",
-          "Flights — Live search UI with airline/time/price cards; Amadeus API credential placeholders"
+          "make sedan segment more popular in car booking division"
         ]
       },
       "acceptanceCriteria": [
-        "The Flight Bookings page displays a search form with origin, destination, date, passengers, and cabin class fields.",
-        "After searching, flight result cards are displayed showing airline, departure/arrival times, duration, stops, and price.",
-        "A 'Book Now' or equivalent CTA is present on each result card.",
-        "Loading, empty, and error states are handled with appropriate UI feedback.",
-        "API credential placeholders are clearly marked in the service file with comments indicating where real Amadeus credentials go.",
-        "The page is responsive on mobile and desktop."
+        "Sedan vehicle card displays a 'Most Popular' badge",
+        "Sedan card appears first in the vehicle selection grid",
+        "Sedan card has a visually prominent border or accent treatment",
+        "SUV card does not display any 'Most Popular' badge",
+        "Both cards remain functional for vehicle selection"
       ]
     },
     {
-      "id": "REQ-46",
-      "text": "Rebuild the Railway Ticket Bookings page (RailwayBookingsPage.tsx) to feature a prominent live search UI with train result cards showing train name/number, departure/arrival times, duration, available classes with fares, and a booking action CTA. Use the existing mock railway API service (railwayApi.ts) as the data source with clearly marked placeholders for real RapidAPI/IRCTC credentials. Handle loading, empty, and error states gracefully.",
+      "id": "REQ-59",
+      "text": "Remove all car-related emojis (e.g., 🚗, 🚙, 🛻, 🚕) from CarRentalsPage.tsx and any homepage service cards or sections that reference car rentals. Replace them with premium Lucide React icons (e.g., Car, Gauge, MapPin, Navigation) or upscale SVG icon elements. No generic car emojis should remain anywhere in the Car Rentals section or related homepage cards.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1",
-          "msg-3"
+          "msg-latest"
         ],
         "quotes": [
-          "users can directly book flights and railways tickets",
-          "Trains — Live search UI with train name/class/fare display; RapidAPI train search placeholders"
+          "remov those car emojis it's looking childish upgrade it with something more premium"
         ]
       },
       "acceptanceCriteria": [
-        "The Railway Bookings page displays a search form with origin station, destination station, date, class, and passenger count fields.",
-        "After searching, train result cards are displayed showing train name/number, departure/arrival times, duration, available classes, and fares.",
-        "A 'Book Now' or equivalent CTA is present on each result card.",
-        "Loading, empty, and error states are handled with appropriate UI feedback.",
-        "API credential placeholders are clearly marked in the service file with comments indicating where real RapidAPI/IRCTC credentials go.",
-        "The page is responsive on mobile and desktop."
+        "No car emojis (🚗, 🚙, 🛻, 🚕 etc.) present in CarRentalsPage.tsx",
+        "No car emojis in homepage service cards referencing car rentals",
+        "Replaced with Lucide React icons or premium SVG icons",
+        "Visual appearance is polished and consistent with the premium palette"
       ]
     },
     {
-      "id": "REQ-47",
-      "text": "Rebuild the Hotel & Hospitality Bookings page (HotelBookingsPage.tsx) to feature a prominent live search UI with hotel result cards showing property name, star rating, location, price per night, and a booking/contact CTA. Use the existing mock hotel data generation logic as the data source with clearly marked placeholders for real RapidAPI Hotels credentials. The inquiry fallback form (submitting to backend with category 'hotel_booking') should remain available. Handle loading, empty, and error states gracefully.",
+      "id": "REQ-60",
+      "text": "Replace the static/mock airports list in FlightBookingsPage.tsx and FlightSearchForm.tsx with a comprehensive static data constant of 500+ major airports worldwide (frontend/src/data/airports.ts). Each entry must include airport name, city, country, and IATA code (e.g., 'Chhatrapati Shivaji Maharaj International Airport, Mumbai, India (BOM)'). The origin and destination dropdowns must support searchable/filterable input so users can type to filter the list. Ensure coverage of all major global regions: Asia, Europe, Americas, Middle East, Africa, and Oceania.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1",
-          "msg-3"
+          "msg-latest"
         ],
         "quotes": [
-          "users should be able to book hotel's directly from our platform",
-          "Hotels — Live search UI with property/rating/price cards; RapidAPI Hotels placeholders"
+          "add the all airports in the world in our flight booking segment with api so people can book direct flights from our platform"
         ]
       },
       "acceptanceCriteria": [
-        "The Hotel Bookings page displays a search form with destination, check-in date, check-out date, number of guests, number of rooms, and room type preference fields.",
-        "After searching, hotel result cards are displayed showing property name, star rating, location, price per night, and a booking CTA.",
-        "A 'Book Now' or equivalent CTA is present on each result card.",
-        "An inquiry fallback form remains available and submits to the backend with category 'hotel_booking'.",
-        "Loading, empty, and error states are handled with appropriate UI feedback.",
-        "API credential placeholders are clearly marked with comments indicating where real RapidAPI Hotel credentials go.",
-        "The page is responsive on mobile and desktop."
+        "airports.ts data file contains 500+ airport entries with name, city, country, and IATA code",
+        "Origin and destination dropdowns in FlightSearchForm support type-to-filter search",
+        "Major airports from all global regions are represented",
+        "Dropdowns remain performant and usable with large dataset",
+        "FlightBookingsPage and FlightSearchForm import from the shared airports.ts data file"
+      ]
+    },
+    {
+      "id": "REQ-61",
+      "text": "Upgrade the Flight Bookings page to support direct booking initiation. The flight search results (currently using mock flightApi.ts) must display a prominent 'Book Now' CTA on each FlightResultCard. Clicking 'Book Now' should open a direct booking flow — either navigating to an external airline booking URL (placeholder linking to the airline's booking page or Google Flights with prefilled params) or opening the inquiry form pre-populated with the selected flight details. Add clearly visible placeholder comments in flightApi.ts noting where real Amadeus/Skyscanner API credentials should be inserted. Handle loading, empty, and error states gracefully.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "add the all airports in the world in our flight booking segment with api so people can book direct flights from our platform"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Each FlightResultCard has a visible 'Book Now' CTA button",
+        "Clicking 'Book Now' initiates a direct booking action (external link or prefilled form)",
+        "flightApi.ts has clear placeholder comments for real API credentials",
+        "Loading, empty, and error states are handled with premium UI feedback",
+        "The booking flow feels direct and consumer-ready"
+      ]
+    },
+    {
+      "id": "REQ-62",
+      "text": "Upgrade the Hotel Bookings page (HotelBookingsPage.tsx) to display a comprehensive worldwide hotels search experience. The hotel search must support any destination city globally. Display hotel result cards with property name, star rating, location, price per night, and a 'Book Now' CTA. The 'Book Now' CTA should link to an external booking URL (e.g., prefilled Booking.com or Hotels.com search link for the destination) or pre-populate the inquiry form. Add clearly visible placeholder comments in the hotel data logic noting where real RapidAPI Hotels or compatible aggregator credentials should be inserted. Handle loading, empty, and error states gracefully.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "add all the hotels in the world as well with api"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Hotel search accepts any global destination city input",
+        "Results display property name, star rating, location, and price per night",
+        "Each hotel card has a 'Book Now' CTA linking to an external aggregator or prefilling the inquiry form",
+        "Hotel results service has clear placeholder comments for real API credentials",
+        "Loading, empty, and error states are handled with premium UI feedback"
+      ]
+    },
+    {
+      "id": "REQ-63",
+      "text": "Apply a comprehensive premium UI refresh across all public pages (HomePage, CarRentalsPage, FlightBookingsPage, HotelBookingsPage, RailwayBookingsPage, PackagesPage, CustomPackagesPage, ContactInquiryPage, AboutPage, TermsPage) to elevate visual quality. Use: refined typographic scale with premium font weights, subtle background gradients or texture on section dividers, clean card borders with hover accent effects (no shadows), consistent use of the existing warm-neutral/grey/charcoal palette tokens, and polished spacing and alignment. The result must feel distinctly more premium than MakeMyTrip and Uber on every page.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "make our website look updated and premium"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All public pages use consistent premium typography hierarchy",
+        "Cards across all pages use clean borders with hover accent effects and no box shadows",
+        "Section backgrounds use subtle gradients or warm-neutral palette tokens for visual richness",
+        "Spacing and alignment are consistent and refined across all pages",
+        "All pages are fully responsive on mobile and desktop"
       ]
     }
   ],
   "constraints": [
-    "Do not remove or alter existing inquiry form fallbacks on flight, railway, and hotel pages.",
-    "All mock API services must have clearly marked comments indicating where real API credentials should be inserted.",
-    "The business address 'Dhule, Maharashtra 424001' must appear in both the footer and the contact page — not just one location.",
-    "No box shadows on the homepage starting interface.",
-    "The 'Most Popular' badge must only appear on the SUV card, not the Sedan card.",
-    "Do not edit files listed in frontend.immutablePaths.",
-    "All pages must remain responsive on mobile and desktop."
+    "Do not change the backend data schema or Motoko actor — all changes are frontend only.",
+    "Do not remove or modify files in frontend/src/hooks/useInternetIdentity.ts, useActor.ts, main.tsx, or frontend/src/components/ui.",
+    "Airports data must be a static frontend constant (frontend/src/data/airports.ts) — do not route through the backend.",
+    "No box shadows anywhere in the homepage initial viewport.",
+    "Brand name must remain 'Blackrays Car Rentals & Tours and Travels' throughout.",
+    "Contact details must remain: Phone 9373624669, Email blackraystravelagency@gmail.com, MD & Chairman: Om H Patil.",
+    "Business address must be 'Dhule, Maharashtra 424001' — no reference to Nagpur."
   ],
   "nonGoals": [
-    "Integrating real live API credentials for Amadeus, RapidAPI trains, or RapidAPI Hotels (placeholders only).",
-    "IRCTC agent registration or any regulatory API partnership.",
-    "Email or SMS notifications to the agency on form submission.",
-    "Changes to the backend data model or Motoko actor (all required backend fields are already implemented).",
-    "Changing the deployment slug or any deployment configuration.",
-    "Altering the Terms & Conditions page content.",
-    "Modifying immutable frontend paths (useInternetIdentity, useActor, main.tsx, ui components)."
+    "Integrating live paid API credentials for Amadeus, Skyscanner, IRCTC, or RapidAPI Hotels (placeholders only).",
+    "Backend schema changes.",
+    "Changing the deployment slug.",
+    "Adding new backend inquiry categories or fields.",
+    "Adding SMS or email notification features."
   ],
   "imageRequirements": {
-    "required": [],
+    "required": [
+      "Ultra-premium cinematic homepage hero background — wide landscape shot of a luxury private jet on a gleaming tarmac at golden hour, soft warm light reflecting off the aircraft fuselage, minimalist and aspirational mood, consistent with a black/white/warm-grey premium palette (hero-premium-jet-tarmac.dim_1920x1080.png)"
+    ],
     "edits": []
   }
 }

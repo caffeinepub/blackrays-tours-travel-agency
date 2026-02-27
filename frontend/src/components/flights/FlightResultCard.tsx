@@ -1,103 +1,72 @@
-import React from 'react';
-import { Plane, Clock, AlertCircle, CheckCircle, ExternalLink } from 'lucide-react';
-import { FlightResult, formatFare } from '../../services/flightApi';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Plane, Clock, Users, ExternalLink, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import type { FlightResult } from "@/services/flightApi";
 
 interface FlightResultCardProps {
   flight: FlightResult;
-  onBook?: (flight: FlightResult) => void;
+  onBookNow: (flight: FlightResult) => void;
 }
 
-function SegmentDisplay({ segment, label }: { segment: FlightResult['outbound']; label?: string }) {
+export default function FlightResultCard({ flight, onBookNow }: FlightResultCardProps) {
   return (
-    <div className="flex-1">
-      {label && <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">{label}</p>}
-      <div className="flex items-center gap-3">
-        <div className="text-center">
-          <p className="text-2xl font-bold font-display">{segment.departureTime}</p>
-          <p className="text-xs font-semibold text-muted-foreground">{segment.departureAirport}</p>
-        </div>
-        <div className="flex-1 flex flex-col items-center gap-1">
-          <p className="text-xs text-muted-foreground">{segment.duration}</p>
-          <div className="w-full flex items-center gap-1">
-            <div className="flex-1 h-px bg-border" />
-            <Plane className="w-3 h-3 text-muted-foreground" />
-            <div className="flex-1 h-px bg-border" />
+    <div className="home-card p-5 hover:border-accent/60 transition-all">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+        {/* Airline */}
+        <div className="flex items-center gap-3 sm:w-40 flex-shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-primary/5 border border-border flex items-center justify-center">
+            <Plane className="w-4 h-4 text-primary" />
           </div>
-          <p className="text-xs text-muted-foreground">
-            {segment.stops === 0 ? 'Non-stop' : `${segment.stops} stop`}
-          </p>
-        </div>
-        <div className="text-center">
-          <p className="text-2xl font-bold font-display">{segment.arrivalTime}</p>
-          <p className="text-xs font-semibold text-muted-foreground">{segment.arrivalAirport}</p>
-        </div>
-      </div>
-      <div className="mt-2 flex items-center gap-2">
-        <div className="w-6 h-6 rounded bg-foreground text-background flex items-center justify-center text-xs font-bold">
-          {segment.airlineCode}
-        </div>
-        <span className="text-sm font-medium">{segment.airline}</span>
-        <span className="text-xs text-muted-foreground">· {segment.flightNumber}</span>
-      </div>
-    </div>
-  );
-}
-
-export default function FlightResultCard({ flight, onBook }: FlightResultCardProps) {
-  const handleBook = () => {
-    if (onBook) {
-      onBook(flight);
-    } else if (flight.bookingUrl) {
-      window.open(flight.bookingUrl, '_blank', 'noopener,noreferrer');
-    }
-  };
-
-  return (
-    <div className="bg-card border border-border rounded-xl shadow-premium hover:shadow-premium-lg transition-all duration-300 overflow-hidden animate-slide-up">
-      <div className="p-5">
-        <div className="flex flex-col lg:flex-row gap-4">
-          {/* Flight segments */}
-          <div className="flex-1 space-y-4">
-            <SegmentDisplay segment={flight.outbound} label={flight.inbound ? 'Outbound' : undefined} />
-            {flight.inbound && (
-              <>
-                <div className="border-t border-dashed border-border" />
-                <SegmentDisplay segment={flight.inbound} label="Return" />
-              </>
-            )}
+          <div>
+            <p className="font-semibold text-sm text-foreground">{flight.airline}</p>
+            <p className="text-xs text-muted-foreground">{flight.flightNumber}</p>
           </div>
+        </div>
 
-          {/* Fare & CTA */}
-          <div className="lg:w-48 flex flex-col items-end justify-between gap-3 lg:border-l lg:border-border lg:pl-4">
-            <div className="text-right">
-              <p className="text-2xl font-bold font-display">{formatFare(flight.fare)}</p>
-              <p className="text-xs text-muted-foreground">
-                {flight.inbound ? 'per person (round trip)' : 'per person'}
-              </p>
-              <div className="flex items-center gap-1 mt-1 justify-end">
-                {flight.refundable ? (
-                  <><CheckCircle className="w-3 h-3 text-green-600" /><span className="text-xs text-green-600">Refundable</span></>
-                ) : (
-                  <><AlertCircle className="w-3 h-3 text-muted-foreground" /><span className="text-xs text-muted-foreground">Non-refundable</span></>
-                )}
-              </div>
+        {/* Route & Time */}
+        <div className="flex-1 flex items-center gap-3">
+          <div className="text-center">
+            <p className="font-bold text-xl text-foreground">{flight.departureTime}</p>
+            <p className="text-xs text-muted-foreground font-medium">{flight.origin}</p>
+          </div>
+          <div className="flex-1 flex flex-col items-center gap-1">
+            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+              <Clock className="w-3 h-3" />
+              {flight.duration}
             </div>
+            <div className="w-full flex items-center gap-1">
+              <div className="flex-1 h-px bg-border" />
+              <ArrowRight className="w-3 h-3 text-muted-foreground" />
+              <div className="flex-1 h-px bg-border" />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {flight.stops === 0 ? "Non-stop" : `${flight.stops} stop${flight.stops > 1 ? "s" : ""}`}
+            </p>
+          </div>
+          <div className="text-center">
+            <p className="font-bold text-xl text-foreground">{flight.arrivalTime}</p>
+            <p className="text-xs text-muted-foreground font-medium">{flight.destination}</p>
+          </div>
+        </div>
 
-            <div className="flex flex-col gap-2 w-full lg:w-auto">
-              <Badge variant="outline" className="text-xs justify-center">
-                {flight.seatsAvailable} seats left
-              </Badge>
-              <Badge variant="secondary" className="text-xs justify-center capitalize">
-                {flight.cabinClass.replace('_', ' ')}
-              </Badge>
-              <Button onClick={handleBook} className="w-full gap-1" size="sm">
-                Book Now
-                <ExternalLink className="w-3 h-3" />
-              </Button>
+        {/* Price & CTA */}
+        <div className="flex sm:flex-col items-center sm:items-end gap-3 sm:gap-2 sm:w-36 flex-shrink-0">
+          <div className="text-right">
+            <p className="font-black text-2xl text-foreground">
+              ₹{flight.price.toLocaleString("en-IN")}
+            </p>
+            <p className="text-xs text-muted-foreground capitalize">{flight.cabinClass}</p>
+            <div className="flex items-center gap-1 text-xs text-muted-foreground mt-0.5">
+              <Users className="w-3 h-3" />
+              {flight.seatsAvailable} seats left
             </div>
           </div>
+          <Button
+            onClick={() => onBookNow(flight)}
+            className="btn-premium text-sm px-5 whitespace-nowrap"
+            size="sm"
+          >
+            Book Now <ExternalLink className="w-3 h-3 ml-1" />
+          </Button>
         </div>
       </div>
     </div>

@@ -15,54 +15,42 @@ export default {
         background: 'oklch(var(--background) / <alpha-value>)',
         foreground: 'oklch(var(--foreground) / <alpha-value>)',
         card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))'
+          DEFAULT: 'var(--card)',
+          foreground: 'var(--card-foreground)',
         },
         popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))'
+          DEFAULT: 'var(--popover)',
+          foreground: 'var(--popover-foreground)',
         },
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))'
+          DEFAULT: 'var(--primary)',
+          foreground: 'var(--primary-foreground)',
         },
         secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))'
+          DEFAULT: 'var(--secondary)',
+          foreground: 'var(--secondary-foreground)',
         },
         muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))'
+          DEFAULT: 'var(--muted)',
+          foreground: 'var(--muted-foreground)',
         },
         accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))'
+          DEFAULT: 'var(--accent)',
+          foreground: 'var(--accent-foreground)',
         },
         destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))'
+          DEFAULT: 'var(--destructive)',
+          foreground: 'var(--destructive-foreground)',
         },
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        chart: {
-          '1': 'hsl(var(--chart-1))',
-          '2': 'hsl(var(--chart-2))',
-          '3': 'hsl(var(--chart-3))',
-          '4': 'hsl(var(--chart-4))',
-          '5': 'hsl(var(--chart-5))'
-        },
-        // Extended warm palette tokens
-        warmGrey: '#9CA3AF',
-        lightGrey: '#F3F4F6',
-        charcoal: '#374151',
-        warmSand: '#F5F0E8',
-        lightBeige: '#FAF7F2',
-        deepCharcoal: '#1F2937',
-        goldAccent: '#B8975A',
-        warmBrown: '#6B5744',
-        cream: '#FEFCF8',
-        stone: '#78716C',
+        border: 'var(--border)',
+        input: 'var(--input)',
+        ring: 'var(--ring)',
+        gold: 'var(--gold)',
+        'gold-light': 'var(--gold-light)',
+        charcoal: 'var(--charcoal)',
+        'warm-neutral': 'var(--warm-neutral)',
+        success: 'var(--success)',
+        warning: 'var(--warning)',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -73,15 +61,28 @@ export default {
         '3xl': '2rem',
       },
       boxShadow: {
-        'premium': '0 4px 24px -4px rgba(31, 41, 55, 0.12)',
-        'premium-lg': '0 8px 40px -8px rgba(31, 41, 55, 0.16)',
-        'warm': '0 4px 20px -4px rgba(107, 87, 68, 0.15)',
-        'warm-lg': '0 8px 32px -8px rgba(107, 87, 68, 0.20)',
-        'card': '0 2px 12px -2px rgba(31, 41, 55, 0.08)',
+        'premium': '0 1px 3px 0 rgba(0,0,0,0.06)',
+        'premium-lg': '0 4px 12px 0 rgba(0,0,0,0.08)',
+        'none': 'none',
       },
       backgroundImage: {
-        'hero-flight': "url('/assets/generated/hero-flight-premium.dim_1920x1080.png')",
-        'hero-gradient': 'linear-gradient(135deg, rgba(31,41,55,0.65) 0%, rgba(55,65,81,0.45) 50%, rgba(31,41,55,0.30) 100%)',
+        'gradient-premium': 'linear-gradient(135deg, oklch(0.97 0.008 60) 0%, oklch(0.99 0.004 75) 100%)',
+        'gradient-dark': 'linear-gradient(135deg, oklch(0.12 0.01 30) 0%, oklch(0.16 0.015 30) 100%)',
+        'gradient-gold': 'linear-gradient(90deg, oklch(0.75 0.12 75), oklch(0.82 0.1 80))',
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.5s ease-in-out',
+        'slide-up': 'slideUp 0.4s ease-out',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideUp: {
+          '0%': { opacity: '0', transform: 'translateY(16px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
       },
     },
   },

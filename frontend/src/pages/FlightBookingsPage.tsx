@@ -1,20 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { useSearch } from '@tanstack/react-router';
-import { Plane, ChevronDown, ChevronUp, Info } from 'lucide-react';
+import React, { useState } from 'react';
+import { Plane, ChevronDown, ChevronUp, Info, ExternalLink } from 'lucide-react';
 import FlightSearchForm from '../components/flights/FlightSearchForm';
 import FlightResultsList from '../components/flights/FlightResultsList';
 import { useFlightSearch } from '../hooks/useFlightSearch';
-import { FlightSearchParams } from '../services/flightApi';
+import { FlightResult } from '../services/flightApi';
 import { useSubmitFlightBooking } from '../hooks/useQueries';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 export default function FlightBookingsPage() {
-  const searchParams = useSearch({ strict: false }) as Record<string, string>;
   const { search, results, isLoading, isError, error, hasSearched } = useFlightSearch();
   const submitFlightBooking = useSubmitFlightBooking();
 
@@ -23,9 +20,9 @@ export default function FlightBookingsPage() {
     name: '',
     phone: '',
     email: '',
-    origin: searchParams?.origin || '',
-    destination: searchParams?.destination || '',
-    departureDate: searchParams?.date || '',
+    origin: '',
+    destination: '',
+    departureDate: '',
     returnDate: '',
     tripType: 'one_way',
     passengers: '1',
@@ -33,27 +30,42 @@ export default function FlightBookingsPage() {
   });
   const [submitted, setSubmitted] = useState(false);
 
-  const initialParams: Partial<FlightSearchParams> = {
-    origin: searchParams?.origin || '',
-    destination: searchParams?.destination || '',
-    departureDate: searchParams?.date || '',
-    passengers: Number(searchParams?.passengers) || 1,
-    cabinClass: (searchParams?.class as FlightSearchParams['cabinClass']) || 'economy',
+  const handleSearch = (params: {
+    origin: string;
+    originCode: string;
+    destination: string;
+    destinationCode: string;
+    departureDate: string;
+    returnDate?: string;
+    tripType: string;
+    passengers: number;
+    cabinClass: string;
+  }) => {
+    // Update inquiry form with search params for convenience
+    setInquiryForm((prev) => ({
+      ...prev,
+      origin: params.origin,
+      destination: params.destination,
+      departureDate: params.departureDate,
+      returnDate: params.returnDate || '',
+      tripType: params.tripType === 'roundTrip' ? 'round_trip' : 'one_way',
+      passengers: String(params.passengers),
+      cabinClass: params.cabinClass,
+    }));
+
+    search({
+      origin: params.originCode,
+      destination: params.destinationCode,
+      departureDate: params.departureDate,
+      returnDate: params.returnDate,
+      passengers: params.passengers,
+      cabinClass: params.cabinClass,
+    });
   };
 
-  // Auto-search if params are provided from homepage widget
-  useEffect(() => {
-    if (searchParams?.origin && searchParams?.destination && searchParams?.date) {
-      search({
-        origin: searchParams.origin,
-        destination: searchParams.destination,
-        departureDate: searchParams.date,
-        passengers: Number(searchParams.passengers) || 1,
-        cabinClass: (searchParams.class as FlightSearchParams['cabinClass']) || 'economy',
-        tripType: 'one_way',
-      });
-    }
-  }, []);
+  const handleBookNow = (flight: FlightResult) => {
+    window.open(flight.bookingUrl, '_blank', 'noopener,noreferrer');
+  };
 
   const handleInquirySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,30 +93,29 @@ export default function FlightBookingsPage() {
       {/* Hero */}
       <section className="relative bg-foreground text-background py-16">
         <div className="absolute inset-0 overflow-hidden opacity-10">
-          <img src="/assets/generated/hero-premium-travel.dim_1600x800.png" alt="" className="w-full h-full object-cover" />
+          <img src="/assets/generated/hero-premium-jet-tarmac.dim_1920x1080.png" alt="" className="w-full h-full object-cover" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-flex items-center gap-2 bg-white/10 rounded-full px-4 py-1.5 text-sm font-medium mb-4">
             <Plane className="w-4 h-4" />
-            Live Flight Search
+            Global Flight Search
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold font-display mb-3">
             Book Your Flight
           </h1>
           <p className="text-background/70 text-lg max-w-xl mx-auto">
-            Search across all major airlines and find the best fares for your journey
+            Search 500+ airports worldwide and find the best fares for your journey
           </p>
         </div>
       </section>
 
       {/* Search Section */}
       <section className="py-8 bg-muted/30 border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-card border border-border rounded-2xl shadow-premium-lg p-6">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-card border border-border rounded-2xl p-6">
             <FlightSearchForm
-              onSearch={search}
+              onSearch={handleSearch}
               isLoading={isLoading}
-              initialParams={initialParams}
             />
           </div>
         </div>
@@ -112,16 +123,17 @@ export default function FlightBookingsPage() {
 
       {/* Results */}
       <section className="py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <FlightResultsList
             results={results}
             isLoading={isLoading}
             isError={isError}
             error={error}
             hasSearched={hasSearched}
+            onBookNow={handleBookNow}
           />
 
-          {/* API Notice */}
+          {/* Empty state before search */}
           {!hasSearched && (
             <div className="py-12 text-center">
               <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
@@ -129,11 +141,11 @@ export default function FlightBookingsPage() {
               </div>
               <h3 className="font-bold font-display text-xl mb-2">Search for Flights</h3>
               <p className="text-muted-foreground max-w-md mx-auto">
-                Enter your origin, destination, and travel date above to find available flights.
+                Type any city or airport code above to search 500+ airports worldwide.
               </p>
               <div className="mt-4 inline-flex items-center gap-2 bg-muted rounded-lg px-4 py-2 text-sm text-muted-foreground">
                 <Info className="w-4 h-4" />
-                Currently showing demo results. Live API integration available with credentials.
+                Demo results shown. Live API integration available with credentials.
               </div>
             </div>
           )}
@@ -145,7 +157,7 @@ export default function FlightBookingsPage() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <Collapsible open={showInquiry} onOpenChange={setShowInquiry}>
             <CollapsibleTrigger asChild>
-              <button className="w-full flex items-center justify-between p-4 bg-muted rounded-xl hover:bg-accent transition-colors">
+              <button className="w-full flex items-center justify-between p-4 bg-muted rounded-xl hover:bg-accent/30 transition-colors">
                 <div className="text-left">
                   <p className="font-semibold">Prefer a manual inquiry?</p>
                   <p className="text-sm text-muted-foreground">Submit your details and our team will assist you</p>

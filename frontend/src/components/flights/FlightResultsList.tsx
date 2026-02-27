@@ -1,4 +1,3 @@
-import React from 'react';
 import { Plane, AlertCircle, SearchX } from 'lucide-react';
 import { FlightResult } from '../../services/flightApi';
 import FlightResultCard from './FlightResultCard';
@@ -9,6 +8,7 @@ interface FlightResultsListProps {
   isError: boolean;
   error?: Error | null;
   hasSearched: boolean;
+  onBookNow: (flight: FlightResult) => void;
 }
 
 export default function FlightResultsList({
@@ -17,13 +17,14 @@ export default function FlightResultsList({
   isError,
   error,
   hasSearched,
+  onBookNow,
 }: FlightResultsListProps) {
   if (!hasSearched) return null;
 
   if (isLoading) {
     return (
       <div className="py-16 flex flex-col items-center gap-4 animate-fade-in">
-        <div className="w-12 h-12 border-3 border-border border-t-foreground rounded-full animate-spin" />
+        <div className="w-12 h-12 border-2 border-border border-t-foreground rounded-full animate-spin" />
         <div className="text-center">
           <p className="font-semibold text-lg">Searching for flights...</p>
           <p className="text-muted-foreground text-sm mt-1">Finding the best fares for you</p>
@@ -77,7 +78,7 @@ export default function FlightResultsList({
       </div>
       <div className="space-y-3">
         {results.map((flight) => (
-          <FlightResultCard key={flight.id} flight={flight} />
+          <FlightResultCard key={flight.id} flight={flight} onBookNow={onBookNow} />
         ))}
       </div>
     </div>

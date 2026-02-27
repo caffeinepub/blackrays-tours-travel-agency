@@ -1,4 +1,183 @@
 {
   "kind": "feature_evidence_report",
-  "features": []
+  "features": [
+    {
+      "featureId": "feature-fix-the-business-address-from-any-reference-to-nagpur-to-dhule-maharashtra-424001-across-all-pages-and-components-where-the-address-appears-including-footer-tsx-contactinquirypage-tsx-aboutpage-tsx-homecontactbar-termspage-tsx-and-any-other-user-facing-text-no-instance-of-nagpur-should-remain-anywhere-on-the-site",
+      "featureTitle": "Fix the business address from any reference to 'Nagpur' to 'Dhule, Maharashtra 424001' across all pages and components where the address appears, including Footer.tsx, ContactInquiryPage.tsx, AboutPage.tsx, HomeContactBar, TermsPage.tsx, and any other user-facing text. No instance of 'Nagpur' should remain anywhere on the site.",
+      "files": [
+        "frontend/src/components/home/HomeContactBar.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-55"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-reduce-and-refine-the-text-copy-on-the-homepage-starting-interface-hero-section-contact-bar-herosearchwidget-area-the-hero-headline-must-be-a-single-concise-line-e-g-travel-premium-arrive-in-style-and-the-sub-headline-no-more-than-one-brief-supporting-sentence-remove-verbose-descriptive-paragraphs-redundant-ctas-and-any-cluttered-copy-from-the-initial-viewport-the-contact-bar-should-show-only-the-essential-details-phone-email-md-name-in-a-compact-single-row-layout-the-result-must-feel-clean-uncluttered-and-premium",
+      "featureTitle": "Reduce and refine the text copy on the homepage starting interface (hero section, contact bar, HeroSearchWidget area). The hero headline must be a single concise line (e.g., 'Travel Premium. Arrive in Style.') and the sub-headline no more than one brief supporting sentence. Remove verbose descriptive paragraphs, redundant CTAs, and any cluttered copy from the initial viewport. The contact bar should show only the essential details (phone, email, MD name) in a compact single-row layout. The result must feel clean, uncluttered, and premium.",
+      "files": [
+        "frontend/src/components/home/HomeContactBar.tsx",
+        "frontend/src/pages/HomePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-56"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-overhaul-the-homepage-starting-interface-hero-section-herosearchwidget-service-cards-and-contact-bar-with-a-uniquely-premium-visual-design-that-surpasses-makemytrip-and-uber-in-polish-apply-a-bold-cinematic-hero-background-using-the-existing-hero-flight-premium-v2-png-elevated-typography-with-large-confident-headings-a-glassmorphism-style-or-frosted-panel-search-widget-clean-borders-no-shadows-premium-card-treatments-with-subtle-gradients-or-metallic-accents-on-service-cards-smooth-css-transitions-on-hover-states-and-a-visual-hierarchy-that-guides-the-eye-from-headline-search-services-all-updates-must-remain-consistent-with-the-existing-black-white-grey-warm-neutral-premium-palette-be-free-of-box-shadows-and-be-fully-responsive-on-mobile-and-desktop",
+      "featureTitle": "Overhaul the homepage starting interface (hero section, HeroSearchWidget, service cards, and contact bar) with a uniquely premium visual design that surpasses MakeMyTrip and Uber in polish. Apply: a bold cinematic hero background using the existing hero-flight-premium-v2.png, elevated typography with large confident headings, a glassmorphism-style or frosted-panel search widget (clean borders, no shadows), premium card treatments with subtle gradients or metallic accents on service cards, smooth CSS transitions on hover states, and a visual hierarchy that guides the eye from headline → search → services. All updates must remain consistent with the existing black/white/grey/warm-neutral premium palette, be free of box shadows, and be fully responsive on mobile and desktop.",
+      "files": [
+        "frontend/src/components/home/HeroSearchWidget.tsx",
+        "frontend/src/index.css",
+        "frontend/src/pages/HomePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-57"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-remove-all-car-related-emojis-e-g-from-carrentalspage-tsx-and-any-homepage-service-cards-or-sections-that-reference-car-rentals-replace-them-with-premium-lucide-react-icons-e-g-car-gauge-mappin-navigation-or-upscale-svg-icon-elements-no-generic-car-emojis-should-remain-anywhere-in-the-car-rentals-section-or-related-homepage-cards",
+      "featureTitle": "Remove all car-related emojis (e.g., 🚗, 🚙, 🛻, 🚕) from CarRentalsPage.tsx and any homepage service cards or sections that reference car rentals. Replace them with premium Lucide React icons (e.g., Car, Gauge, MapPin, Navigation) or upscale SVG icon elements. No generic car emojis should remain anywhere in the Car Rentals section or related homepage cards.",
+      "files": [
+        "frontend/src/pages/HomePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-59"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-replace-the-static-mock-airports-list-in-flightbookingspage-tsx-and-flightsearchform-tsx-with-a-comprehensive-static-data-constant-of-500-major-airports-worldwide-frontend-src-data-airports-ts-each-entry-must-include-airport-name-city-country-and-iata-code-e-g-chhatrapati-shivaji-maharaj-international-airport-mumbai-india-bom-the-origin-and-destination-dropdowns-must-support-searchable-filterable-input-so-users-can-type-to-filter-the-list-ensure-coverage-of-all-major-global-regions-asia-europe-americas-middle-east-africa-and-oceania",
+      "featureTitle": "Replace the static/mock airports list in FlightBookingsPage.tsx and FlightSearchForm.tsx with a comprehensive static data constant of 500+ major airports worldwide (frontend/src/data/airports.ts). Each entry must include airport name, city, country, and IATA code (e.g., 'Chhatrapati Shivaji Maharaj International Airport, Mumbai, India (BOM)'). The origin and destination dropdowns must support searchable/filterable input so users can type to filter the list. Ensure coverage of all major global regions: Asia, Europe, Americas, Middle East, Africa, and Oceania.",
+      "files": [
+        "frontend/src/components/flights/FlightSearchForm.tsx",
+        "frontend/src/data/airports.ts",
+        "frontend/src/pages/FlightBookingsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-60"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-upgrade-the-flight-bookings-page-to-support-direct-booking-initiation-the-flight-search-results-currently-using-mock-flightapi-ts-must-display-a-prominent-book-now-cta-on-each-flightresultcard-clicking-book-now-should-open-a-direct-booking-flow-either-navigating-to-an-external-airline-booking-url-placeholder-linking-to-the-airline-s-booking-page-or-google-flights-with-prefilled-params-or-opening-the-inquiry-form-pre-populated-with-the-selected-flight-details-add-clearly-visible-placeholder-comments-in-flightapi-ts-noting-where-real-amadeus-skyscanner-api-credentials-should-be-inserted-handle-loading-empty-and-error-states-gracefully",
+      "featureTitle": "Upgrade the Flight Bookings page to support direct booking initiation. The flight search results (currently using mock flightApi.ts) must display a prominent 'Book Now' CTA on each FlightResultCard. Clicking 'Book Now' should open a direct booking flow — either navigating to an external airline booking URL (placeholder linking to the airline's booking page or Google Flights with prefilled params) or opening the inquiry form pre-populated with the selected flight details. Add clearly visible placeholder comments in flightApi.ts noting where real Amadeus/Skyscanner API credentials should be inserted. Handle loading, empty, and error states gracefully.",
+      "files": [
+        "frontend/src/components/flights/FlightResultCard.tsx",
+        "frontend/src/pages/FlightBookingsPage.tsx",
+        "frontend/src/services/flightApi.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-61"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-upgrade-the-hotel-bookings-page-hotelbookingspage-tsx-to-display-a-comprehensive-worldwide-hotels-search-experience-the-hotel-search-must-support-any-destination-city-globally-display-hotel-result-cards-with-property-name-star-rating-location-price-per-night-and-a-book-now-cta-the-book-now-cta-should-link-to-an-external-booking-url-e-g-prefilled-booking-com-or-hotels-com-search-link-for-the-destination-or-pre-populate-the-inquiry-form-add-clearly-visible-placeholder-comments-in-the-hotel-data-logic-noting-where-real-rapidapi-hotels-or-compatible-aggregator-credentials-should-be-inserted-handle-loading-empty-and-error-states-gracefully",
+      "featureTitle": "Upgrade the Hotel Bookings page (HotelBookingsPage.tsx) to display a comprehensive worldwide hotels search experience. The hotel search must support any destination city globally. Display hotel result cards with property name, star rating, location, price per night, and a 'Book Now' CTA. The 'Book Now' CTA should link to an external booking URL (e.g., prefilled Booking.com or Hotels.com search link for the destination) or pre-populate the inquiry form. Add clearly visible placeholder comments in the hotel data logic noting where real RapidAPI Hotels or compatible aggregator credentials should be inserted. Handle loading, empty, and error states gracefully.",
+      "files": [
+        "frontend/src/services/hotelApi.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-62"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-apply-a-comprehensive-premium-ui-refresh-across-all-public-pages-homepage-carrentalspage-flightbookingspage-hotelbookingspage-railwaybookingspage-packagespage-custompackagespage-contactinquirypage-aboutpage-termspage-to-elevate-visual-quality-use-refined-typographic-scale-with-premium-font-weights-subtle-background-gradients-or-texture-on-section-dividers-clean-card-borders-with-hover-accent-effects-no-shadows-consistent-use-of-the-existing-warm-neutral-grey-charcoal-palette-tokens-and-polished-spacing-and-alignment-the-result-must-feel-distinctly-more-premium-than-makemytrip-and-uber-on-every-page",
+      "featureTitle": "Apply a comprehensive premium UI refresh across all public pages (HomePage, CarRentalsPage, FlightBookingsPage, HotelBookingsPage, RailwayBookingsPage, PackagesPage, CustomPackagesPage, ContactInquiryPage, AboutPage, TermsPage) to elevate visual quality. Use: refined typographic scale with premium font weights, subtle background gradients or texture on section dividers, clean card borders with hover accent effects (no shadows), consistent use of the existing warm-neutral/grey/charcoal palette tokens, and polished spacing and alignment. The result must feel distinctly more premium than MakeMyTrip and Uber on every page.",
+      "files": [
+        "frontend/src/index.css",
+        "frontend/src/pages/FlightBookingsPage.tsx",
+        "frontend/src/pages/HomePage.tsx",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0",
+        "http-outcalls@3.0.0"
+      ],
+      "testIds": [
+        "REQ-63"
+      ],
+      "confidence": "high"
+    }
+  ]
 }

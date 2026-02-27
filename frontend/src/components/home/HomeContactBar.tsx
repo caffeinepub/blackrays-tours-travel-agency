@@ -1,74 +1,27 @@
-import { Phone, Mail, User } from 'lucide-react';
+import { Phone, Mail, User } from "lucide-react";
 
 export default function HomeContactBar() {
   return (
-    <div
-      className="w-full py-4 px-4 sm:px-6 lg:px-8"
-      style={{ backgroundColor: 'white', borderBottom: '1px solid var(--border)' }}
-    >
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
-          {/* MD & Chairman */}
-          <div className="flex items-center gap-2.5">
-            <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-              style={{ backgroundColor: 'var(--warm-sand)' }}
-            >
-              <User className="w-4 h-4" style={{ color: 'var(--charcoal)' }} />
-            </div>
-            <div>
-              <div className="text-xs font-semibold tracking-wide uppercase" style={{ color: 'var(--warm-grey)' }}>
-                MD & Chairman
-              </div>
-              <div className="text-sm font-bold" style={{ color: 'var(--charcoal)' }}>Om H Patil</div>
-            </div>
-          </div>
-
-          <div className="hidden sm:block w-px h-8" style={{ backgroundColor: 'var(--border)' }} />
-
-          {/* Phone */}
-          <a
-            href="tel:9373624669"
-            className="flex items-center gap-2.5 group"
-          >
-            <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors"
-              style={{ backgroundColor: 'var(--warm-sand)' }}
-            >
-              <Phone className="w-4 h-4" style={{ color: 'var(--charcoal)' }} />
-            </div>
-            <div>
-              <div className="text-xs font-semibold tracking-wide uppercase" style={{ color: 'var(--warm-grey)' }}>
-                Call Us
-              </div>
-              <div className="text-sm font-bold group-hover:underline" style={{ color: 'var(--charcoal)' }}>
-                +91 93736 24669
-              </div>
-            </div>
+    <div className="bg-primary text-primary-foreground py-2.5 px-4">
+      <div className="container mx-auto flex flex-wrap items-center justify-between gap-x-6 gap-y-1 text-xs">
+        <div className="flex items-center gap-1.5 font-medium">
+          <User className="w-3 h-3 opacity-70" />
+          <span className="opacity-80">MD & Chairman:</span>
+          <span className="font-semibold">Om H Patil</span>
+        </div>
+        <div className="flex items-center gap-4">
+          <a href="tel:9373624669" className="flex items-center gap-1.5 hover:opacity-80 transition-opacity">
+            <Phone className="w-3 h-3 opacity-70" />
+            <span>9373624669</span>
           </a>
-
-          <div className="hidden sm:block w-px h-8" style={{ backgroundColor: 'var(--border)' }} />
-
-          {/* Email */}
-          <a
-            href="mailto:blackraystravelagency@gmail.com"
-            className="flex items-center gap-2.5 group"
-          >
-            <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-              style={{ backgroundColor: 'var(--warm-sand)' }}
-            >
-              <Mail className="w-4 h-4" style={{ color: 'var(--charcoal)' }} />
-            </div>
-            <div>
-              <div className="text-xs font-semibold tracking-wide uppercase" style={{ color: 'var(--warm-grey)' }}>
-                Email Us
-              </div>
-              <div className="text-sm font-bold group-hover:underline" style={{ color: 'var(--charcoal)' }}>
-                blackraystravelagency@gmail.com
-              </div>
-            </div>
+          <a href="mailto:blackraystravelagency@gmail.com" className="flex items-center gap-1.5 hover:opacity-80 transition-opacity">
+            <Mail className="w-3 h-3 opacity-70" />
+            <span className="hidden sm:inline">blackraystravelagency@gmail.com</span>
+            <span className="sm:hidden">Email Us</span>
           </a>
+        </div>
+        <div className="hidden lg:flex items-center gap-1.5 opacity-70">
+          <span>Dhule, Maharashtra 424001</span>
         </div>
       </div>
     </div>

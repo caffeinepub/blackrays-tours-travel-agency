@@ -1,184 +1,288 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Move SUV 'Most Popular' badge, add business address, premium homepage redesign, and direct booking UI for flights/trains/hotels",
+  "title": "Fix address, premium homepage redesign, remove car emojis, global airports/hotels API, sedan popular badge",
   "requirements": [
     {
-      "id": "REQ-42",
-      "summary": "Move the 'Most Popular' badge from the Sedan vehicle card to the SUV vehicle card on the Car Rentals page",
+      "id": "REQ-55",
+      "summary": "Update business address from 'Nagpur' to 'Dhule, Maharashtra 424001' across all pages and components",
       "acceptanceCriteria": [
-        "The SUV vehicle card displays a 'Most Popular' badge prominently.",
-        "The Sedan vehicle card does not display a 'Most Popular' badge.",
-        "All other vehicle card content (pricing, description, features) remains unchanged."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/pages/CarRentalsPage.tsx",
-          "operation": "modify",
-          "description": "Update the vehicle card rendering logic to display the 'Most Popular' badge on the SUV card instead of the Sedan card. Remove any badge display logic from the Sedan card section and add/move the badge markup to the SUV card section. Ensure the badge styling and positioning remain consistent with the existing premium design."
-        }
-      ]
-    },
-    {
-      "id": "REQ-43",
-      "summary": "Add the business address 'Dhule, Maharashtra 424001' to the site footer and Contact/Inquiry page",
-      "acceptanceCriteria": [
-        "The footer displays 'Dhule, Maharashtra 424001' as the business address.",
-        "The Contact/Inquiry page displays 'Dhule, Maharashtra 424001' in the contact info section.",
-        "The address appears consistently formatted alongside the phone, email, and MD & Chairman details."
+        "Footer displays 'Dhule, Maharashtra 424001' as the business address",
+        "ContactInquiryPage shows 'Dhule, Maharashtra 424001'",
+        "AboutPage shows 'Dhule, Maharashtra 424001'",
+        "HomeContactBar shows 'Dhule, Maharashtra 424001'",
+        "No occurrence of 'Nagpur' remains in any user-facing text across all pages"
       ],
       "file_operations": [
         {
           "path": "frontend/src/components/layout/Footer.tsx",
           "operation": "modify",
-          "description": "Add the business address 'Dhule, Maharashtra 424001' to the footer's contact details section alongside the existing phone and email information. Use consistent formatting and styling with the existing contact elements. Include an appropriate icon (e.g., map pin or location icon) for visual consistency."
+          "description": "Replace any reference to 'Nagpur' with 'Dhule, Maharashtra 424001' in the footer address display"
         },
         {
           "path": "frontend/src/pages/ContactInquiryPage.tsx",
           "operation": "modify",
-          "description": "Add a contact info card displaying the business address 'Dhule, Maharashtra 424001' in the static contact information section alongside the existing phone and email cards. Ensure the card styling and layout match the existing contact cards and use an appropriate location icon."
+          "description": "Replace any reference to 'Nagpur' with 'Dhule, Maharashtra 424001' in contact information and address display sections"
+        },
+        {
+          "path": "frontend/src/pages/AboutPage.tsx",
+          "operation": "modify",
+          "description": "Replace any reference to 'Nagpur' with 'Dhule, Maharashtra 424001' in the About page address display"
+        },
+        {
+          "path": "frontend/src/components/home/HomeContactBar.tsx",
+          "operation": "modify",
+          "description": "Replace any reference to 'Nagpur' with 'Dhule, Maharashtra 424001' in the contact bar address display"
+        },
+        {
+          "path": "frontend/src/pages/TermsPage.tsx",
+          "operation": "modify",
+          "description": "Replace any reference to 'Nagpur' with 'Dhule, Maharashtra 424001' in the Terms & Conditions page contact section"
         }
       ]
     },
     {
-      "id": "REQ-44",
-      "summary": "Overhaul the homepage starting interface with a more unique, premium, and user-friendly visual design featuring refreshed hero treatment, improved typography, richer visual hierarchy, and polished micro-details",
+      "id": "REQ-56",
+      "summary": "Reduce and refine homepage hero text to one concise headline and one brief sub-headline, removing verbose paragraphs and redundant CTAs",
       "acceptanceCriteria": [
-        "The homepage hero section has a visually distinct, premium look that differs meaningfully from the previous version.",
-        "The HeroSearchWidget includes tabs for Flights, Trains, Hotels, Car Rentals, and Tour Packages.",
-        "No box shadows are present on any element in the initial viewport.",
-        "Service cards for all offerings (Flights, Trains, Car Rentals, Hotels, Custom Packages, Tour Packages, Railway Bookings) are displayed with clear descriptions and CTA buttons.",
-        "The layout is fully responsive on mobile and desktop.",
-        "The design remains consistent with the black/white/grey/beige premium palette."
+        "Hero headline is one concise line of text",
+        "Hero sub-headline is one brief supporting line only",
+        "No verbose paragraphs or redundant CTAs visible in the initial viewport",
+        "Contact bar is compact and single-row on desktop",
+        "Overall hero area feels uncluttered and premium on both mobile and desktop"
       ],
       "file_operations": [
         {
           "path": "frontend/src/pages/HomePage.tsx",
           "operation": "modify",
-          "description": "Completely redesign the hero section with a more premium, unique visual treatment featuring improved typography hierarchy, refined layout flow, and polished micro-details. Update the service cards section to display all seven offerings (Flights, Trains, Car Rentals, Hotels, Custom Packages, Tour Packages, Railway Bookings) with clear descriptions and prominent CTA buttons linking to their respective pages. Remove all box-shadow CSS from elements in the initial viewport. Ensure the HeroSearchWidget is prominently integrated. Maintain consistency with the existing black/white/grey/beige premium palette and ensure full mobile/desktop responsiveness."
-        },
-        {
-          "path": "frontend/src/components/home/HeroSearchWidget.tsx",
-          "operation": "modify",
-          "description": "Ensure the search widget includes all five tabs (Flights, Trains, Hotels, Car Rentals, Tour Packages) with updated premium styling that removes box shadows and improves visual hierarchy. Refine typography, spacing, and tab interactions for a more polished, user-friendly experience. Verify each tab navigates correctly to its corresponding booking page with appropriate search parameters."
+          "description": "Simplify the hero section text to a single concise headline (e.g., 'Travel Premium. Arrive in Style.') and one brief sub-headline. Remove verbose descriptive paragraphs and redundant CTAs from the initial viewport. Ensure the hero layout feels clean and uncluttered."
         },
         {
           "path": "frontend/src/components/home/HomeContactBar.tsx",
           "operation": "modify",
-          "description": "Refresh the contact bar styling to align with the new premium homepage design. Remove any box shadows, improve typography hierarchy, and refine spacing for a more polished appearance while maintaining the existing contact information display (MD & Chairman, phone, email)."
+          "description": "Refine the contact bar layout to be compact and single-row on desktop, showing only essential details (phone, email, MD name) without unnecessary text or padding"
+        }
+      ]
+    },
+    {
+      "id": "REQ-57",
+      "summary": "Overhaul homepage starting interface with premium visual design using hero-flight-premium-v2.png, glassmorphism search widget, elevated typography, and premium card treatments",
+      "acceptanceCriteria": [
+        "Hero section uses hero-flight-premium-v2.png as the background",
+        "Typography is bold and confident — large headline, short sub-headline",
+        "HeroSearchWidget uses clean borders and subtle background contrast with no box shadows",
+        "Service cards have premium hover transitions and refined visual treatment",
+        "No box shadows anywhere in the initial viewport",
+        "Layout is fully responsive on mobile and desktop",
+        "Overall feel visually surpasses a basic MakeMyTrip/Uber clone — uniquely premium"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/HomePage.tsx",
+          "operation": "modify",
+          "description": "Replace the hero background image reference with the workspace file path frontend/public/assets/generated/hero-flight-premium-v2.png (note: this image must be generated first; if not available, use frontend/public/assets/generated/hero-flight-premium.dim_1920x1080.png as fallback). Apply bold elevated typography with large confident headline and short sub-headline. Ensure the hero section uses the premium palette and is fully responsive."
+        },
+        {
+          "path": "frontend/src/components/home/HeroSearchWidget.tsx",
+          "operation": "modify",
+          "description": "Redesign the search widget with a glassmorphism or frosted-panel appearance using clean borders and subtle background contrast. Remove all box shadows. Use refined padding, smooth transitions, and ensure the widget feels premium and uncluttered on both mobile and desktop."
         },
         {
           "path": "frontend/src/index.css",
           "operation": "modify",
-          "description": "Update global CSS custom properties and utility classes to support the premium homepage redesign. Refine typography scale, spacing utilities, and premium design tokens while ensuring consistency with the black/white/grey/beige palette. Add or update utility classes for shadow-free premium UI elements as needed for the hero section and service cards."
+          "description": "Add or refine CSS utility classes for premium card treatments with subtle gradients or metallic accents, smooth hover transitions, and elevated typography. Ensure no box shadows are used in the hero viewport. Maintain consistency with the existing black/white/grey/warm-neutral palette tokens."
         }
       ]
     },
     {
-      "id": "REQ-45",
-      "summary": "Rebuild the Flight Ticket Bookings page with a prominent live search UI featuring flight result cards with airline, times, duration, stops, cabin class, and fare, using mock API with Amadeus credential placeholders",
+      "id": "REQ-58",
+      "summary": "Move 'Most Popular' badge to Sedan vehicle card, remove it from SUV, display Sedan first with prominent visual treatment",
       "acceptanceCriteria": [
-        "The Flight Bookings page displays a search form with origin, destination, date, passengers, and cabin class fields.",
-        "After searching, flight result cards are displayed showing airline, departure/arrival times, duration, stops, and price.",
-        "A 'Book Now' or equivalent CTA is present on each result card.",
-        "Loading, empty, and error states are handled with appropriate UI feedback.",
-        "API credential placeholders are clearly marked in the service file with comments indicating where real Amadeus credentials go.",
-        "The page is responsive on mobile and desktop."
+        "Sedan vehicle card displays a 'Most Popular' badge",
+        "Sedan card appears first in the vehicle selection grid",
+        "Sedan card has a visually prominent border or accent treatment",
+        "SUV card does not display any 'Most Popular' badge",
+        "Both cards remain functional for vehicle selection"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/pages/FlightBookingsPage.tsx",
+          "path": "frontend/src/pages/CarRentalsPage.tsx",
           "operation": "modify",
-          "description": "Rebuild the page to feature a prominent live search UI that auto-triggers search from URL params and displays results in a clean card list below the search form. Ensure the FlightSearchForm, FlightResultsList, and inquiry fallback form are all properly integrated. Add clear section headings and improve the overall layout hierarchy for a premium, user-friendly experience. Maintain responsive design for mobile and desktop. Keep the existing inquiry form fallback available below the results section."
+          "description": "Reorder vehicle selection so Sedan appears first. Add a 'Most Popular' badge to the Sedan card only and remove any such badge from the SUV card. Apply a visually prominent border or accent treatment (e.g., highlighted border or subtle glow) to the Sedan card to draw the eye. Ensure both cards remain fully functional."
+        }
+      ]
+    },
+    {
+      "id": "REQ-59",
+      "summary": "Remove all car emojis from CarRentalsPage and homepage service cards, replacing them with premium Lucide React icons",
+      "acceptanceCriteria": [
+        "No car emojis (🚗, 🚙, 🛻, 🚕 etc.) present in CarRentalsPage.tsx",
+        "No car emojis in homepage service cards referencing car rentals",
+        "Replaced with Lucide React icons or premium SVG icons",
+        "Visual appearance is polished and consistent with the premium palette"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/CarRentalsPage.tsx",
+          "operation": "modify",
+          "description": "Remove all car-related emojis (🚗, 🚙, 🛻, 🚕) from the page. Replace them with premium Lucide React icons such as Car, Gauge, MapPin, or Navigation as appropriate. Ensure the visual appearance is polished and aligns with the premium design palette."
+        },
+        {
+          "path": "frontend/src/pages/HomePage.tsx",
+          "operation": "modify",
+          "description": "Remove all car-related emojis from service cards or sections referencing car rentals. Replace them with Lucide React icons (e.g., Car icon). Ensure consistency with the premium visual language."
+        }
+      ]
+    },
+    {
+      "id": "REQ-60",
+      "summary": "Replace static airports list with comprehensive 500+ global airports data in frontend/src/data/airports.ts with searchable/filterable dropdowns",
+      "acceptanceCriteria": [
+        "airports.ts data file contains 500+ airport entries with name, city, country, and IATA code",
+        "Origin and destination dropdowns in FlightSearchForm support type-to-filter search",
+        "Major airports from all global regions are represented",
+        "Dropdowns remain performant and usable with large dataset",
+        "FlightBookingsPage and FlightSearchForm import from the shared airports.ts data file"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/data/airports.ts",
+          "operation": "create",
+          "description": "Create a static data constant exporting an array of 500+ major airports worldwide. Each entry must include fields: airportName, city, country, and iataCode (e.g., { airportName: 'Chhatrapati Shivaji Maharaj International Airport', city: 'Mumbai', country: 'India', iataCode: 'BOM' }). Ensure comprehensive global coverage: Asia, Europe, Americas, Middle East, Africa, and Oceania."
         },
         {
           "path": "frontend/src/components/flights/FlightSearchForm.tsx",
           "operation": "modify",
-          "description": "Enhance the search form UI with improved visual hierarchy, premium styling consistent with the homepage redesign, and polished micro-details. Ensure all required fields (origin, destination, date, passengers, cabin class) are present with proper validation. Remove box shadows and refine spacing/typography for a more premium appearance."
+          "description": "Replace the static/mock airports list with an import from frontend/src/data/airports.ts. Implement searchable/filterable dropdowns for origin and destination that allow users to type and filter the 500+ airport list in real time. Ensure the dropdowns remain performant and usable with the large dataset."
         },
         {
-          "path": "frontend/src/components/flights/FlightResultsList.tsx",
+          "path": "frontend/src/pages/FlightBookingsPage.tsx",
           "operation": "modify",
-          "description": "Refine the results list component to display flight result cards with improved premium styling, better loading/error/empty states, and enhanced visual feedback. Ensure clear messaging for each state and maintain responsive grid/list layout."
-        },
+          "description": "Import the airports data from frontend/src/data/airports.ts if needed for any flight search or display logic. Ensure the page integrates seamlessly with the updated FlightSearchForm using the global airports dataset."
+        }
+      ]
+    },
+    {
+      "id": "REQ-61",
+      "summary": "Upgrade Flight Bookings page with 'Book Now' CTA on each result card, direct booking flow (external URL or prefilled form), and API placeholder comments",
+      "acceptanceCriteria": [
+        "Each FlightResultCard has a visible 'Book Now' CTA button",
+        "Clicking 'Book Now' initiates a direct booking action (external link or prefilled form)",
+        "flightApi.ts has clear placeholder comments for real API credentials",
+        "Loading, empty, and error states are handled with premium UI feedback",
+        "The booking flow feels direct and consumer-ready"
+      ],
+      "file_operations": [
         {
           "path": "frontend/src/components/flights/FlightResultCard.tsx",
           "operation": "modify",
-          "description": "Enhance the flight result card design with premium styling, improved typography hierarchy, and polished micro-details. Ensure all required information (airline, departure/arrival times, duration, stops, cabin class, fare) is clearly displayed. Add a prominent 'Book Now' CTA button that links to the inquiry form or opens it in context. Remove box shadows and apply consistent styling with the overall premium design."
+          "description": "Ensure each flight result card displays a prominent 'Book Now' CTA button. When clicked, initiate a direct booking action: either navigate to an external airline booking URL (e.g., prefilled Google Flights or airline site) or open the inquiry form pre-populated with the selected flight details. Ensure the button is visually premium and accessible."
         },
         {
           "path": "frontend/src/services/flightApi.ts",
           "operation": "modify",
-          "description": "Add clearly marked comment placeholders at the top of the file indicating where real Amadeus API credentials and endpoint URLs should be inserted. Include comments explaining the expected credential format (API key, API secret, base URL) and integration steps. Ensure the mock data generation logic remains functional until real API integration. Add a comment block explaining that the current mock implementation should be replaced with actual Amadeus API calls once credentials are available."
+          "description": "Add clear, visible placeholder comments noting where real Amadeus, Skyscanner, or RapidAPI credentials should be inserted (e.g., '// TODO: Replace with real Amadeus API key and endpoint'). Document the integration path for switching from mock data to a live flight aggregator API."
+        },
+        {
+          "path": "frontend/src/pages/FlightBookingsPage.tsx",
+          "operation": "modify",
+          "description": "Wire the 'Book Now' CTA from FlightResultCard into a direct booking flow. Implement logic to either generate a prefilled external booking URL (e.g., Google Flights with query params) or open an inquiry form modal with the selected flight details. Ensure loading, empty, and error states are handled with premium UI feedback."
         }
       ]
     },
     {
-      "id": "REQ-46",
-      "summary": "Rebuild the Railway Ticket Bookings page with a prominent live search UI featuring train result cards with train name/number, times, duration, available classes with fares, using mock API with RapidAPI/IRCTC credential placeholders",
+      "id": "REQ-62",
+      "summary": "Upgrade Hotel Bookings page with worldwide hotels search, result cards with 'Book Now' CTA, external booking links, and API placeholder comments",
       "acceptanceCriteria": [
-        "The Railway Bookings page displays a search form with origin station, destination station, date, class, and passenger count fields.",
-        "After searching, train result cards are displayed showing train name/number, departure/arrival times, duration, available classes, and fares.",
-        "A 'Book Now' or equivalent CTA is present on each result card.",
-        "Loading, empty, and error states are handled with appropriate UI feedback.",
-        "API credential placeholders are clearly marked in the service file with comments indicating where real RapidAPI/IRCTC credentials go.",
-        "The page is responsive on mobile and desktop."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/pages/RailwayBookingsPage.tsx",
-          "operation": "modify",
-          "description": "Rebuild the page to feature a prominent live search UI that displays train search results in a clean card list below the search form. Integrate the RailwaySearchForm and RailwayResultsList components with improved layout hierarchy and premium styling. Ensure the inquiry form fallback remains available below the results section. Maintain responsive design and improve overall visual hierarchy for a user-friendly experience."
-        },
-        {
-          "path": "frontend/src/components/railway/RailwaySearchForm.tsx",
-          "operation": "modify",
-          "description": "Enhance the railway search form UI with premium styling consistent with the redesigned flight search form. Ensure all required fields (origin station, destination station, date, rail class, passenger count) are present with proper validation. Improve typography hierarchy, remove box shadows, and refine spacing for a polished appearance."
-        },
-        {
-          "path": "frontend/src/components/railway/RailwayResultsList.tsx",
-          "operation": "modify",
-          "description": "Refine the train results list component with improved premium styling, better loading/error/empty state messaging, and enhanced visual feedback. Ensure responsive grid/list layout and clear state indicators for each scenario."
-        },
-        {
-          "path": "frontend/src/components/railway/RailwayResultCard.tsx",
-          "operation": "modify",
-          "description": "Enhance the train result card design with premium styling, improved typography hierarchy, and polished micro-details. Ensure all required information (train name/number, departure/arrival times, duration, available classes with fares) is clearly displayed. Add a prominent 'Book Now' CTA button that links to the inquiry form or opens it in context. Remove box shadows and apply consistent styling with the overall premium design."
-        },
-        {
-          "path": "frontend/src/services/railwayApi.ts",
-          "operation": "modify",
-          "description": "Add clearly marked comment placeholders at the top of the file indicating where real RapidAPI or IRCTC API credentials and endpoint URLs should be inserted. Include comments explaining the expected credential format (API key, host, base URL) and integration steps. Ensure the mock data generation logic remains functional until real API integration. Add a comment block explaining that the current mock implementation should be replaced with actual RapidAPI/IRCTC API calls once credentials are available."
-        }
-      ]
-    },
-    {
-      "id": "REQ-47",
-      "summary": "Rebuild the Hotel & Hospitality Bookings page with a prominent live search UI featuring hotel result cards with property name, star rating, location, price per night, and booking CTA, using mock data with RapidAPI Hotels credential placeholders",
-      "acceptanceCriteria": [
-        "The Hotel Bookings page displays a search form with destination, check-in date, check-out date, number of guests, number of rooms, and room type preference fields.",
-        "After searching, hotel result cards are displayed showing property name, star rating, location, price per night, and a booking CTA.",
-        "A 'Book Now' or equivalent CTA is present on each result card.",
-        "An inquiry fallback form remains available and submits to the backend with category 'hotel_booking'.",
-        "Loading, empty, and error states are handled with appropriate UI feedback.",
-        "API credential placeholders are clearly marked with comments indicating where real RapidAPI Hotel credentials go.",
-        "The page is responsive on mobile and desktop."
+        "Hotel search accepts any global destination city input",
+        "Results display property name, star rating, location, and price per night",
+        "Each hotel card has a 'Book Now' CTA linking to an external aggregator or prefilling the inquiry form",
+        "Hotel results service has clear placeholder comments for real API credentials",
+        "Loading, empty, and error states are handled with premium UI feedback"
       ],
       "file_operations": [
         {
           "path": "frontend/src/pages/HotelBookingsPage.tsx",
           "operation": "modify",
-          "description": "Rebuild the page to feature a prominent live search UI that generates and displays mock hotel results in a clean card list below the search form. Create a new search form component (inline or extracted) with fields for destination, check-in/check-out dates, number of guests, number of rooms, and room type preference. Display hotel result cards showing property name, star rating, location, and price per night with a 'Book Now' CTA. Ensure the inquiry fallback form remains available below the results section and submits with category 'hotel_booking'. Add loading, empty, and error states. Maintain responsive design and premium styling consistent with the flight and railway pages."
+          "description": "Upgrade the hotel search to accept any global destination city input. Display hotel result cards showing property name, star rating, location, and price per night. Add a 'Book Now' CTA to each card that either links to a prefilled external booking URL (e.g., Booking.com or Hotels.com with destination params) or opens the inquiry form pre-populated with the hotel details. Ensure loading, empty, and error states are handled with premium UI feedback."
         },
         {
           "path": "frontend/src/services/hotelApi.ts",
           "operation": "create",
-          "description": "Create a new service file for hotel search functionality. Define TypeScript interfaces for hotel search parameters (destination, check-in/check-out dates, guests, rooms, room type) and hotel result types (property name, star rating, location, price per night, amenities). Implement a mock data generator function that returns sample hotel results based on search parameters. Add clearly marked comment placeholders at the top of the file indicating where real RapidAPI Hotels credentials and endpoint URLs should be inserted, including expected credential format (API key, host, base URL) and integration steps. Include a comment block explaining that the mock implementation should be replaced with actual RapidAPI Hotels API calls once credentials are available."
+          "description": "Create a hotel search service that generates mock hotel results for any global destination. Each result should include property name, star rating, location, and price per night. Add clear placeholder comments noting where real RapidAPI Hotels or compatible aggregator credentials should be inserted (e.g., '// TODO: Replace with real RapidAPI Hotels key and endpoint'). Document the integration path for switching to live data."
+        }
+      ]
+    },
+    {
+      "id": "REQ-63",
+      "summary": "Apply comprehensive premium UI refresh across all public pages with refined typography, subtle gradients, clean card borders, and consistent spacing",
+      "acceptanceCriteria": [
+        "All public pages use consistent premium typography hierarchy",
+        "Cards across all pages use clean borders with hover accent effects and no box shadows",
+        "Section backgrounds use subtle gradients or warm-neutral palette tokens for visual richness",
+        "Spacing and alignment are consistent and refined across all pages",
+        "All pages are fully responsive on mobile and desktop"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/HomePage.tsx",
+          "operation": "modify",
+          "description": "Apply premium UI refresh: refined typographic scale with bold font weights, subtle background gradients or texture on section dividers, clean card borders with hover accent effects (no shadows), and polished spacing and alignment. Ensure the page feels distinctly more premium than MakeMyTrip and Uber, fully responsive on mobile and desktop."
         },
         {
-          "path": "frontend/src/hooks/useHotelSearch.ts",
-          "operation": "create",
-          "description": "Create a custom React hook similar to useFlightSearch and useRailwaySearch that manages hotel search state and triggers a React Query fetch via the new hotel API service. Export search parameters state, results, loading/error states, and search/reset functions. Integrate with the mock hotel API service created in hotelApi.ts."
+          "path": "frontend/src/pages/CarRentalsPage.tsx",
+          "operation": "modify",
+          "description": "Apply premium UI refresh: refined typography hierarchy, clean card borders with hover accent effects (no box shadows), subtle background gradients, and consistent spacing using the warm-neutral/grey/charcoal palette tokens. Ensure full responsiveness on mobile and desktop."
+        },
+        {
+          "path": "frontend/src/pages/FlightBookingsPage.tsx",
+          "operation": "modify",
+          "description": "Apply premium UI refresh: refined typography hierarchy, clean card borders with hover accent effects (no box shadows), subtle background gradients, and consistent spacing using the warm-neutral/grey/charcoal palette tokens. Ensure full responsiveness on mobile and desktop."
+        },
+        {
+          "path": "frontend/src/pages/HotelBookingsPage.tsx",
+          "operation": "modify",
+          "description": "Apply premium UI refresh: refined typography hierarchy, clean card borders with hover accent effects (no box shadows), subtle background gradients, and consistent spacing using the warm-neutral/grey/charcoal palette tokens. Ensure full responsiveness on mobile and desktop."
+        },
+        {
+          "path": "frontend/src/pages/RailwayBookingsPage.tsx",
+          "operation": "modify",
+          "description": "Apply premium UI refresh: refined typography hierarchy, clean card borders with hover accent effects (no box shadows), subtle background gradients, and consistent spacing using the warm-neutral/grey/charcoal palette tokens. Ensure full responsiveness on mobile and desktop."
+        },
+        {
+          "path": "frontend/src/pages/PackagesPage.tsx",
+          "operation": "modify",
+          "description": "Apply premium UI refresh: refined typography hierarchy, clean card borders with hover accent effects (no box shadows), subtle background gradients, and consistent spacing using the warm-neutral/grey/charcoal palette tokens. Ensure full responsiveness on mobile and desktop."
+        },
+        {
+          "path": "frontend/src/pages/CustomPackagesPage.tsx",
+          "operation": "modify",
+          "description": "Apply premium UI refresh: refined typography hierarchy, clean card borders with hover accent effects (no box shadows), subtle background gradients, and consistent spacing using the warm-neutral/grey/charcoal palette tokens. Ensure full responsiveness on mobile and desktop."
+        },
+        {
+          "path": "frontend/src/pages/ContactInquiryPage.tsx",
+          "operation": "modify",
+          "description": "Apply premium UI refresh: refined typography hierarchy, clean card borders with hover accent effects (no box shadows), subtle background gradients, and consistent spacing using the warm-neutral/grey/charcoal palette tokens. Ensure full responsiveness on mobile and desktop."
+        },
+        {
+          "path": "frontend/src/pages/AboutPage.tsx",
+          "operation": "modify",
+          "description": "Apply premium UI refresh: refined typography hierarchy, clean card borders with hover accent effects (no box shadows), subtle background gradients, and consistent spacing using the warm-neutral/grey/charcoal palette tokens. Ensure full responsiveness on mobile and desktop."
+        },
+        {
+          "path": "frontend/src/pages/TermsPage.tsx",
+          "operation": "modify",
+          "description": "Apply premium UI refresh: refined typography hierarchy, clean card borders with hover accent effects (no box shadows), subtle background gradients, and consistent spacing using the warm-neutral/grey/charcoal palette tokens. Ensure full responsiveness on mobile and desktop."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Refine global CSS utility classes and design tokens to support the premium UI refresh. Ensure premium typography hierarchy, clean card border styles with hover accent effects (no box shadows), subtle gradient backgrounds, and consistent spacing variables are defined and ready for reuse across all pages. Maintain the existing warm-neutral/grey/charcoal palette."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Update Tailwind configuration if needed to support the premium UI refresh: refined font weights, extended border radius or gradient utilities, and any additional design tokens required for the premium visual language. Ensure consistency with the existing warm premium color palette."
         }
       ]
     }

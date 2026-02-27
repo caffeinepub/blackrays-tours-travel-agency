@@ -1,14 +1,17 @@
 # Specification
 
 ## Summary
-**Goal:** Move the 'Most Popular' badge to the SUV card, add a business address, redesign the homepage hero/search/service section, and rebuild the Flight, Railway, and Hotel booking pages with live search UIs and mock API placeholders.
+**Goal:** Comprehensive premium UI overhaul, address correction, global airports/hotels data, and several content/UX fixes across the Blackrays Car Rentals & Tours and Travels frontend.
 
 **Planned changes:**
-- Move the 'Most Popular' badge from the Sedan vehicle card to the SUV vehicle card on the Car Rentals page; Sedan card shows no badge
-- Add 'Dhule, Maharashtra 424001' as the business address in the site footer and on the Contact/Inquiry page contact info section
-- Overhaul the homepage starting interface: redesign the hero section with premium typography and layout, update the HeroSearchWidget to include tabs for Flights, Trains, Hotels, Car Rentals, and Tour Packages, refresh service cards with descriptions and CTA buttons, remove all box shadows from the initial viewport, and keep the black/white/grey/beige palette
-- Rebuild FlightBookingsPage with a search form (origin, destination, date, passengers, cabin class), flight result cards (airline, departure/arrival times, duration, stops, price, Book Now CTA), loading/empty/error states, and Amadeus API credential placeholders in flightApi.ts
-- Rebuild RailwayBookingsPage with a search form (origin, destination, date, class, passengers), train result cards (train name/number, times, duration, classes, fares, Book Now CTA), loading/empty/error states, and RapidAPI/IRCTC credential placeholders in railwayApi.ts
-- Rebuild HotelBookingsPage with a search form (destination, check-in/out dates, guests, rooms, room type), hotel result cards (property name, star rating, location, price per night, Book Now CTA), inquiry fallback form submitting to backend with category 'hotel_booking', loading/empty/error states, and RapidAPI Hotels credential placeholders
+- Fix all instances of "Nagpur" to "Dhule, Maharashtra 424001" across Footer, ContactInquiryPage, AboutPage, HomeContactBar, TermsPage, and any other user-facing text
+- Reduce and simplify homepage hero section to a single concise headline and one brief sub-headline; make the contact bar compact and single-row on desktop
+- Overhaul the homepage hero section, HeroSearchWidget, service cards, and contact bar with a premium cinematic design using the new hero-premium-jet-tarmac.png background, glassmorphism-style search widget, bold typography, and premium card hover treatments — no box shadows
+- Move the "Most Popular" badge from the SUV card to the Sedan card on CarRentalsPage; display Sedan first with a highlighted border accent
+- Remove all car emojis (🚗, 🚙, 🛻, 🚕, etc.) from CarRentalsPage and homepage service cards; replace with Lucide React icons (Car, Gauge, MapPin, Navigation, etc.)
+- Create a `frontend/src/data/airports.ts` static data file with 500+ major worldwide airports (name, city, country, IATA code); update FlightBookingsPage and FlightSearchForm dropdowns to support type-to-filter search from this dataset
+- Add a "Book Now" CTA to each FlightResultCard that links to an external airline booking URL or pre-populates the inquiry form with flight details; add placeholder comments in flightApi.ts for real API credentials; handle loading/empty/error states
+- Upgrade HotelBookingsPage to support any global destination city search; display hotel result cards with property name, star rating, location, price per night, and a "Book Now" CTA linking to an external aggregator or pre-populating the inquiry form; add placeholder comments for real API credentials; handle loading/empty/error states
+- Apply a premium UI refresh across all public pages (HomePage, CarRentalsPage, FlightBookingsPage, HotelBookingsPage, RailwayBookingsPage, PackagesPage, CustomPackagesPage, ContactInquiryPage, AboutPage, TermsPage) with refined typography, subtle background gradients, clean card borders with hover accent effects, no box shadows, and consistent warm-neutral/grey/charcoal palette
 
-**User-visible outcome:** Users see the SUV marked as most popular, the business address displayed site-wide, a premium redesigned homepage with full-service search tabs, and can search and view results for flights, trains, and hotels directly on their respective booking pages with clear booking CTAs.
+**User-visible outcome:** The website displays the correct Dhule address everywhere, features a dramatically cleaner and more premium homepage experience, allows users to search 500+ global airports with type-to-filter dropdowns and initiate flight bookings, search worldwide hotels with a Book Now flow, and benefits from an elevated premium visual design across all pages — with Sedan as the most popular car option and no car emojis anywhere.

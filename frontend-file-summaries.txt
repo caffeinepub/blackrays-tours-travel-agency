@@ -1,5 +1,5 @@
 {
-  "frontend/src/index.css": "Global styles with OKLCH monochrome color system; adds a new `.home-card` utility class (shadow-free, border-based) alongside the original `.premium-card`, and removes the `shadow-premium-xl` from `.search-widget` so the homepage renders clean and flat without depth effects.",
+  "frontend/src/index.css": "Global styles with OKLCH color system tokens for light/dark mode, premium component classes (home-card, premium-card, badge-popular, sedan-card-highlight, search-widget, btn-premium, section-warm, section-dark), and utility classes — all hover border colors now use plain CSS oklch() values instead of Tailwind opacity-modifier syntax to avoid @apply resolution errors.",
   "frontend/tailwind.config.js": "Tailwind configuration with custom fonts (Outfit display, Inter sans), premium shadow utilities replacing warm shadows, and monochrome color tokens.",
   "frontend/src/App.tsx": "Root application component with TanStack Router setup including new /car-rentals route, theme provider, and route definitions for all public and admin pages.",
   "frontend/src/components/layout/SiteLayout.tsx": "Main layout wrapper component that renders header, footer, and page content outlet.",
@@ -23,5 +23,8 @@
   "frontend/src/config/deployment.ts": "Deployment configuration defining the valid platform slug \"blackrays-car-rentals-tours\" with validation logic and defensive checks to prevent usage of invalid slugs containing special characters.",
   "frontend/DEPLOYMENT.md": "Complete documentation explaining the chosen deployment slug, invalid slug patterns, SPA routing support files (_redirects and 404.html), and the platform-managed deployment process.",
   "frontend/public/404.html": "SPA fallback HTML page that serves the app shell for static hosts, enabling direct navigation to all routes on live deployment.",
-  "frontend/public/_redirects": "Static host redirect rule that serves the app shell for all paths, supporting deep links on platforms like Netlify."
+  "frontend/public/_redirects": "Static host redirect rule that serves the app shell for all paths, supporting deep links on platforms like Netlify.",
+  "frontend/src/hooks/useFlightSearch.ts": "Custom hook for flight search that manages loading/error/results state using plain useState and async calls to searchFlights, replacing the broken React Query approach that expected a non-existent FlightSearchResponse wrapper type.",
+  "frontend/src/components/flights/FlightResultsList.tsx": "Renders a list of FlightResultCard components with loading, error, and empty states; now accepts and forwards the required onBookNow callback prop to each card.",
+  "frontend/src/pages/FlightBookingsPage.tsx": "Full flight bookings page with global airport search form, results list with Book Now CTAs that open Google Flights, and a collapsible manual inquiry form; removed all references to old FlightSearchForm props (initialParams, tripType in FlightSearchParams) that no longer exist."
 }
